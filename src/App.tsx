@@ -19,11 +19,20 @@ import {CodeHighlight} from "@mantine/code-highlight";
 const tiltColors = ['Black', 'Blue', 'Green', 'Orange', 'Red', 'Yellow', 'Pink', 'Purple'];
 
 function App() {
-    const [tilts, setTilts] = useState(
+    type TiltState = {
+        enabled: boolean;
+        isPro: boolean;
+    };
+
+    type Tilts = {
+        [key: string]: TiltState;
+    };
+
+    const [tilts, setTilts] = useState<Tilts>(
         tiltColors.reduce((acc, color) => {
             acc[color.toLowerCase()] = {enabled: false, isPro: false};
             return acc;
-        }, {})
+        }, {} as Tilts)
     );
 
     const [brewfatherConfig, setBrewfatherConfig] = useState({
@@ -34,18 +43,18 @@ function App() {
     const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
     const [generatedYAML, setGeneratedYAML] = useState('');
 
-    const toggleTilt = (color) => {
+    const toggleTilt = (color: string) => {
         setTilts((prev) => ({
             ...prev,
             [color]: {
                 ...prev[color],
                 enabled: !prev[color].enabled,
-                isPro: prev[color].enabled ? false : prev[color].isPro, // reset isPro if disabling
+                isPro: prev[color].enabled ? false : prev[color].isPro,
             },
         }));
     };
 
-    const togglePro = (color) => {
+    const togglePro = (color: string) => {
         setTilts((prev) => ({
             ...prev,
             [color]: {
@@ -63,10 +72,10 @@ function App() {
         }));
     };
 
-    const handleBrewfatherKeyChange = (event) => {
+    const handleBrewfatherKeyChange = (value: string) => {
         setBrewfatherConfig((prev) => ({
             ...prev,
-            apiKey: event.currentTarget?.value,
+            apiKey: value,
         }));
     };
 
@@ -149,7 +158,7 @@ function App() {
         setGeneratedYAML(yaml);
     };
 
-    function downloadYAML(content, filename = 'tiltsense.yaml') {
+    function downloadYAML(content: string, filename = 'tiltsense.yaml') {
         const blob = new Blob([content], {type: 'text/yaml'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -192,14 +201,14 @@ function App() {
                     All selected options will be used to generate a tailored YAML file that you can copy or download for
                     your ESPHome device configuration.
                 </Text>
-                <Stack spacing="md" mt="xl">
+                <Stack mt="xl">
                     <Text>Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether
                         they are the Pro
                         version.</Text>
                     {tiltColors.map((color) => {
                         const key = color.toLowerCase();
                         return (
-                            <Group key={key} position="apart">
+                            <Group key={key}>
                                 <Checkbox
                                     label={color}
                                     checked={tilts[key].enabled}
@@ -215,7 +224,7 @@ function App() {
                             </Group>
                         );
                     })}
-                    <Box spacing="md" mt="xl">
+                    <Box mt="xl">
                         <Text>Are you going to use TiltSense to send Tilt data (temperature and gravity)
                             to <strong>Brewfather</strong>?</Text>
                         <Checkbox
@@ -244,12 +253,12 @@ function App() {
                                 labelProps={{style: {marginBottom: '10px'}}}
                                 placeholder="Enter your Brewfather API Key"
                                 value={brewfatherConfig.apiKey}
-                                onChange={handleBrewfatherKeyChange}
+                                onChange={(event) => handleBrewfatherKeyChange(event.currentTarget.value)}
                                 mt="sm"
                             />
                         )}
                     </Box>
-                    <Box spacing="md" mt="xl">
+                    <Box mt="xl">
                         <Text>Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?</Text>
                         <Checkbox
                             label="Enable Home Assistant Integration"
@@ -279,7 +288,7 @@ function App() {
                             borderRadius: 'var(--mantine-radius-sm)',
                             border: '1px solid var(--mantine-color-gray-3)',
                             padding: '1rem',
-                            backgroundColor: '#2e3440',
+                            backgroundColor: '#0d1117',
                         }}
                     >
                         <CodeHighlight
