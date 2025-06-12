@@ -66,7 +66,7 @@ function App() {
     const handleBrewfatherKeyChange = (event) => {
         setBrewfatherConfig((prev) => ({
             ...prev,
-            apiKey: event.currentTarget.value,
+            apiKey: event.currentTarget?.value,
         }));
     };
 
@@ -279,7 +279,7 @@ function App() {
                             borderRadius: 'var(--mantine-radius-sm)',
                             border: '1px solid var(--mantine-color-gray-3)',
                             padding: '1rem',
-                            backgroundColor: 'var(--mantine-color-default)',
+                            backgroundColor: '#2e3440',
                         }}
                     >
                         <CodeHighlight
