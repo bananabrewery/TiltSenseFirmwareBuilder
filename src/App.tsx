@@ -13,21 +13,36 @@ import {
     TextInput,
     Title
 } from '@mantine/core';
-import {IconInfoCircle} from '@tabler/icons-react';
+import {IconInfoCircle, IconTestPipe2Filled, IconRadar} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
+
+type TiltState = {
+    enabled: boolean;
+    isPro: boolean;
+};
+
+type Tilts = {
+    [key: string]: TiltState;
+};
+
+type TiltColor = typeof tiltColors[number];
+type TiltColorKey = Lowercase<TiltColor>;
 
 const tiltColors = ['Black', 'Blue', 'Green', 'Orange', 'Red', 'Yellow', 'Pink', 'Purple'];
 
+const tiltColorsHex: Record<TiltColorKey, string> = {
+    black: '#666666',
+    blue: '#3498db',
+    green: '#2ecc71',
+    orange: '#e67e22',
+    red: '#e74c3c',
+    yellow: '#f1c40f',
+    pink: '#e91e63',
+    purple: '#9b59b6',
+};
+
+
 function App() {
-    type TiltState = {
-        enabled: boolean;
-        isPro: boolean;
-    };
-
-    type Tilts = {
-        [key: string]: TiltState;
-    };
-
     const [tilts, setTilts] = useState<Tilts>(
         tiltColors.reduce((acc, color) => {
             acc[color.toLowerCase()] = {enabled: false, isPro: false};
@@ -173,6 +188,7 @@ function App() {
             <Box style={{padding: 32}}>
                 <Center>
                     <div style={{textAlign: 'center'}}>
+                        <IconRadar size={64}/>
                         <Title order={1}>TiltSense</Title>
                         <Title order={3} mt="md">ESPHome YAML Generator</Title>
                     </div>
@@ -203,12 +219,12 @@ function App() {
                 </Text>
                 <Stack mt="xl">
                     <Text>Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether
-                        they are the Pro
-                        version.</Text>
+                        they are the Pro version.</Text>
                     {tiltColors.map((color) => {
-                        const key = color.toLowerCase();
+                        const key = color.toLowerCase() as TiltColorKey;
                         return (
                             <Group key={key}>
+                                <IconTestPipe2Filled size={24} color={tiltColorsHex[key]}/>
                                 <Checkbox
                                     label={color}
                                     checked={tilts[key].enabled}
