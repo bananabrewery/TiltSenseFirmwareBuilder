@@ -1,8 +1,14 @@
-# ⚙️ TiltSense YAML Generator
+<img src="public/radar.svg" alt="TiltSense YAML Generator" width="120" />
 
-**TiltSense YAML Generator** is a simple, interactive web app that helps you create a customized ESPHome YAML configuration for your TiltSense device — no manual editing required.
+## TiltSense YAML Generator
 
-This tool makes it easy to tailor the firmware to your specific setup, including which sensors and integrations you want to use. Whether you're running a single Tilt or multiple, with or without pressure sensors, this generator has you covered.
+
+**TiltSense YAML Generator** is a simple, interactive web app that helps you create a customized ESPHome YAML
+configuration for your TiltSense device — no manual editing required.
+
+This tool makes it easy to tailor the firmware to your specific setup, including which sensors and integrations you want
+to use. Whether you're running a single Tilt or multiple, with or without pressure sensors, this generator has you
+covered.
 
 ---
 
@@ -11,7 +17,8 @@ This tool makes it easy to tailor the firmware to your specific setup, including
 TiltSense YAML Generator is currently in active development.
 
 🛠️ **First release in progress:**  
-I'm currently working on the initial version of the web application, which will allow users to generate custom ESPHome YAML files through a simple UI.
+I'm currently working on the initial version of the web application, which will allow users to generate custom ESPHome
+YAML files through a simple UI.
 
 🌐 **It will be published here:**  
 [https://bananabrewery.github.io/tiltsense-yaml-generator](https://bananabrewery.github.io/tiltsense-yaml-generator)
@@ -26,7 +33,8 @@ I'm currently working on the initial version of the web application, which will 
 - 🏠 Whether you use **Home Assistant**
 - 💨 Whether you include a **pressure sensor**
 
-Once configured, the app will generate a ready-to-use YAML file that you can flash to your ESP32 using [ESPHome](https://esphome.io/).
+Once configured, the app will generate a ready-to-use YAML file that you can flash to your ESP32
+using [ESPHome](https://esphome.io/).
 
 ---
 
@@ -42,7 +50,8 @@ Once configured, the app will generate a ready-to-use YAML file that you can fla
 
 ## 🔧 Requirements
 
-- A compatible ESP32 device (see [TiltSense project](https://github.com/bananabrewery/tiltsense) for hardware recommendations)
+- A compatible ESP32 device (see [TiltSense project](https://github.com/bananabrewery/tiltsense) for hardware
+  recommendations)
 - [ESPHome](https://esphome.io/) installed locally or via the Home Assistant Add-on
 - Optional: Brewfather account or Home Assistant setup for integration
 
@@ -50,9 +59,11 @@ Once configured, the app will generate a ready-to-use YAML file that you can fla
 
 ## 🌍 Why this exists
 
-The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The YAML Generator eliminates that step — making the setup faster, easier, and less error-prone.
+The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The YAML
+Generator eliminates that step — making the setup faster, easier, and less error-prone.
 
-Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in minutes.
+Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in
+minutes.
 
 ---
 
@@ -72,7 +83,6 @@ Built as part of the [TiltSense Project](https://github.com/yourrepo/tiltsense) 
 - [Home Assistant](https://www.home-assistant.io/)
 
 🧪 Made by and for fermentation geeks.
-
 
 ## 🙌 Contribute
 
