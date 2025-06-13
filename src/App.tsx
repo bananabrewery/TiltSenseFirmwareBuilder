@@ -16,7 +16,10 @@ import {
 } from '@mantine/core';
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
+import yaml from "js-yaml";
 import {type TiltColorKey, TiltColors, TiltColorsHex, type Tilts,} from './models/Tilt';
+import tiltSenseTemplateYaml from './assets/tiltsense-template.yaml?raw'
+
 
 function App() {
     const [tilts, setTilts] = useState<Tilts>(
@@ -80,11 +83,8 @@ function App() {
     };
 
     const handleGenerateYAML = () => {
-        const yaml = "esphome:\n" +
-            "  name: tiltsense\n" +
-            "  platform: ESP32\n" +
-            "  board: esp32dev\n";
-        setGeneratedYAML(yaml);
+        let generatedYAML = yaml.load(tiltSenseTemplateYaml);
+        setGeneratedYAML(yaml.dump(generatedYAML));
     };
 
     function downloadYAML(content: string, filename = 'tiltsense.yaml') {
@@ -131,7 +131,10 @@ function App() {
                     All selected options will be used to generate a tailored YAML file that you can copy or download for
                     your ESPHome device configuration.
                 </Text>
-                <Stack mt="xl">
+                <Title order={4} mt="xl" mb="sm">
+                    Let's start
+                </Title>
+                <Stack>
                     <Text>Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether
                         they are the Pro version.</Text>
                     {TiltColors.map((color) => {

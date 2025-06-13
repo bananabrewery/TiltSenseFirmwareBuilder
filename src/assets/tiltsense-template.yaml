@@ -1,0 +1,31 @@
+substitutions:
+  name: tiltsense
+  friendly_name: TiltSense
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  framework:
+    type: arduino
+    version: latest
+  flash_size: 16MB
+
+logger:
+  level: INFO
+
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  ap: {}
+
+captive_portal:
+
+web_server:
+  port: 80
