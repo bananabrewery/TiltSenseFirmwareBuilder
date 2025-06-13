@@ -1,54 +1,85 @@
-# React + TypeScript + Vite
+# ⚙️ TiltSense YAML Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**TiltSense YAML Generator** is a simple, interactive web app that helps you create a customized ESPHome YAML configuration for your TiltSense device — no manual editing required.
 
-Currently, two official plugins are available:
+This tool makes it easy to tailor the firmware to your specific setup, including which sensors and integrations you want to use. Whether you're running a single Tilt or multiple, with or without pressure sensors, this generator has you covered.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📦 Project Status
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+TiltSense YAML Generator is currently in active development.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+🛠️ **First release in progress:**  
+I'm currently working on the initial version of the web application, which will allow users to generate custom ESPHome YAML files through a simple UI.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+🌐 **It will be published here:**  
+[https://bananabrewery.github.io/tiltsense-yaml-generator](https://bananabrewery.github.io/tiltsense-yaml-generator)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🧠 What can you configure?
+
+- 🎨 Which **Tilt Hydrometers** you use, and their **colors**
+- 🆚 Whether each device is a **Tilt** or **Tilt Pro**
+- 📡 Whether you want **Brewfather integration**
+- 🏠 Whether you use **Home Assistant**
+- 💨 Whether you include a **pressure sensor**
+
+Once configured, the app will generate a ready-to-use YAML file that you can flash to your ESP32 using [ESPHome](https://esphome.io/).
+
+---
+
+## 🚀 How it works
+
+1. Open the YAML Generator in your browser.
+2. Select your Tilt colors and sensor options.
+3. Choose your integrations (Brewfather, Home Assistant, etc.).
+4. Click **Generate** to download your custom YAML file.
+5. Flash it using ESPHome — and you're done!
+
+---
+
+## 🔧 Requirements
+
+- A compatible ESP32 device (see [TiltSense project](https://github.com/bananabrewery/tiltsense) for hardware recommendations)
+- [ESPHome](https://esphome.io/) installed locally or via the Home Assistant Add-on
+- Optional: Brewfather account or Home Assistant setup for integration
+
+---
+
+## 🌍 Why this exists
+
+The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The YAML Generator eliminates that step — making the setup faster, easier, and less error-prone.
+
+Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in minutes.
+
+---
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## ❤️ Acknowledgements
+
+Built as part of the [TiltSense Project](https://github.com/yourrepo/tiltsense) — powered by:
+
+- [ESPHome](https://esphome.io/)
+- [Tilt Hydrometer](https://tilthydrometer.com/)
+- [Brewfather](https://brewfather.app/)
+- [Home Assistant](https://www.home-assistant.io/)
+
+🧪 Made by and for fermentation geeks.
+
+
+## 🙌 Contribute
+
+Pull requests are welcome! Feel free to fork, modify, and share ideas via issues or discussions.
+
+---
+
+## 📣 Stay tuned
+
+More features and documentation coming soon!
