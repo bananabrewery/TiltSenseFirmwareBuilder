@@ -16,37 +16,21 @@ import {
 } from '@mantine/core';
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
-
-type TiltState = {
-    enabled: boolean;
-    isPro: boolean;
-};
-
-type Tilts = {
-    [key: string]: TiltState;
-};
-
-type TiltColor = typeof tiltColors[number];
-type TiltColorKey = Lowercase<TiltColor>;
-
-const tiltColors = ['Black', 'Blue', 'Green', 'Orange', 'Red', 'Yellow', 'Pink', 'Purple'];
-
-const tiltColorsHex: Record<TiltColorKey, string> = {
-    black: '#666666',
-    blue: '#3498db',
-    green: '#2ecc71',
-    orange: '#e67e22',
-    red: '#e74c3c',
-    yellow: '#f1c40f',
-    pink: '#e91e63',
-    purple: '#9b59b6',
-};
-
+import {type TiltColorKey, TiltColors, TiltColorsHex, type Tilts,} from './models/Tilt';
 
 function App() {
     const [tilts, setTilts] = useState<Tilts>(
-        tiltColors.reduce((acc, color) => {
-            acc[color.toLowerCase()] = {enabled: false, isPro: false};
+        TiltColors.reduce((acc, name) => {
+            const colorKey = name.toLowerCase() as TiltColorKey;
+            acc[colorKey] = {
+                enabled: false,
+                isPro: false,
+                color: {
+                    name: name,
+                    colorKey: colorKey,
+                    hexColor: TiltColorsHex[colorKey],
+                }
+            };
             return acc;
         }, {} as Tilts)
     );
@@ -99,78 +83,7 @@ function App() {
         const yaml = "esphome:\n" +
             "  name: tiltsense\n" +
             "  platform: ESP32\n" +
-            "  board: esp32dev\n" +
-            "\n" +
-            "wifi:\n" +
-            "  ssid: \"Your_SSID\"\n" +
-            "  password: \"Your_WIFI_Password\"\n" +
-            "\n" +
-            "logger:\n" +
-            "\n" +
-            "api:\n" +
-            "\n" +
-            "ota:\n" +
-            "\n" +
-            "sensor:\n" +
-            "  - platform: custom\n" +
-            "    lambda: |-\n" +
-            "      auto my_sensor = new TiltHydrometerSensor();\n" +
-            "      App.register_component(my_sensor);\n" +
-            "      return {my_sensor->temperature_sensor, my_sensor->gravity_sensor};\n" +
-            "    sensors:\n" +
-            "      name: \"Tilt Temperature - Red\"\n" +
-            "      unit_of_measurement: \"°C\"\n" +
-            "      accuracy_decimals: 1\n" +
-            "\n" +
-            "      name: \"Tilt Gravity - Red\"\n" +
-            "      unit_of_measurement: \"SG\"\n" +
-            "      accuracy_decimals: 3\n" +
-            "\n" +
-            "text_sensor:\n" +
-            "  - platform: template\n" +
-            "    name: \"Tilt Version - Red\"\n" +
-            "    lambda: |-\n" +
-            "      return \"Pro\";\n" +
-            "\n" +
-            "output:\n" +
-            "  # If using a display or other output\n" +
-            "\n" +
-            "brewfather:\n" +
-            "  enabled: true\n" +
-            "  api_key: \"your-brewfather-api-key\"\n" +
-            "\n" +
-            "home_assistant:\n" +
-            "  enabled: true";
-        "sensor:\n" +
-        "  - platform: custom\n" +
-        "    lambda: |-\n" +
-        "      auto my_sensor = new TiltHydrometerSensor();\n" +
-        "      App.register_component(my_sensor);\n" +
-        "      return {my_sensor->temperature_sensor, my_sensor->gravity_sensor};\n" +
-        "    sensors:\n" +
-        "      name: \"Tilt Temperature - Red\"\n" +
-        "      unit_of_measurement: \"°C\"\n" +
-        "      accuracy_decimals: 1\n" +
-        "\n" +
-        "      name: \"Tilt Gravity - Red\"\n" +
-        "      unit_of_measurement: \"SG\"\n" +
-        "      accuracy_decimals: 3\n" +
-        "\n" +
-        "text_sensor:\n" +
-        "  - platform: template\n" +
-        "    name: \"Tilt Version - Red\"\n" +
-        "    lambda: |-\n" +
-        "      return \"Pro\";\n" +
-        "\n" +
-        "output:\n" +
-        "  # If using a display or other output\n" +
-        "\n" +
-        "brewfather:\n" +
-        "  enabled: true\n" +
-        "  api_key: \"your-brewfather-api-key\"\n" +
-        "\n" +
-        "home_assistant:\n" +
-        "  enabled: true";
+            "  board: esp32dev\n";
         setGeneratedYAML(yaml);
     };
 
@@ -221,11 +134,11 @@ function App() {
                 <Stack mt="xl">
                     <Text>Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether
                         they are the Pro version.</Text>
-                    {tiltColors.map((color) => {
+                    {TiltColors.map((color) => {
                         const key = color.toLowerCase() as TiltColorKey;
                         return (
                             <Group key={key}>
-                                <IconTestPipe2Filled size={24} color={tiltColorsHex[key]}/>
+                                <IconTestPipe2Filled size={24} color={TiltColorsHex[key]}/>
                                 <Checkbox
                                     label={color}
                                     checked={tilts[key].enabled}
