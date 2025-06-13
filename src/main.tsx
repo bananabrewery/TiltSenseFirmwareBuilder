@@ -1,7 +1,7 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
-import {MantineProvider, createTheme} from '@mantine/core';
+import {createTheme, MantineProvider} from '@mantine/core';
 import {CodeHighlightAdapterProvider, createHighlightJsAdapter} from '@mantine/code-highlight';
 import hljs from 'highlight.js/lib/core';
 import yamlLang from 'highlight.js/lib/languages/yaml';

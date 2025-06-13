@@ -2,7 +2,8 @@ import {useState} from 'react';
 import '@mantine/core/styles.css';
 import {
     Anchor,
-    Box, Button,
+    Box,
+    Button,
     Center,
     Checkbox,
     Group,
@@ -13,7 +14,7 @@ import {
     TextInput,
     Title
 } from '@mantine/core';
-import {IconInfoCircle, IconTestPipe2Filled, IconRadar} from '@tabler/icons-react';
+import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
 
 type TiltState = {
