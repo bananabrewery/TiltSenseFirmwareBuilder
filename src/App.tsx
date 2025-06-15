@@ -19,7 +19,7 @@ import {CodeHighlight} from "@mantine/code-highlight";
 import yaml from "js-yaml";
 import {TiltColorId, type TiltColorKey, TiltColors, TiltColorsHex, type Tilts,} from './models/Tilt';
 import tiltSenseTemplateYaml from './assets/tiltsense-template.yaml?raw'
-import tiltsenseFirmwareTemplate from './assets/tiltsense-template.json'
+import tiltSenseFirmwareTemplate from './assets/tiltsense-template.json'
 
 
 function App() {
@@ -87,7 +87,8 @@ function App() {
     const handleGenerateYAML = () => {
         const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
         console.log(enabledTilts);
-        const tiltSenseGeneratedFirmware = JSON.parse(JSON.stringify(tiltsenseFirmwareTemplate));
+        const tiltSenseGeneratedFirmware = JSON.parse(JSON.stringify(tiltSenseFirmwareTemplate));
+        console.log(yaml.load(tiltSenseTemplateYaml));
 
         if (enabledTilts.length === 1) {
             const onBLEAdvertiseCode = `
