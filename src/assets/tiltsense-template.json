@@ -90,5 +90,118 @@
     "on_ble_advertise": {
       "then": []
     }
+  },
+  "switch": [],
+  "sensor": [
+    {
+      "platform": "internal_temperature",
+      "name": "${friendly_name} Internal Temperature"
+    },
+    {
+      "platform": "adc",
+      "pin": "GPIO01",
+      "name": "${friendly_name} Battery Voltage",
+      "id": "battery_voltage",
+      "unit_of_measurement": "V",
+      "accuracy_decimals": 2,
+      "device_class": "voltage",
+      "entity_category": "diagnostic",
+      "update_interval": "30s",
+      "attenuation": "auto",
+      "filters": [
+        {
+          "calibrate_linear": [
+            "1.49 -> 4.16",
+            "1.26 -> 4.01",
+            "1.20 -> 3.95",
+            "1.07 -> 3.90",
+            "1.04 -> 3.83",
+            "1.02 -> 3.78",
+            "1.00 -> 3.71",
+            "0.96 -> 3.61"
+          ]
+        }
+      ]
+    },
+    {
+      "platform": "template",
+      "name": "${friendly_name} Battery Level",
+      "unit_of_measurement": "%",
+      "device_class": "battery",
+      "entity_category": "diagnostic",
+      "accuracy_decimals": 0,
+      "lambda": "float v = id(battery_voltage).state;\nfloat percent = 100.0 / (1.0 + exp(-10.0 * (v - 3.85)));\nif (percent > 100.0) return 100.0;\nelse if (percent < 0.0) return 0.0;\nelse return percent;"
+    }
+  ],
+  "psram": {
+    "mode": "quad",
+    "speed": "80MHz"
+  },
+  "external_components": [
+    {
+      "source": "github://GadgetFactory/CST816S_touchscreen@1.0.0"
+    }
+  ],
+  "spi": {
+    "clk_pin": "GPIO10",
+    "mosi_pin": "GPIO11"
+  },
+  "output": [
+    {
+      "platform": "ledc",
+      "pin": {
+        "number": "GPIO02"
+      },
+      "id": "backlight_output"
+    }
+  ],
+  "light": [
+    {
+      "platform": "monochromatic",
+      "output": "backlight_output",
+      "name": "${friendly_name} Display Backlight",
+      "id": "led",
+      "restore_mode": "ALWAYS_ON",
+      "default_transition_length": "0s",
+      "internal": true
+    }
+  ],
+  "touchscreen": {
+    "platform": "cst816",
+    "id": "tiltsense_touchscreen",
+    "interrupt_pin": "GPIO05",
+    "reset_pin": "GPIO13",
+    "on_touch": {
+      "then": [
+        {
+          "lambda": "int x = touch.x;\nint y = touch.y;\n\nid(last_touch_x) = x;\nid(last_touch_y) = y;\nid(handle_touch).execute();"
+        }
+      ]
+    }
+  },
+  "display": [
+    {
+      "platform": "ili9xxx",
+      "model": "GC9A01A",
+      "id": "lcd_display",
+      "invert_colors": true,
+      "data_rate": "80MHz",
+      "cs_pin": "GPIO09",
+      "dc_pin": "GPIO08",
+      "reset_pin": "GPIO14",
+      "auto_clear_enabled": false,
+      "rotation": 0
+    }
+  ],
+  "lvgl": {
+    "id": "lvgl_id",
+    "displays": [
+      "lcd_display"
+    ],
+    "touchscreens": [
+      "tiltsense_touchscreen"
+    ],
+    "pages": [
+    ]
   }
 }
