@@ -17,8 +17,9 @@ import {
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
 import yaml from "js-yaml";
-import {type TiltColorKey, TiltColors, TiltColorsHex, type Tilts,} from './models/Tilt';
+import {TiltColorId, type TiltColorKey, TiltColors, TiltColorsHex, type Tilts,} from './models/Tilt';
 import tiltSenseTemplateYaml from './assets/tiltsense-template.yaml?raw'
+import tiltsenseFirmwareTemplate from './assets/tiltsense-template.json'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                     name: name,
                     colorKey: colorKey,
                     hexColor: TiltColorsHex[colorKey],
+                    id: TiltColorId[colorKey],
                 }
             };
             return acc;
@@ -83,8 +85,31 @@ function App() {
     };
 
     const handleGenerateYAML = () => {
-        let generatedYAML = yaml.load(tiltSenseTemplateYaml);
-        setGeneratedYAML(yaml.dump(generatedYAML));
+        const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
+        console.log(enabledTilts);
+        const tiltSenseGeneratedFirmware = JSON.parse(JSON.stringify(tiltsenseFirmwareTemplate));
+
+        if (enabledTilts.length === 1) {
+            const onBLEAdvertiseCode = `
+                 if (x.get_ibeacon().has_value()) {
+                  auto ibeacon = x.get_ibeacon().value();
+                  std::string uuid = ibeacon.get_uuid().to_string();
+                
+                  if (uuid == ${enabledTilts[0].color.id}) {
+                    float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
+                    float gravity = ibeacon.get_minor();
+                    ESP_LOGD("tilt", "[${enabledTilts[0].color.name}] Temp = %.2f °C", temp_c);
+                    id(tilt_temperature_${enabledTilts[0].color.colorKey}).publish_state(temp_c);
+                  }
+                }
+            `.trim();
+            tiltSenseGeneratedFirmware.esp32_ble_tracker.on_ble_advertise.then.push(onBLEAdvertiseCode);
+        }
+
+        console.log(tiltSenseGeneratedFirmware);
+        const tiltSenseGeneratedFirmwareYAML = yaml.dump(tiltSenseGeneratedFirmware);
+        console.log(tiltSenseGeneratedFirmwareYAML);
+        setGeneratedYAML(tiltSenseGeneratedFirmwareYAML);
     };
 
     function downloadYAML(content: string, filename = 'tiltsense.yaml') {
@@ -213,24 +238,12 @@ function App() {
                 </Group>
 
                 {generatedYAML && (
-                    <Box
-                        style={{
-                            overflowY: 'auto',
-                            minHeight: '500px',
-                            maxHeight: 'calc(20vh - 200px)', // Ajusta según tu layout
-                            borderRadius: 'var(--mantine-radius-sm)',
-                            border: '1px solid var(--mantine-color-gray-3)',
-                            padding: '1rem',
-                            backgroundColor: '#0d1117',
-                        }}
-                    >
-                        <CodeHighlight
-                            code={generatedYAML}
-                            language="yaml"
-                            withCopyButton
-                            radius="sm"
-                        />
-                    </Box>
+                    <CodeHighlight
+                        code={generatedYAML}
+                        language="yaml"
+                        withCopyButton
+                        radius="sm"
+                    />
                 )}
             </Box>
         </MantineProvider>

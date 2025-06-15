@@ -29,3 +29,73 @@ captive_portal:
 
 web_server:
   port: 80
+
+globals:
+  - id: last_ble_update
+    type: unsigned long
+    restore_value: no
+    initial_value: '0'
+  - id: last_touch_time
+    type: unsigned long
+    restore_value: no
+    initial_value: '0'
+  - id: screen_dimmed
+    type: bool
+    restore_value: no
+    initial_value: 'false'
+  - id: last_touch_x
+    type: int
+    initial_value: '0'
+  - id: last_touch_y
+    type: int
+    initial_value: '0'
+  - id: enable_tilt_black
+    type: bool
+    restore_value: true
+    initial_value: 'true'
+  - id: enable_tilt_purple
+    type: bool
+    restore_value: true
+    initial_value: 'true'
+  - id: enable_tilt_red
+    type: bool
+    restore_value: true
+    initial_value: 'true'
+  - id: current_page
+    type: int
+    restore_value: no
+    initial_value: '0'  # 0 = black, 1 = purple, 2 = red
+
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 10000ms
+    window: 1000ms
+  on_ble_advertise:
+    then:
+      - lambda: |-
+          if (x.get_ibeacon().has_value()) {
+            auto ibeacon = x.get_ibeacon().value();
+            std::string uuid = ibeacon.get_uuid().to_string();
+
+            if (uuid == "A495BB30-C5B1-4B44-B512-1370F02D74DE" && id(enable_tilt_black)) {
+              float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
+              float gravity = ibeacon.get_minor();
+              ESP_LOGD("tilt", "[BLACK] Publishing: Temperature = %.2f °C, Gravity = %.0f", temp_c, gravity);
+              id(tilt_temperature_black).publish_state(temp_c);
+              id(tilt_gravity_black).publish_state(gravity);
+            }
+            else if (uuid == "A495BB40-C5B1-4B44-B512-1370F02D74DE" && id(enable_tilt_purple)) {
+              float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
+              float gravity = ibeacon.get_minor();
+              ESP_LOGD("tilt", "[PURPLE] Publishing: Temperature = %.2f °C, Gravity = %.0f", temp_c, gravity);
+              id(tilt_temperature_purple).publish_state(temp_c);
+              id(tilt_gravity_purple).publish_state(gravity);
+            }
+            else if (uuid == "A495BB10-C5B1-4B44-B512-1370F02D74DE" && id(enable_tilt_red)) {
+              float temp_c = ((ibeacon.get_major() / 10.0f) - 32.0f) * 5.0f / 9.0f;
+              float gravity = ibeacon.get_minor() / 10.0f;
+              ESP_LOGD("tilt", "[RED] Publishing: Temperature = %.2f °C, Gravity = %.1f", temp_c, gravity);
+              id(tilt_temperature_red).publish_state(temp_c);
+              id(tilt_gravity_red).publish_state(gravity);
+            }
+          }
