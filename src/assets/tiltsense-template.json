@@ -133,6 +133,137 @@
       "lambda": "float v = id(battery_voltage).state;\nfloat percent = 100.0 / (1.0 + exp(-10.0 * (v - 3.85)));\nif (percent > 100.0) return 100.0;\nelse if (percent < 0.0) return 0.0;\nelse return percent;"
     }
   ],
+  "script": [
+    {
+      "id": "handle_touch",
+      "mode": "restart",
+      "then": [
+        {
+          "lambda": "id(last_touch_time) = millis();"
+        },
+        {
+          "if": {
+            "condition": {
+              "lambda": "return id(screen_dimmed);"
+            },
+            "then": [
+              {
+                "light.turn_on": {
+                  "id": "led",
+                  "brightness": "100%"
+                }
+              },
+              {
+                "lambda": "id(screen_dimmed) = false;"
+              }
+            ],
+            "else": [
+              {
+                "if": {
+                  "condition": {
+                    "lambda": "return id(last_touch_y) > 220;"
+                  },
+                  "then": [
+                    {
+                      "lambda": ""
+                    }
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "condition": {
+                    "lambda": "return id(last_touch_x) < 60 && id(current_page) > 0;"
+                  },
+                  "then": [
+                    {
+                      "lambda": "id(current_page) -= 1;"
+                    },
+                    {
+                      "if": {
+                        "condition": {
+                          "lambda": "return id(current_page) == 0;"
+                        },
+                        "then": [
+                          {
+                            "lvgl.page.show": {
+                              "id": "display_black",
+                              "animation": "MOVE_RIGHT",
+                              "time": "200ms"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "condition": {
+                          "lambda": "return id(current_page) == 1;"
+                        },
+                        "then": [
+                          {
+                            "lvgl.page.show": {
+                              "id": "display_purple",
+                              "animation": "MOVE_RIGHT",
+                              "time": "200ms"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "condition": {
+                    "lambda": "return id(last_touch_x) > 180 && id(current_page) < 2;"
+                  },
+                  "then": [
+                    {
+                      "lambda": "id(current_page) += 1;"
+                    },
+                    {
+                      "if": {
+                        "condition": {
+                          "lambda": "return id(current_page) == 1;"
+                        },
+                        "then": [
+                          {
+                            "lvgl.page.show": {
+                              "id": "display_purple",
+                              "animation": "MOVE_LEFT",
+                              "time": "200ms"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "condition": {
+                          "lambda": "return id(current_page) == 2;"
+                        },
+                        "then": [
+                          {
+                            "lvgl.page.show": {
+                              "id": "display_red",
+                              "animation": "MOVE_LEFT",
+                              "time": "200ms"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "psram": {
     "mode": "quad",
     "speed": "80MHz"
@@ -166,19 +297,6 @@
       "internal": true
     }
   ],
-  "touchscreen": {
-    "platform": "cst816",
-    "id": "tiltsense_touchscreen",
-    "interrupt_pin": "GPIO05",
-    "reset_pin": "GPIO13",
-    "on_touch": {
-      "then": [
-        {
-          "lambda": "int x = touch.x;\nint y = touch.y;\n\nid(last_touch_x) = x;\nid(last_touch_y) = y;\nid(handle_touch).execute();"
-        }
-      ]
-    }
-  },
   "display": [
     {
       "platform": "ili9xxx",
@@ -193,6 +311,23 @@
       "rotation": 0
     }
   ],
+  "i2c": {
+    "sda": "GPIO06",
+    "scl": "GPIO07"
+  },
+  "touchscreen": {
+    "platform": "cst816",
+    "id": "tiltsense_touchscreen",
+    "interrupt_pin": "GPIO05",
+    "reset_pin": "GPIO13",
+    "on_touch": {
+      "then": [
+        {
+          "lambda": "int x = touch.x;\nint y = touch.y;\n\nid(last_touch_x) = x;\nid(last_touch_y) = y;\nid(handle_touch).execute();"
+        }
+      ]
+    }
+  },
   "lvgl": {
     "id": "lvgl_id",
     "displays": [

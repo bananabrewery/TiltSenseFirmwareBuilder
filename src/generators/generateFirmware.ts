@@ -1,10 +1,24 @@
 import {type Tilt} from '../models/Tilt';
-import tiltSenseFirmwareTemplate from '../assets/tiltsense-template.json'
+import tiltSenseFirmwareTemplate from '../assets/tiltsense-template.json';
+import tiltSenseFirmwareTemplateYAML from '../assets/tiltsense-template.yaml?raw';
+import yaml from "js-yaml";
 
+const debugYAML2JSON = () => {
+    const preprocessYaml = (yamlText: string) => {
+        return yamlText
+            .replace(/!lambda\s*\|-/g, '__LAMBDA_BLOCK__')
+            .replace(/!\w+/g, '__TAG__');
+    };
+
+    const cleanedYaml = preprocessYaml(tiltSenseFirmwareTemplateYAML);
+    const parsed = yaml.load(cleanedYaml);
+    console.log(parsed);
+}
 
 export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any; ha: boolean; }): any {
     const tiltSenseGeneratedFirmware = JSON.parse(JSON.stringify(tiltSenseFirmwareTemplate));
     console.log(options);
+    debugYAML2JSON();
 
     //BLE Advertise Code
     let onBLEAdvertiseCode = `
@@ -13,7 +27,9 @@ export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any
       std::string uuid = ibeacon.get_uuid().to_string();
             `.trim();
 
-    tilts.forEach((tilt: Tilt) => {
+    let touchManagementLambda = ``;
+
+    tilts.forEach((tilt: Tilt, index: number) => {
         if (tilt.isPro) {
             onBLEAdvertiseCode = `
               ${onBLEAdvertiseCode}
@@ -83,6 +99,27 @@ export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any
             }
         });
 
+        //Touch management
+        if(index === 0)
+        {
+            touchManagementLambda += `
+  if (id(current_page) == ${index}) {
+    if (id(enable_tilt_${tilt.color.colorKey})) {
+      id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
+    } else {
+      id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
+    }
+  }`;
+        } else {
+            touchManagementLambda += ` else if (id(current_page) == ${index}) {
+    if (id(enable_tilt_${tilt.color.colorKey})) {
+      id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
+    } else {
+      id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
+    }
+  }`;
+        }
+
         //LVGL page management for each Tilt
         tiltSenseGeneratedFirmware.lvgl.pages.push(
             {
@@ -144,6 +181,9 @@ export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any
             }
         );
     });
+
+    //TODO: That's ugly, figure out how to improve this...
+    tiltSenseGeneratedFirmware.script[0].then[1].if.else[0].if.then[0].lambda = touchManagementLambda;
 
     onBLEAdvertiseCode = `
               ${onBLEAdvertiseCode}

@@ -21,7 +21,6 @@ import {showNotification} from '@mantine/notifications';
 import {parseYAML} from './generators/generateYAML.ts';
 import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
 
-
 function App() {
     const [tilts, setTilts] = useState<Tilts>(
         TiltColors.reduce((acc, name) => {
