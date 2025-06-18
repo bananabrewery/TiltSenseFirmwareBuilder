@@ -1,6 +1,6 @@
 substitutions:
-  name: tiltsense
-  friendly_name: TiltSense
+  name: tiltsensebeta
+  friendly_name: TiltSenseBeta
 
 esphome:
   name: "${name}"
@@ -23,7 +23,7 @@ ota:
   - platform: esphome
 
 wifi:
-  ap: {}
+  ap:
 
 captive_portal:
 

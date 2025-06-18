@@ -18,7 +18,6 @@ import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-reac
 import {CodeHighlight} from "@mantine/code-highlight";
 import {TiltColorId, type TiltColorKey, TiltColors, TiltColorsHex, type Tilts} from './models/Tilt';
 import {showNotification} from '@mantine/notifications';
-import {parseYAML} from './generators/generateYAML.ts';
 import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
 
 function App() {
@@ -99,7 +98,7 @@ function App() {
             brewfather: brewfatherConfig,
             ha: homeAssistantEnabled
         });
-        setGeneratedYAML(parseYAML(tiltSenseGeneratedFirmware));
+        setGeneratedYAML(tiltSenseGeneratedFirmware);
     };
 
     function downloadYAML(content: string, filename = 'tiltsense.yaml') {
@@ -111,7 +110,6 @@ function App() {
         a.click();
         URL.revokeObjectURL(url);
     }
-
 
     return (
         <MantineProvider>
