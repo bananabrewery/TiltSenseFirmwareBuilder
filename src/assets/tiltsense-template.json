@@ -1,7 +1,7 @@
 {
   "esphome": {
-    "name": "tiltsense",
-    "friendly_name": "TiltSense"
+    "name": "tiltsensebeta",
+    "friendly_name": "TiltSenseBeta"
   },
   "esp32": {
     "board": "esp32-s3-devkitc-1",
@@ -22,7 +22,7 @@
     }
   ],
   "wifi": {
-    "ap": {}
+    "ap": null
   },
   "captive_portal": null,
   "web_server": {
@@ -140,126 +140,6 @@
       "then": [
         {
           "lambda": "id(last_touch_time) = millis();"
-        },
-        {
-          "if": {
-            "condition": {
-              "lambda": "return id(screen_dimmed);"
-            },
-            "then": [
-              {
-                "light.turn_on": {
-                  "id": "led",
-                  "brightness": "100%"
-                }
-              },
-              {
-                "lambda": "id(screen_dimmed) = false;"
-              }
-            ],
-            "else": [
-              {
-                "if": {
-                  "condition": {
-                    "lambda": "return id(last_touch_y) > 220;"
-                  },
-                  "then": [
-                    {
-                      "lambda": ""
-                    }
-                  ]
-                }
-              },
-              {
-                "if": {
-                  "condition": {
-                    "lambda": "return id(last_touch_x) < 60 && id(current_page) > 0;"
-                  },
-                  "then": [
-                    {
-                      "lambda": "id(current_page) -= 1;"
-                    },
-                    {
-                      "if": {
-                        "condition": {
-                          "lambda": "return id(current_page) == 0;"
-                        },
-                        "then": [
-                          {
-                            "lvgl.page.show": {
-                              "id": "display_black",
-                              "animation": "MOVE_RIGHT",
-                              "time": "200ms"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "if": {
-                        "condition": {
-                          "lambda": "return id(current_page) == 1;"
-                        },
-                        "then": [
-                          {
-                            "lvgl.page.show": {
-                              "id": "display_purple",
-                              "animation": "MOVE_RIGHT",
-                              "time": "200ms"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "if": {
-                  "condition": {
-                    "lambda": "return id(last_touch_x) > 180 && id(current_page) < 2;"
-                  },
-                  "then": [
-                    {
-                      "lambda": "id(current_page) += 1;"
-                    },
-                    {
-                      "if": {
-                        "condition": {
-                          "lambda": "return id(current_page) == 1;"
-                        },
-                        "then": [
-                          {
-                            "lvgl.page.show": {
-                              "id": "display_purple",
-                              "animation": "MOVE_LEFT",
-                              "time": "200ms"
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "if": {
-                        "condition": {
-                          "lambda": "return id(current_page) == 2;"
-                        },
-                        "then": [
-                          {
-                            "lvgl.page.show": {
-                              "id": "display_red",
-                              "animation": "MOVE_LEFT",
-                              "time": "200ms"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
         }
       ]
     }

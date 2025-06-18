@@ -100,7 +100,38 @@ esp32_ble_tracker:
             }
           }
 
-#switch:
+switch:
+  - platform: template
+    name: "Enable Tilt Black"
+    id: switch_enable_tilt_black
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    turn_on_action:
+      - lvgl.arc.update:
+          id: border_circle_black
+          arc_color: 0x000000
+      - lambda: |-
+          id(enable_tilt_black) = true;
+    turn_off_action:
+      - lvgl.arc.update:
+          id: border_circle_black
+          arc_color: 0x808080
+      - lambda: |-
+          id(enable_tilt_black) = false;
+      - sensor.template.publish:
+          id: tilt_gravity_black
+          state: 0.0
+      - sensor.template.publish:
+          id: tilt_temperature_black
+          state: 0.0
+      - lvgl.label.update:
+          id: ble_gravity_label_black
+          text: " "
+      - lvgl.label.update:
+          id: ble_temp_label_black
+          text: " "
+    lambda: |-
+      return id(enable_tilt_black);
 
 sensor:
   - platform: internal_temperature
