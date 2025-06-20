@@ -95,7 +95,15 @@ esp32_ble_tracker:
               float temp_c = ((ibeacon.get_major() / 10.0f) - 32.0f) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor() / 10.0f;
               int rssi = x.get_rssi();
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.1f, RSSI = %d", temp_c, gravity, rssi);
+              uint8_t tx_power = 0; 
+              for (auto data : x.get_manufacturer_datas()) {
+                const auto& vec = data.data;
+                ESP_LOGD("tilt", "[${tilt.color.name}] %s:", format_hex_pretty(data.data).c_str());
+                if (!vec.empty()) {
+                  tx_power = vec.back();
+                }
+              }
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -105,7 +113,15 @@ esp32_ble_tracker:
               float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor();
               int rssi = x.get_rssi();
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, RSSI = %d", temp_c, gravity, rssi);
+              uint8_t tx_power = 0; 
+              for (auto data : x.get_manufacturer_datas()) {
+                const auto& vec = data.data;
+                ESP_LOGD("tilt", "[${tilt.color.name}] %s:", format_hex_pretty(data.data).c_str());
+                if (!vec.empty()) {
+                  tx_power = vec.back();
+                }
+              }
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
