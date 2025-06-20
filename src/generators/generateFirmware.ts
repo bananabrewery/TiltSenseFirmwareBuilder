@@ -4,7 +4,6 @@ export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any
     console.log(options);
     const name = "tiltsensebeta";
     const friendlyName = "TiltSenseBeta"
-    const pressureUnitOfMeasure = "PSI";
 
     let tiltSenseGeneratedFirmware: string = `esphome:
   name: "${name}"
@@ -95,15 +94,7 @@ esp32_ble_tracker:
               float temp_c = ((ibeacon.get_major() / 10.0f) - 32.0f) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor() / 10.0f;
               int rssi = x.get_rssi();
-              uint8_t tx_power = 0; 
-              for (auto data : x.get_manufacturer_datas()) {
-                const auto& vec = data.data;
-                ESP_LOGD("tilt", "[${tilt.color.name}] %s:", format_hex_pretty(data.data).c_str());
-                if (!vec.empty()) {
-                  tx_power = vec.back();
-                }
-              }
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, RSSI = %d", temp_c, gravity, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -113,15 +104,7 @@ esp32_ble_tracker:
               float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor();
               int rssi = x.get_rssi();
-              uint8_t tx_power = 0; 
-              for (auto data : x.get_manufacturer_datas()) {
-                const auto& vec = data.data;
-                ESP_LOGD("tilt", "[${tilt.color.name}] %s:", format_hex_pretty(data.data).c_str());
-                if (!vec.empty()) {
-                  tx_power = vec.back();
-                }
-              }
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, RSSI = %d", temp_c, gravity, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -141,7 +124,7 @@ switch:`;
     turn_on_action:
       - lvgl.arc.update:
           id: border_circle_${tilt.color.colorKey}
-          arc_color: 0x${tilt.color.hexColor.slice(1)}
+          arc_color: 0x${tilt.color.displayColor.slice(1)}
       - lambda: |-
           id(enable_tilt_${tilt.color.colorKey}) = true;
     turn_off_action:
@@ -329,9 +312,6 @@ interval:
                           float temp = id(tilt_temperature_${tilt.color.colorKey}).state;
                           if (std::isnan(temp)) temp = 0.0;
 
-                          float pressure = id(pressure_sensor_${tilt.color.colorKey}).state;
-                          if (std::isnan(pressure)) pressure = 0.0;
-
                           snprintf(buffer, sizeof(buffer),
                             "{"
                               "\\"device_source\\": \\"%s\\","
@@ -339,18 +319,14 @@ interval:
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
                               "\\"temp\\": %.1f,"
-                              "\\"temp_unit\\": \\"%s\\","
-                              "\\"pressure\\": %.2f,"
-                              "\\"pressure_unit\\": \\"%s\\""
+                              "\\"temp_unit\\": \\"%s\\""
                             "}",
                             "${friendlyName}", 
                             "Tilt ${tilt.color.name}", 
                             gravity,
                             "G",
                             temp, 
-                            "C",
-                            pressure,
-                            "${pressureUnitOfMeasure}"
+                            "C"
                           );
                           return std::string(buffer);`
         });
@@ -385,26 +361,19 @@ interval:
                           float temp = id(tilt_temperature_${tilt.color.colorKey}).state;
                           if (std::isnan(temp)) temp = 0.0;
 
-                          float pressure = id(pressure_sensor_${tilt.color.colorKey}).state;
-                          if (std::isnan(pressure)) pressure = 0.0;
-
                           snprintf(buffer, sizeof(buffer),
                             "{"
                               "\\"name\\": \\"%s\\","
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
                               "\\"temperature\\": %.1f,"
-                              "\\"temp_unit\\": \\"%s\\","
-                              "\\"pressure\\": %.2f,"
-                              "\\"pressure_unit\\": \\"%s\\""
+                              "\\"temp_unit\\": \\"%s\\""
                             "}",
                             "${friendlyName} - Tilt ${tilt.color.name}", 
                             gravity,
                             "G",
                             temp, 
-                            "C",
-                            pressure,
-                            "${pressureUnitOfMeasure}"
+                            "C"
                           );
                           return std::string(buffer);`
         });
@@ -530,7 +499,7 @@ lvgl:
                 align: CENTER
                 arc_color: !lambda |-
                               if (id(enable_tilt_${tilt.color.colorKey})) {
-                                return lv_color_hex(${tilt.color.hexColor.replace("#", "0x")});
+                                return lv_color_hex(${tilt.color.displayColor.replace("#", "0x")});
                               } else {
                                 return lv_color_hex(0x808080);
                               }

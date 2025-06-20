@@ -12,6 +12,7 @@ export type TiltColor = {
     name: Capitalize<TiltColorKey>;
     colorKey: TiltColorKey;
     hexColor: string;
+    displayColor: string;
     id: string;
 };
 
@@ -24,6 +25,17 @@ export const TiltColorsHex: Record<TiltColorKey, string> = {
     yellow: '#f1c40f',
     pink: '#e91e63',
     purple: '#9b59b6',
+};
+
+export const TiltColorsDisplay: Record<TiltColorKey, string> = {
+    black: "#000000",
+    blue: "#0000FF",
+    green: "#00FF00",
+    orange: "#FFA500",
+    red: "#FF0000",
+    yellow: "#FFFF00",
+    pink: "#FF00FF",
+    purple: "#800080"
 };
 
 export const TiltColorId: Record<TiltColorKey, string> = {

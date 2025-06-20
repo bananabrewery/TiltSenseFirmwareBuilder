@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {CodeHighlight} from "@mantine/code-highlight";
-import {TiltColorId, type TiltColorKey, TiltColors, TiltColorsHex, type Tilts} from './models/Tilt';
+import {TiltColorId, type TiltColorKey, TiltColors, TiltColorsDisplay, TiltColorsHex, type Tilts} from './models/Tilt';
 import {showNotification} from '@mantine/notifications';
 import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
 
@@ -31,6 +31,7 @@ function App() {
                     name: name,
                     colorKey: colorKey,
                     hexColor: TiltColorsHex[colorKey],
+                    displayColor: TiltColorsDisplay[colorKey],
                     id: TiltColorId[colorKey],
                 }
             };
