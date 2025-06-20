@@ -1,6 +1,6 @@
 import {type Tilt} from '../models/Tilt';
 
-export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any; ha: boolean; }): any {
+export function generateFirmwareConfig(tilts: Tilt[], options: { brewfather: any; DIYCloud: any; ha: boolean; }): any {
     console.log(options);
     const name = "tiltsensebeta";
     const friendlyName = "TiltSenseBeta"
@@ -19,7 +19,7 @@ esp32:
   flash_size: 16MB
 
 logger:
-  level: INFO`;
+  level: DEBUG`;
 
     tiltSenseGeneratedFirmware += options.ha ? `
 
@@ -41,7 +41,7 @@ wifi:
 captive_portal:
 
 web_server:
-  port: 80;
+  port: 80
   
 globals:
   - id: last_ble_update
@@ -94,9 +94,8 @@ esp32_ble_tracker:
             if (uuid == "${tilt.color.id}" && id(enable_tilt_${tilt.color.colorKey})) {
               float temp_c = ((ibeacon.get_major() / 10.0f) - 32.0f) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor() / 10.0f;
-              int8_t tx_power = ibeacon.get_tx_power();
               int rssi = x.get_rssi();
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.1f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.1f, RSSI = %d", temp_c, gravity, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -105,9 +104,8 @@ esp32_ble_tracker:
             if (uuid == "${tilt.color.id}" && id(enable_tilt_${tilt.color.colorKey})) {
               float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor();
-              int8_t tx_power = ibeacon.get_tx_power();
               int rssi = x.get_rssi();
-              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, RSSI = %d", temp_c, gravity, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -206,6 +204,21 @@ sensor:
             text: !lambda |-
                     char buffer[8];
                     snprintf(buffer, sizeof(buffer), "%.3f", id(tilt_gravity_${tilt.color.colorKey}).state / 1000.0);
+                    return std::string(buffer);                    
+  - platform: template
+    name: "Tilt ${tilt.color.name} Temperature"
+    id: tilt_temperature_${tilt.color.colorKey}
+    device_class: "temperature"
+    accuracy_decimals: 1
+    unit_of_measurement: "°C"
+    update_interval: never
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: ble_temp_label_${tilt.color.colorKey}
+            text: !lambda |-
+                    char buffer[10];
+                    snprintf(buffer, sizeof(buffer), "%.1f °C", id(tilt_temperature_${tilt.color.colorKey}).state);
                     return std::string(buffer);`;
     });
 
@@ -327,6 +340,213 @@ interval:
         });
     }
 
+    if (options.DIYCloud.enabled) {
+        tilts.forEach((tilt: Tilt) => {
+            tiltSenseGeneratedFirmware += `  
+  - interval: 20min
+    then:
+      - if:
+          condition:
+            lambda: |-
+              return (
+                id(enable_tilt_${tilt.color.colorKey}) &&
+                !isnan(id(tilt_temperature_${tilt.color.colorKey}).state) &&
+                !isnan(id(tilt_gravity_${tilt.color.colorKey}).state)
+              );
+          then:
+            - http_request.post:
+                url: !lambda |-
+                        return "https://diyhomebrewers.com/wp-json/trk/v1/cloudiy/dh?api_key=${options.DIYCloud.apiKey}";
+                request_headers: 
+                  Content-Type: application/json
+                body: !lambda |-
+                          char buffer[256];
+
+                          float gravity = id(tilt_gravity_${tilt.color.colorKey}).state;
+                          if (std::isnan(gravity)) gravity = 0.0;
+                          gravity /= 1000.0;
+
+                          float temp = id(tilt_temperature_${tilt.color.colorKey}).state;
+                          if (std::isnan(temp)) temp = 0.0;
+
+                          float pressure = id(pressure_sensor_${tilt.color.colorKey}).state;
+                          if (std::isnan(pressure)) pressure = 0.0;
+
+                          snprintf(buffer, sizeof(buffer),
+                            "{"
+                              "\\"name\\": \\"%s\\","
+                              "\\"gravity\\": %.3f,"
+                              "\\"gravity_unit\\": \\"%s\\","
+                              "\\"temperature\\": %.1f,"
+                              "\\"temp_unit\\": \\"%s\\","
+                              "\\"pressure\\": %.2f,"
+                              "\\"pressure_unit\\": \\"%s\\""
+                            "}",
+                            "${friendlyName} - Tilt ${tilt.color.name}", 
+                            gravity,
+                            "G",
+                            temp, 
+                            "C",
+                            pressure,
+                            "${pressureUnitOfMeasure}"
+                          );
+                          return std::string(buffer);`
+        });
+    }
+
+    tiltSenseGeneratedFirmware += `
+
+touchscreen:
+  platform: cst816
+  id: tiltsense_touchscreen
+  interrupt_pin: GPIO05
+  reset_pin: GPIO13
+  on_touch:
+    then:
+      - lambda: |-
+          int x = touch.x;
+          int y = touch.y;
+
+          id(last_touch_x) = x;
+          id(last_touch_y) = y;
+          id(handle_touch).execute();`;
+
+    tiltSenseGeneratedFirmware += `
+
+script:
+  - id: handle_touch
+    mode: restart
+    then:
+      - lambda: |-
+          id(last_touch_time) = millis();
+      - if:
+          condition:
+            lambda: 'return id(screen_dimmed);'
+          then:
+            - light.turn_on:
+                id: led
+                brightness: 100%
+            - lambda: 'id(screen_dimmed) = false;'
+          else:
+            - if:
+                condition:
+                  lambda: 'return id(last_touch_y) > 220;'
+                then:
+                  - lambda: |-`;
+
+    tilts.forEach((tilt: Tilt, index: number) => {
+        if (index === 0) {
+            tiltSenseGeneratedFirmware += `
+                            if (id(current_page) == ${index}) {
+                              if (id(enable_tilt_${tilt.color.colorKey})) {
+                                id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
+                              } else {
+                                id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
+                              }
+                            }`;
+        } else {
+            tiltSenseGeneratedFirmware += ` else if (id(current_page) == ${index}) {
+                              if (id(enable_tilt_${tilt.color.colorKey})) {
+                                id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
+                              } else {
+                                id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
+                              }
+                            }`;
+        }
+    });
+
+    tiltSenseGeneratedFirmware += `
+            - if:
+                condition:
+                  lambda: 'return id(last_touch_x) < 60 && id(current_page) > 0;'
+                then:
+                  - lambda: |-
+                      id(current_page) -= 1;`
+
+    for (let i = 0; i < tilts.length; i++) {
+        tiltSenseGeneratedFirmware += `
+                  - if:
+                      condition:
+                        lambda: 'return id(current_page) == ${i};'
+                      then:
+                        - lvgl.page.show: 
+                            id: display_${tilts[i].color.colorKey}
+                            animation: MOVE_RIGHT
+                            time: 200ms`;
+    }
+
+    tiltSenseGeneratedFirmware += `
+            - if:
+                condition:
+                  lambda: 'return id(last_touch_x) > 180 && id(current_page) < ${tilts.length - 1};'
+                then:
+                  - lambda: |-
+                      id(current_page) += 1;`
+
+    for (let i = 0; i < tilts.length; i++) {
+        tiltSenseGeneratedFirmware += ` 
+                  - if:
+                      condition:
+                        lambda: 'return id(current_page) == ${i};'
+                      then:
+                        - lvgl.page.show:
+                            id: display_${tilts[i].color.colorKey}
+                            animation: MOVE_LEFT
+                            time: 200ms`;
+    }
+
+    tiltSenseGeneratedFirmware += `
+
+lvgl:
+  id: lvgl_id
+  displays:
+    - lcd_display
+  touchscreens:
+    - tiltsense_touchscreen
+  pages:`;
+
+    tilts.forEach((tilt: Tilt) => {
+        tiltSenseGeneratedFirmware += `
+        - id: display_${tilt.color.colorKey}
+          widgets:
+            - arc:
+                id: border_circle_${tilt.color.colorKey}
+                align: CENTER
+                arc_color: !lambda |-
+                              if (id(enable_tilt_${tilt.color.colorKey})) {
+                                return lv_color_hex(${tilt.color.hexColor.replace("#", "0x")});
+                              } else {
+                                return lv_color_hex(0x808080);
+                              }
+                arc_rounded: true
+                arc_width: 20
+                width: 220
+                height: 220
+            - label:
+                id: ble_gravity_label_${tilt.color.colorKey}
+                align: CENTER
+                text: " "
+                text_font: montserrat_48
+                y: -35
+            - label:
+                id: ble_temp_label_${tilt.color.colorKey}
+                align: CENTER
+                text: " "
+                text_font: montserrat_26
+                y: 10
+            - label:
+                id: pressure_label_${tilt.color.colorKey}
+                align: CENTER
+                text: " "
+                text_font: montserrat_20
+                text_color: 0x707070
+                y: 60
+            - label:
+                align: CENTER
+                text: "Tilt ${tilt.color.name}"
+                text_font: montserrat_16
+                y: 90`;
+    });
 
     return tiltSenseGeneratedFirmware;
 }

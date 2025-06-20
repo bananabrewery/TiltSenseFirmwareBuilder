@@ -43,6 +43,11 @@ function App() {
         apiKey: '',
     });
 
+    const [DIYCloudConfig, setDIYCloudConfig] = useState({
+        enabled: false,
+        apiKey: '',
+    });
+
     const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
     const [generatedYAML, setGeneratedYAML] = useState('');
 
@@ -82,6 +87,21 @@ function App() {
         }));
     };
 
+    const handleDIYCloudToggle = () => {
+        setDIYCloudConfig((prev) => ({
+            ...prev,
+            enabled: !prev.enabled,
+            apiKey: !prev.enabled ? prev.apiKey : '', // clear API key when disabling
+        }));
+    };
+
+    const handleDIYCloudKeyChange = (value: string) => {
+        setDIYCloudConfig((prev) => ({
+            ...prev,
+            apiKey: value,
+        }));
+    };
+
     const handleGenerateYAML = () => {
         const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
         if (enabledTilts.length === 0) {
@@ -96,6 +116,7 @@ function App() {
         }
         const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, {
             brewfather: brewfatherConfig,
+            DIYCloud: DIYCloudConfig,
             ha: homeAssistantEnabled
         });
         setGeneratedYAML(tiltSenseGeneratedFirmware);
@@ -182,6 +203,7 @@ function App() {
                         />
                         {brewfatherConfig.enabled && (
                             <TextInput
+                                style={{maxWidth: '350px'}}
                                 label={
                                     <Group gap={4}>
                                         <span>Brewfather Key</span>
@@ -201,6 +223,41 @@ function App() {
                                 placeholder="Enter your Brewfather API Key"
                                 value={brewfatherConfig.apiKey}
                                 onChange={(event) => handleBrewfatherKeyChange(event.currentTarget.value)}
+                                mt="sm"
+                            />
+                        )}
+                    </Box>
+                    <Box mt="xl">
+                        <Text>Are you going to use TiltSense to send Tilt data (temperature and gravity)
+                            to <strong>DIY Cloud</strong>?</Text>
+                        <Checkbox
+                            label="Enable DIY Cloud Integration"
+                            checked={DIYCloudConfig.enabled}
+                            onChange={handleDIYCloudToggle}
+                            mt="sm"
+                        />
+                        {DIYCloudConfig.enabled && (
+                            <TextInput
+                                style={{maxWidth: '350px'}}
+                                label={
+                                    <Group gap={4}>
+                                        <span>DIYCloud Key</span>
+                                        <Anchor
+                                            href="https://diyhomebrewers.com/2025/04/diyhomebrewers-cloud.html"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            underline="hover"
+                                            size="xs"
+                                            c="dimmed"
+                                        >
+                                            <IconInfoCircle size={16}/>
+                                        </Anchor>
+                                    </Group>
+                                }
+                                labelProps={{style: {marginBottom: '10px'}}}
+                                placeholder="Enter your DIY Cloud API Key"
+                                value={DIYCloudConfig.apiKey}
+                                onChange={(event) => handleDIYCloudKeyChange(event.currentTarget.value)}
                                 mt="sm"
                             />
                         )}
