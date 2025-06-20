@@ -94,7 +94,9 @@ esp32_ble_tracker:
             if (uuid == "${tilt.color.id}" && id(enable_tilt_${tilt.color.colorKey})) {
               float temp_c = ((ibeacon.get_major() / 10.0f) - 32.0f) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor() / 10.0f;
-              ESP_LOGD("tilt", "[${tilt.color.name}] Publishing: Temperature = %.2f °C, Gravity = %.1f", temp_c, gravity);
+              int8_t tx_power = ibeacon.get_tx_power();
+              int rssi = x.get_rssi();
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.1f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
@@ -103,7 +105,9 @@ esp32_ble_tracker:
             if (uuid == "${tilt.color.id}" && id(enable_tilt_${tilt.color.colorKey})) {
               float temp_c = (ibeacon.get_major() - 32) * 5.0f / 9.0f;
               float gravity = ibeacon.get_minor();
-              ESP_LOGD("tilt", "[${tilt.color.name}] Publishing: Temperature = %.2f °C, Gravity = %.0f", temp_c, gravity);
+              int8_t tx_power = ibeacon.get_tx_power();
+              int rssi = x.get_rssi();
+              ESP_LOGD("tilt", "[${tilt.color.name}] Temperature = %.2f °C, Gravity = %.0f, TxPower = %d, RSSI = %d", temp_c, gravity, tx_power, rssi);
               id(tilt_temperature_${tilt.color.colorKey}).publish_state(temp_c);
               id(tilt_gravity_${tilt.color.colorKey}).publish_state(gravity);
             }`;
