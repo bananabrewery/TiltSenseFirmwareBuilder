@@ -18,7 +18,7 @@ esp32:
   flash_size: 16MB
 
 logger:
-  level: DEBUG`;
+  level: INFO`;
 
     tiltSenseGeneratedFirmware += options.ha ? `
 
@@ -291,11 +291,11 @@ interval:
       - if:
           condition:
             lambda: |-
-              return (
-                id(enable_tilt_${tilt.color.colorKey}) &&
-                !isnan(id(tilt_temperature_${tilt.color.colorKey}).state) &&
-                !isnan(id(tilt_gravity_${tilt.color.colorKey}).state)
-              );
+                return (
+                    id(enable_tilt_${tilt.color.colorKey}) &&
+                    !isnan(id(tilt_temperature_${tilt.color.colorKey}).state) &&
+                    !isnan(id(tilt_gravity_${tilt.color.colorKey}).state)
+                );
           then:
             - http_request.post:
                 url: !lambda |-
@@ -304,25 +304,22 @@ interval:
                   Content-Type: application/json
                 body: !lambda |-
                           char buffer[256];
-
-                          float gravity = id(tilt_gravity_${tilt.color.colorKey}).state;
-                          if (std::isnan(gravity)) gravity = 0.0;
-                          gravity /= 1000.0;
-
+                          float gravity = id(tilt_gravity_${tilt.color.colorKey}).state / 1000.0;
                           float temp = id(tilt_temperature_${tilt.color.colorKey}).state;
-                          if (std::isnan(temp)) temp = 0.0;
 
                           snprintf(buffer, sizeof(buffer),
                             "{"
                               "\\"device_source\\": \\"%s\\","
                               "\\"name\\": \\"%s\\","
+                              "\\"report_source\\": \\"%s\\","
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
                               "\\"temp\\": %.1f,"
                               "\\"temp_unit\\": \\"%s\\""
                             "}",
-                            "${friendlyName}", 
+                            "Tilt", 
                             "Tilt ${tilt.color.name}", 
+                            "${friendlyName}",
                             gravity,
                             "G",
                             temp, 
