@@ -1,6 +1,6 @@
 import type {Tilt} from "../../models/tilt.ts";
 
-export function generateScriptsBlock(tilts: Tilt[]): string {
+export function generateScriptsBlock(tilts: Tilt[], config: any): string {
     let scriptsBlock = `script:
   - id: handle_touch
     mode: restart
@@ -18,7 +18,7 @@ export function generateScriptsBlock(tilts: Tilt[]): string {
           else:
             - if:
                 condition:
-                  lambda: 'return id(last_touch_y) > 220;'
+                  lambda: 'return id(last_touch_y) > ${config.bottomScreenThreshold};'
                 then:
                   - lambda: |-`;
 
@@ -46,7 +46,7 @@ export function generateScriptsBlock(tilts: Tilt[]): string {
     scriptsBlock += `
             - if:
                 condition:
-                  lambda: 'return id(last_touch_x) < 60 && id(current_page) > 0;'
+                  lambda: 'return id(last_touch_x) < ${config.swipeLeftThreshold} && id(current_page) > 0;'
                 then:
                   - lambda: |-
                       id(current_page) -= 1;`
@@ -60,13 +60,13 @@ export function generateScriptsBlock(tilts: Tilt[]): string {
                         - lvgl.page.show: 
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_RIGHT
-                            time: 200ms`;
+                            time: ${config.animationTime}`;
     }
 
     scriptsBlock += `
             - if:
                 condition:
-                  lambda: 'return id(last_touch_x) > 180 && id(current_page) < ${tilts.length - 1};'
+                  lambda: 'return id(last_touch_x) > ${config.swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'
                 then:
                   - lambda: |-
                       id(current_page) += 1;`
@@ -80,7 +80,7 @@ export function generateScriptsBlock(tilts: Tilt[]): string {
                         - lvgl.page.show:
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_LEFT
-                            time: 200ms`;
+                            time: ${config.animationTime}`;
     }
 
     scriptsBlock += `

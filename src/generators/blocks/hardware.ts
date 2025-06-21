@@ -1,12 +1,7 @@
 export function generateHardwareBlock(config: any): string {
-    //TODO: Review the official touch screen controller: https://esphome.io/components/touchscreen/cst816.html
-
     let hardwareBlock = `psram:
   mode: quad
   speed: 80MHz
-
-external_components:
-  - source: github://GadgetFactory/CST816S_touchscreen@1.0.0
 
 spi:
   clk_pin: GPIO10

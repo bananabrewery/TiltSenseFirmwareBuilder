@@ -13,7 +13,12 @@ import {generateLVGLBlock} from "./blocks/lvgl.ts";
 const config = {
     isBeta: true,
     name: "tiltsensebeta",
-    friendlyName: "TiltSenseBeta"
+    friendlyName: "TiltSenseBeta",
+    screenTimeout: 120000,
+    bottomScreenThreshold: 220,
+    swipeLeftThreshold: 60,
+    swipeRightThreshold: 180,
+    animationTime: "200ms"
 }
 
 export function generateFirmwareConfig(tilts: Tilt[], firmwareOptions: FirmwareOptions): string {
@@ -24,7 +29,7 @@ export function generateFirmwareConfig(tilts: Tilt[], firmwareOptions: FirmwareO
     tiltSenseGeneratedFirmware += generateSensorsBlock(config, tilts);
     tiltSenseGeneratedFirmware += generateHardwareBlock(config);
     tiltSenseGeneratedFirmware += generateIntervalsBlock(tilts, firmwareOptions, config);
-    tiltSenseGeneratedFirmware += generateScriptsBlock(tilts);
+    tiltSenseGeneratedFirmware += generateScriptsBlock(tilts, config);
     tiltSenseGeneratedFirmware += generateLVGLBlock(tilts);
     return tiltSenseGeneratedFirmware;
 }

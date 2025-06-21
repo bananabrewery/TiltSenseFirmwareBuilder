@@ -2,7 +2,7 @@ import type {Tilt} from "../../models/tilt.ts";
 import type {FirmwareOptions} from "../../types/firmware.ts";
 
 function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, config: any): string {
-    let brewfatherRequest = `  - http_request.post:
+    return `  - http_request.post:
                 url: https://log.brewfather.net/stream?id=${firmwareOptions.brewfather.apiKey}
                 request_headers: 
                   Content-Type: application/json
@@ -13,13 +13,13 @@ function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, c
 
                           snprintf(buffer, sizeof(buffer),
                             "{"
-                              "\\\\"device_source\\\\": \\\\"%s\\\\","
-                              "\\\\"name\\\\": \\\\"%s\\\\","
-                              "\\\\"report_source\\\\": \\\\"%s\\\\","
-                              "\\\\"gravity\\\\": %.3f,"
-                              "\\\\"gravity_unit\\\\": \\\\"%s\\\\","
-                              "\\\\"temp\\\\": %.1f,"
-                              "\\\\"temp_unit\\\\": \\\\"%s\\\\""
+                              "\\"device_source\\": \\"%s\\","
+                              "\\"name\\": \\"%s\\","
+                              "\\"report_source\\": \\"%s\\","
+                              "\\"gravity\\": %.3f,"
+                              "\\"gravity_unit\\": \\"%s\\","
+                              "\\"temp\\": %.1f,"
+                              "\\"temp_unit\\": \\"%s\\""
                             "}",
                             "Tilt", 
                             "Tilt ${tilt.color.name}", 
@@ -29,8 +29,7 @@ function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, c
                             temp, 
                             "C"
                           );
-                          return std::string(buffer);\``;
-    return brewfatherRequest;
+                          return std::string(buffer);`;
 }
 
 export function generateIntervalsBlock(tilts: Tilt[], firmwareOptions: FirmwareOptions, config: any): string {
@@ -39,7 +38,7 @@ export function generateIntervalsBlock(tilts: Tilt[], firmwareOptions: FirmwareO
     then:
       - lambda: |-
           unsigned long now = millis();
-          if (!id(screen_dimmed) && now - id(last_touch_time) > 120000) {
+          if (!id(screen_dimmed) && now - id(last_touch_time) > ${config.screenTimeout}) {
             id(screen_dimmed) = true;
           }
       - if:
