@@ -6,6 +6,7 @@ import {
     Button,
     Center,
     Checkbox,
+    Container,
     Group,
     List,
     MantineProvider,
@@ -15,7 +16,6 @@ import {
     Title
 } from '@mantine/core';
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
-import {CodeHighlight} from "@mantine/code-highlight";
 import {
     TiltColorId,
     type TiltColorKey,
@@ -26,6 +26,7 @@ import {
 } from './models/tilt.ts';
 import {showNotification} from '@mantine/notifications';
 import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
+import {YamlViewer} from "./components/YamlViewer.tsx";
 
 function App() {
     const [tilts, setTilts] = useState<Tilts>(
@@ -108,16 +109,6 @@ function App() {
         });
         setGeneratedYAML(tiltSenseGeneratedFirmware);
     };
-
-    function downloadYAML(content: string, filename = 'tiltsense.yaml') {
-        const blob = new Blob([content], {type: 'text/yaml'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
 
     return (
         <MantineProvider>
@@ -225,25 +216,17 @@ function App() {
                     </Box>
                 </Stack>
             </Box>
-            <Box w="calc(100vw - 200px)" mx="auto" mt="lg">
+            <Container fluid mt="xl" px="xl">
                 <Group justify="center" mb="md">
                     <Button onClick={handleGenerateYAML}>Generate YAML</Button>
-                    {generatedYAML && (
-                        <Button variant="light" onClick={() => downloadYAML(generatedYAML)}>
-                            Download YAML
-                        </Button>
-                    )}
                 </Group>
 
                 {generatedYAML && (
-                    <CodeHighlight
+                    <YamlViewer
                         code={generatedYAML}
-                        language="yaml"
-                        withCopyButton
-                        radius="sm"
                     />
                 )}
-            </Box>
+            </Container>
         </MantineProvider>
     )
 }
