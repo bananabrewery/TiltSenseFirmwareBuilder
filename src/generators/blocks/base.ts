@@ -33,7 +33,13 @@ http_request:
 ota:
   - platform: esphome
 
-wifi:
+wifi:`;
+    if (firmwareOptions.wifiConfig.SSID.trim() && firmwareOptions.wifiConfig.password.trim()) {
+        baseConfigBlock += `
+  ssid: ${firmwareOptions.wifiConfig.SSID}
+  password: ${firmwareOptions.wifiConfig.password}`
+    }
+    baseConfigBlock += `
   ap:
 
 captive_portal:

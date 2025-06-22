@@ -10,13 +10,16 @@ import {
     Group,
     List,
     MantineProvider,
+    PasswordInput,
     Stack,
     Text,
     TextInput,
-    Title
+    Title,
+    Tooltip
 } from '@mantine/core';
 import {IconInfoCircle, IconRadar, IconTestPipe2Filled} from '@tabler/icons-react';
 import {
+    type Tilt,
     TiltColorId,
     type TiltColorKey,
     TiltColors,
@@ -50,6 +53,11 @@ function App() {
     const [brewfatherConfig, setBrewfatherConfig] = useState({
         enabled: false,
         apiKey: '',
+    });
+
+    const [wifiConfig, setWifiConfig] = useState({
+        SSID: '',
+        password: '',
     });
 
     const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
@@ -92,22 +100,46 @@ function App() {
     };
 
     const handleGenerateYAML = () => {
-        const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
-        if (enabledTilts.length === 0) {
+        if (brewfatherConfig.enabled && (!brewfatherConfig.apiKey || brewfatherConfig.apiKey.trim() === '')) {
             showNotification({
-                title: 'No Tilt selected',
-                message: 'Please select at least one Tilt before generating the YAML.',
+                title: 'Missing Brewfather API Key',
+                message: 'You enabled Brewfather integration but did not provide an API key.',
                 color: 'red',
                 autoClose: 4000,
                 withCloseButton: true,
             });
             return;
         }
+
+        if (brewfatherConfig.enabled && (!wifiConfig.SSID || !wifiConfig.password)) {
+            showNotification({
+                title: 'Missing Wi-Fi configuration',
+                message: 'You enabled Brewfather integration but did not provide Wi-Fi credentials.',
+                color: 'yellow',
+                autoClose: 4000,
+                withCloseButton: true,
+            });
+            return;
+        }
+
+        const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
         const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, {
             brewfather: brewfatherConfig,
-            ha: homeAssistantEnabled
+            ha: homeAssistantEnabled,
+            wifiConfig: wifiConfig
         });
         setGeneratedYAML(tiltSenseGeneratedFirmware);
+    };
+
+    const hasAnyTiltSelected = () => {
+        try {
+            if (!tilts || typeof tilts !== 'object') return false;
+            return Object.values(tilts).some(
+                (tilt: Tilt) => tilt?.enabled === true
+            );
+        } catch {
+            return false;
+        }
     };
 
     return (
@@ -120,18 +152,18 @@ function App() {
                         <Title order={3} mt="md">ESPHome YAML Generator</Title>
                     </div>
                 </Center>
-                <Title order={4} mt="lg" mb="sm">
+                <Title order={4} mt="lg" mb="md">
                     Welcome to the TiltSense dynamic ESPHome YAML generator
                 </Title>
 
-                <Text mb="sm">
+                <Text mb="md">
                     This tool helps you generate a fully customized ESPHome configuration based on your specific setup
                     and preferences.
                 </Text>
 
-                <Text mb="sm">With TiltSense, you can easily:</Text>
+                <Text mb="md">With TiltSense, you can easily:</Text>
 
-                <List spacing="xs" withPadding>
+                <List spacing="md" withPadding>
                     <List.Item>Select one or multiple Tilt hydrometers</List.Item>
                     <List.Item>Configure each Tilt individually by color</List.Item>
                     <List.Item>Specify whether each device is a Tilt Pro</List.Item>
@@ -140,11 +172,11 @@ function App() {
                     <List.Item>Add configuration for a <strong>pressure sensor</strong> if available</List.Item>
                 </List>
 
-                <Text mt="sm">
+                <Text mt="md">
                     All selected options will be used to generate a tailored YAML file that you can copy or download for
                     your ESPHome device configuration.
                 </Text>
-                <Title order={4} mt="xl" mb="sm">
+                <Title order={4} mt="xl" mb="md">
                     Let's start
                 </Title>
                 <Stack>
@@ -171,13 +203,39 @@ function App() {
                         );
                     })}
                     <Box mt="xl">
+                        <Text>Please add the following <strong>Wi-Fi configuration</strong>.</Text>
+                        <Text mt="xs" c="dimmed">If you plan to use your TiltSense without connectivity, you can skip
+                            these fields.</Text>
+                        <TextInput
+                            style={{maxWidth: '350px'}}
+                            mt="md"
+                            label="Wi-Fi SSID"
+                            placeholder="Enter network name"
+                            value={wifiConfig.SSID}
+                            onChange={(event) =>
+                                setWifiConfig({...wifiConfig, SSID: event.currentTarget.value})
+                            }
+                        />
+
+                        <PasswordInput
+                            style={{maxWidth: '350px'}}
+                            label="Wi-Fi Password"
+                            placeholder="Enter password"
+                            mt="md"
+                            value={wifiConfig.password}
+                            onChange={(event) =>
+                                setWifiConfig({...wifiConfig, password: event.currentTarget.value})
+                            }
+                        />
+                    </Box>
+                    <Box mt="xl">
                         <Text>Are you going to use TiltSense to send Tilt data (temperature and gravity)
                             to <strong>Brewfather</strong>?</Text>
                         <Checkbox
                             label="Enable Brewfather Integration"
                             checked={brewfatherConfig.enabled}
                             onChange={handleBrewfatherToggle}
-                            mt="sm"
+                            mt="md"
                         />
                         {brewfatherConfig.enabled && (
                             <TextInput
@@ -201,7 +259,7 @@ function App() {
                                 placeholder="Enter your Brewfather API Key"
                                 value={brewfatherConfig.apiKey}
                                 onChange={(event) => handleBrewfatherKeyChange(event.currentTarget.value)}
-                                mt="sm"
+                                mt="md"
                             />
                         )}
                     </Box>
@@ -211,14 +269,22 @@ function App() {
                             label="Enable Home Assistant Integration"
                             checked={homeAssistantEnabled}
                             onChange={(event) => setHomeAssistantEnabled(event.currentTarget.checked)}
-                            mt="sm"
+                            mt="md"
                         />
                     </Box>
                 </Stack>
             </Box>
             <Container fluid mt="xl" px="xl">
                 <Group justify="center" mb="md">
-                    <Button onClick={handleGenerateYAML}>Generate YAML</Button>
+                    <Tooltip
+                        label="You must select at least one tilt"
+                        disabled={hasAnyTiltSelected()}>
+                        <Button
+                            onClick={handleGenerateYAML}
+                            disabled={!hasAnyTiltSelected()}>
+                            Generate YAML
+                        </Button>
+                    </Tooltip>
                 </Group>
 
                 {generatedYAML && (
