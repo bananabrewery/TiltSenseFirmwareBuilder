@@ -1,4 +1,6 @@
-export function generateHardwareBlock(config: any): string {
+import type { FirmwareConfig } from '@/types/firmware.ts';
+
+export function generateHardwareBlock(config: FirmwareConfig): string {
   const hardwareBlock = `psram:
   mode: quad
   speed: 80MHz
@@ -52,7 +54,7 @@ touchscreen:
           id(last_touch_x) = x;
           id(last_touch_y) = y;
           id(handle_touch).execute();
-  
+
 `;
 
   return hardwareBlock;

@@ -1,6 +1,7 @@
 import type { Tilt } from '@/models/tilt.ts';
+import type { FirmwareConfig } from '@/types/firmware.ts';
 
-export function generateScriptsBlock(tilts: Tilt[], config: any): string {
+export function generateScriptsBlock(tilts: Tilt[], config: FirmwareConfig): string {
   let scriptsBlock = `script:
   - id: handle_touch
     mode: restart
@@ -57,7 +58,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                       condition:
                         lambda: 'return id(current_page) == ${i};'
                       then:
-                        - lvgl.page.show: 
+                        - lvgl.page.show:
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_RIGHT
                             time: ${config.animationTime}`;
@@ -72,7 +73,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                       id(current_page) += 1;`;
 
   for (let i = 0; i < tilts.length; i++) {
-    scriptsBlock += ` 
+    scriptsBlock += `
                   - if:
                       condition:
                         lambda: 'return id(current_page) == ${i};'
@@ -84,7 +85,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
   }
 
   scriptsBlock += `
-  
+
 `;
 
   return scriptsBlock;

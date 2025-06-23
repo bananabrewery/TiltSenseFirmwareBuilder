@@ -1,14 +1,14 @@
 import type { Tilt } from '@/models/tilt.ts';
-import type { FirmwareOptions } from '@/types/firmware.ts';
+import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware.ts';
 
 function createBrewfatherRequest(
   firmwareOptions: FirmwareOptions,
   tilt: Tilt,
-  config: any
+  config: FirmwareConfig
 ): string {
   return `  - http_request.post:
                 url: https://log.brewfather.net/stream?id=${firmwareOptions.brewfather.apiKey}
-                request_headers: 
+                request_headers:
                   Content-Type: application/json
                 body: !lambda |-
                           char buffer[256];
@@ -25,12 +25,12 @@ function createBrewfatherRequest(
                               "\\"temp\\": %.1f,"
                               "\\"temp_unit\\": \\"%s\\""
                             "}",
-                            "Tilt", 
-                            "Tilt ${tilt.color.name}", 
+                            "Tilt",
+                            "Tilt ${tilt.color.name}",
                             "${config.friendlyName}",
                             gravity,
                             "G",
-                            temp, 
+                            temp,
                             "C"
                           );
                           return std::string(buffer);`;
@@ -39,7 +39,7 @@ function createBrewfatherRequest(
 export function generateIntervalsBlock(
   tilts: Tilt[],
   firmwareOptions: FirmwareOptions,
-  config: any
+  config: FirmwareConfig
 ): string {
   let intervalsBlock = `interval:
   - interval: 5s
@@ -58,7 +58,7 @@ export function generateIntervalsBlock(
 
   if (firmwareOptions.brewfather.enabled) {
     tilts.forEach((tilt: Tilt) => {
-      intervalsBlock += `  
+      intervalsBlock += `
   - interval: 15min
     then:
       - if:
@@ -76,7 +76,7 @@ export function generateIntervalsBlock(
   }
 
   intervalsBlock += `
-  
+
 `;
 
   return intervalsBlock;

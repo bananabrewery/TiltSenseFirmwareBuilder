@@ -1,6 +1,9 @@
-import type { FirmwareOptions } from '@/types/firmware.ts';
+import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware.ts';
 
-export function generateBaseConfigBlock(config: any, firmwareOptions: FirmwareOptions): string {
+export function generateBaseConfigBlock(
+  config: FirmwareConfig,
+  firmwareOptions: FirmwareOptions
+): string {
   let baseConfigBlock = `esphome:
   name: "${config.name}"
   friendly_name: "${config.friendlyName}"
@@ -24,14 +27,14 @@ logger:`;
   baseConfigBlock += firmwareOptions.ha
     ? `
 
-api: 
+api:
 `
     : `
 `;
   baseConfigBlock += firmwareOptions.brewfather.enabled
     ? `
 http_request:
-  verify_ssl: False 
+  verify_ssl: False
 `
     : ``;
 
@@ -52,7 +55,7 @@ captive_portal:
 
 web_server:
   port: 80
-  
+
 `;
 
   return baseConfigBlock;

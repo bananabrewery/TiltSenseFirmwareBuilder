@@ -1,3 +1,14 @@
+export interface FirmwareConfig {
+  isBeta: boolean;
+  name: string;
+  friendlyName: string;
+  screenTimeout: number;
+  bottomScreenThreshold: number;
+  swipeLeftThreshold: number;
+  swipeRightThreshold: number;
+  animationTime: string;
+}
+
 export interface BrewfatherOptions {
   enabled: boolean;
   apiKey: string;

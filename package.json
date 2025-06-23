@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md,scss,html,yaml,yml}\" \"public/**/*.{json,css,html}\" \"*.{json,md,yaml,yml}\"",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md,scss,html,yaml,yml}\" \"*.{json,md,yaml,yml}\"",
     "prepare": "husky"
   },
   "dependencies": {

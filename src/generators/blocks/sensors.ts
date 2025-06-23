@@ -1,10 +1,11 @@
 import type { Tilt } from '@/models/tilt.ts';
+import type { FirmwareConfig } from '@/types/firmware.ts';
 
-export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
+export function generateSensorsBlock(config: FirmwareConfig, tilts: Tilt[]): string {
   let sensorsBlock = `sensor:
 `;
   sensorsBlock += `  - platform: internal_temperature
-    name: "${config.friendlyName} Internal Temperature"  
+    name: "${config.friendlyName} Internal Temperature"
   - platform: adc
     pin: GPIO01
     name: "${config.friendlyName} Battery Voltage"
@@ -54,7 +55,7 @@ export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
             text: !lambda |-
                     char buffer[8];
                     snprintf(buffer, sizeof(buffer), "%.3f", id(tilt_gravity_${tilt.color.colorKey}).state / 1000.0);
-                    return std::string(buffer);                    
+                    return std::string(buffer);
   - platform: template
     name: "Tilt ${tilt.color.name} Temperature"
     id: tilt_temperature_${tilt.color.colorKey}
@@ -73,7 +74,7 @@ export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
   });
 
   sensorsBlock += `
-  
+
 `;
 
   return sensorsBlock;

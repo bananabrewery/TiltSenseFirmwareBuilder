@@ -1,7 +1,6 @@
 {
   "arrowParens": "always",
   "bracketSpacing": true,
-  "embeddedLanguageFormatting": "auto",
   "endOfLine": "lf",
   "jsxSingleQuote": false,
   "printWidth": 100,
