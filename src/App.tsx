@@ -31,6 +31,7 @@ import {
 import {showNotification} from '@mantine/notifications';
 import {generateFirmwareConfig} from "@/generators/generateFirmware.ts";
 import {YamlViewer} from "@/components/YamlViewer.tsx";
+import AppFooter from "@/components/Footer.tsx";
 
 function App() {
     const {t} = useTranslation();
@@ -144,14 +145,10 @@ function App() {
         }
     };
 
-    const validPassword = () => {
-        return wifiConfig.password.length > 8;
-    }
-
     const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false);
 
     useEffect(() => {
-        const shouldShow = !validPassword() && wifiConfig.password.length > 0;
+        const shouldShow = wifiConfig.password.length < 8 && wifiConfig.password.length > 0;
 
         const timeout = setTimeout(() => {
             setShowWifiPasswordTooltip(shouldShow);
@@ -336,6 +333,7 @@ function App() {
                     />
                 )}
             </Container>
+            <AppFooter/>
         </MantineProvider>
     )
 }

@@ -85,6 +85,10 @@ const en = {
                     message: "You enabled Brewfather integration but did not provide an API key."
                 }
             }
+        },
+        footer: {
+            version: "Version ",
+            powered: "Powered by Banana Brewery 🍌"
         }
     }
 };
