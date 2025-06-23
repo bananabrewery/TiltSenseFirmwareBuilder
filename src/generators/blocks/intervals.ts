@@ -1,5 +1,5 @@
-import type {Tilt} from "../../models/tilt.ts";
-import type {FirmwareOptions} from "../../types/firmware.ts";
+import type {Tilt} from "@/models/tilt.ts";
+import type {FirmwareOptions} from "@/types/firmware.ts";
 
 function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, config: any): string {
     return `  - http_request.post:

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Trans, useTranslation} from 'react-i18next';
 import '@mantine/core/styles.css';
 import {
@@ -27,10 +27,10 @@ import {
     TiltColorsDisplay,
     TiltColorsHex,
     type Tilts
-} from './models/tilt.ts';
+} from '@/models/tilt.ts';
 import {showNotification} from '@mantine/notifications';
-import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
-import {YamlViewer} from "./components/YamlViewer.tsx";
+import {generateFirmwareConfig} from "@/generators/generateFirmware.ts";
+import {YamlViewer} from "@/components/YamlViewer.tsx";
 
 function App() {
     const {t} = useTranslation();
@@ -144,6 +144,22 @@ function App() {
         }
     };
 
+    const validPassword = () => {
+        return wifiConfig.password.length > 8;
+    }
+
+    const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false);
+
+    useEffect(() => {
+        const shouldShow = !validPassword() && wifiConfig.password.length > 0;
+
+        const timeout = setTimeout(() => {
+            setShowWifiPasswordTooltip(shouldShow);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [wifiConfig.password]);
+
     return (
         <MantineProvider>
             <Box style={{padding: 32}}>
@@ -195,9 +211,11 @@ function App() {
                 <Title order={4} mt="xl" mb="md">
                     Let's start
                 </Title>
+
                 <Stack>
-                    <Text>Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether
-                        they are the Pro version.</Text>
+                    <Text>
+                        <Trans i18nKey="configuration.tilt.init" components={{strong: <strong/>}}/>
+                    </Text>
                     {TiltColors.map((color) => {
                         const key = color.toLowerCase() as TiltColorKey;
                         return (
@@ -219,36 +237,44 @@ function App() {
                         );
                     })}
                     <Box mt="xl">
-                        <Text>Please add the following <strong>Wi-Fi configuration</strong>.</Text>
-                        <Text mt="xs" c="dimmed">If you plan to use your TiltSense without connectivity, you can skip
-                            these fields.</Text>
+                        <Text>
+                            <Trans i18nKey="configuration.wifi.init" components={{strong: <strong/>}}/>
+                        </Text>
+                        <Text mt="xs" c="dimmed">
+                            {t('configuration.wifi.subinit')}
+                        </Text>
                         <TextInput
                             style={{maxWidth: '350px'}}
                             mt="md"
-                            label="Wi-Fi SSID"
-                            placeholder="Enter network name"
+                            label={t('configuration.wifi.fields.SSID.label')}
+                            placeholder={t('configuration.wifi.fields.SSID.placeholder')}
                             value={wifiConfig.SSID}
                             onChange={(event) =>
                                 setWifiConfig({...wifiConfig, SSID: event.currentTarget.value})
                             }
                         />
-
-                        <PasswordInput
-                            style={{maxWidth: '350px'}}
-                            label="Wi-Fi Password"
-                            placeholder="Enter password"
-                            mt="md"
-                            value={wifiConfig.password}
-                            onChange={(event) =>
-                                setWifiConfig({...wifiConfig, password: event.currentTarget.value})
-                            }
-                        />
+                        <Tooltip
+                            label={t('configuration.wifi.fields.password.validationMessage')}
+                            opened={showWifiPasswordTooltip}
+                            color="red">
+                            <PasswordInput
+                                style={{maxWidth: '350px'}}
+                                label={t('configuration.wifi.fields.password.label')}
+                                placeholder={t('configuration.wifi.fields.password.placeholder')}
+                                mt="md"
+                                value={wifiConfig.password}
+                                onChange={(event) =>
+                                    setWifiConfig({...wifiConfig, password: event.currentTarget.value})
+                                }
+                            />
+                        </Tooltip>
                     </Box>
                     <Box mt="xl">
-                        <Text>Are you going to use TiltSense to send Tilt data (temperature and gravity)
-                            to <strong>Brewfather</strong>?</Text>
+                        <Text>
+                            <Trans i18nKey="configuration.brewfather.init" components={{strong: <strong/>}}/>
+                        </Text>
                         <Checkbox
-                            label="Enable Brewfather Integration"
+                            label={t('configuration.brewfather.fields.enable.label')}
                             checked={brewfatherConfig.enabled}
                             onChange={handleBrewfatherToggle}
                             mt="md"
@@ -258,12 +284,11 @@ function App() {
                                 style={{maxWidth: '350px'}}
                                 label={
                                     <Group gap={4}>
-                                        <span>Brewfather Key</span>
+                                        <Trans i18nKey="configuration.brewfather.fields.key.label"
+                                               components={{span: <span/>}}/>
                                         <Anchor
                                             href="https://docs.brewfather.app/integrations/custom-stream"
                                             target="_blank"
-                                            rel="noopener noreferrer"
-                                            underline="hover"
                                             size="xs"
                                             c="dimmed"
                                         >
@@ -272,7 +297,7 @@ function App() {
                                     </Group>
                                 }
                                 labelProps={{style: {marginBottom: '10px'}}}
-                                placeholder="Enter your Brewfather API Key"
+                                placeholder={t('configuration.brewfather.fields.key.placeholder')}
                                 value={brewfatherConfig.apiKey}
                                 onChange={(event) => handleBrewfatherKeyChange(event.currentTarget.value)}
                                 mt="md"
@@ -280,9 +305,11 @@ function App() {
                         )}
                     </Box>
                     <Box mt="xl">
-                        <Text>Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?</Text>
+                        <Text>
+                            <Trans i18nKey="configuration.ha.init" components={{strong: <strong/>}}/>
+                        </Text>
                         <Checkbox
-                            label="Enable Home Assistant Integration"
+                            label={t('configuration.ha.fields.enable.label')}
                             checked={homeAssistantEnabled}
                             onChange={(event) => setHomeAssistantEnabled(event.currentTarget.checked)}
                             mt="md"
@@ -293,12 +320,12 @@ function App() {
             <Container fluid mt="xl" px="xl">
                 <Group justify="center" mb="md">
                     <Tooltip
-                        label="You must select at least one tilt"
+                        label={t('validation.oneTilt')}
                         disabled={hasAnyTiltSelected()}>
                         <Button
                             onClick={handleGenerateYAML}
                             disabled={!hasAnyTiltSelected()}>
-                            Generate YAML
+                            {t('button.generateYaml.title')}
                         </Button>
                     </Tooltip>
                 </Group>

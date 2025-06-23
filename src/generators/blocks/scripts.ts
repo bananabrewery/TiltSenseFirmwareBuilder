@@ -1,4 +1,4 @@
-import type {Tilt} from "../../models/tilt.ts";
+import type {Tilt} from "@/models/tilt.ts";
 
 export function generateScriptsBlock(tilts: Tilt[], config: any): string {
     let scriptsBlock = `script:

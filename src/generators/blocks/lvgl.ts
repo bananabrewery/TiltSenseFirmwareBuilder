@@ -1,4 +1,4 @@
-import type {Tilt} from "../../models/tilt.ts";
+import type {Tilt} from "@/models/tilt.ts";
 
 export function generateLVGLBlock(tilts: Tilt[]): string {
     let lvglBlock = `lvgl:

@@ -1,4 +1,4 @@
-import type {Tilt} from "../../models/tilt.ts";
+import type {Tilt} from "@/models/tilt.ts";
 
 export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
     let sensorsBlock = `sensor:

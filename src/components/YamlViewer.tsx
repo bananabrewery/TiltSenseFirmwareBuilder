@@ -3,6 +3,7 @@ import {Button, Group} from '@mantine/core';
 import {IconCheck, IconCopy, IconDownload} from '@tabler/icons-react';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {darcula} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {useTranslation} from "react-i18next";
 
 interface YamlViewerProps {
     code: string;
@@ -10,11 +11,13 @@ interface YamlViewerProps {
     maxHeight?: number;
 }
 
-export const YamlViewer: React.FC<YamlViewerProps> = ({
-                                                          code,
-                                                          filename = 'tiltsense.yaml',
-                                                          maxHeight = 600
-                                                      }) => {
+export const YamlViewer: React.FC<YamlViewerProps> = (
+    {
+        code,
+        filename = 'tiltsense.yaml',
+        maxHeight = 600
+    }) => {
+    const {t} = useTranslation();
     const [copied, setCopied] = React.useState(false);
 
     const handleCopy = async () => {
@@ -42,7 +45,7 @@ export const YamlViewer: React.FC<YamlViewerProps> = ({
                     size="xs"
                     leftSection={copied ? <IconCheck size={14}/> : <IconCopy size={14}/>}
                 >
-                    {copied ? 'Copied' : 'Copy'}
+                    {copied ? t('button.copy.shiftedTitle') : t('button.copy.title')}
                 </Button>
                 <Button
                     onClick={handleDownload}
@@ -50,7 +53,7 @@ export const YamlViewer: React.FC<YamlViewerProps> = ({
                     size="xs"
                     leftSection={<IconDownload size={14}/>}
                 >
-                    Download
+                    {t('button.download.title')}
                 </Button>
             </Group>
             <SyntaxHighlighter

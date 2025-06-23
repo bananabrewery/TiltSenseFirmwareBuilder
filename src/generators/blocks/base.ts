@@ -1,4 +1,4 @@
-import type {FirmwareOptions} from "../../types/firmware.ts";
+import type {FirmwareOptions} from "@/types/firmware.ts";
 
 export function generateBaseConfigBlock(config: any, firmwareOptions: FirmwareOptions): string {
     let baseConfigBlock = `esphome:

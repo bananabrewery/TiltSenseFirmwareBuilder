@@ -1,5 +1,5 @@
 export function generateHardwareBlock(config: any): string {
-    let hardwareBlock = `psram:
+    const hardwareBlock = `psram:
   mode: quad
   speed: 80MHz
 

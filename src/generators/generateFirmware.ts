@@ -1,14 +1,14 @@
-import {type Tilt} from '../models/tilt.ts';
-import {type FirmwareOptions} from '../types/firmware.ts';
-import {generateBaseConfigBlock} from './blocks/base.ts';
-import {generateGlobalsBlock} from "./blocks/globals.ts";
-import {generateBLEBlock} from "./blocks/ble.ts";
-import {generateSwitchesBlock} from "./blocks/switches.ts";
-import {generateSensorsBlock} from "./blocks/sensors.ts";
-import {generateHardwareBlock} from "./blocks/hardware.ts";
-import {generateIntervalsBlock} from "./blocks/intervals.ts";
-import {generateScriptsBlock} from "./blocks/scripts.ts";
-import {generateLVGLBlock} from "./blocks/lvgl.ts";
+import {type Tilt} from '@/models/tilt.ts';
+import {type FirmwareOptions} from '@/types/firmware.ts';
+import {generateBaseConfigBlock} from '@/generators/blocks/base.ts';
+import {generateGlobalsBlock} from "@/generators/blocks/globals.ts";
+import {generateBLEBlock} from "@/generators/blocks/ble.ts";
+import {generateSwitchesBlock} from "@/generators/blocks/switches.ts";
+import {generateSensorsBlock} from "@/generators/blocks/sensors.ts";
+import {generateHardwareBlock} from "@/generators/blocks/hardware.ts";
+import {generateIntervalsBlock} from "@/generators/blocks/intervals.ts";
+import {generateScriptsBlock} from "@/generators/blocks/scripts.ts";
+import {generateLVGLBlock} from "@/generators/blocks/lvgl.ts";
 
 const config = {
     isBeta: true,

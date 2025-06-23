@@ -1,4 +1,4 @@
-import type {Tilt} from "../../models/tilt.ts";
+import type {Tilt} from "@/models/tilt.ts";
 
 export function generateBLEBlock(tilts: Tilt[]): string {
     let BLEBlock = `esp32_ble_tracker:

@@ -16,6 +16,62 @@ const en = {
                 end: "All selected options will be used to generate a tailored YAML file that you can copy or download for your ESPHome device configuration."
             }
         },
+        configuration: {
+            tilt:
+                {
+                    init: "Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version."
+                },
+            wifi: {
+                init: "Please add the following <strong>Wi-Fi configuration</strong>.",
+                subinit: "If you plan to use your TiltSense without connectivity, you can skip these fields.",
+                fields: {
+                    SSID: {
+                        label: "Wi-Fi SSID",
+                        placeholder: "Enter network name"
+                    },
+                    password: {
+                        label: "Wi-Fi Password",
+                        placeholder: "Enter password",
+                        validationMessage: "Password must be at least 8 characters"
+                    }
+                }
+            },
+            brewfather: {
+                init: "Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?",
+                fields: {
+                    enable: {
+                        label: "Enable Brewfather Integration"
+                    },
+                    key: {
+                        label: "<span>Brewfather Key</span>",
+                        placeholder: "Enter your Brewfather API Key"
+                    }
+                }
+            },
+            ha: {
+                init: "Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?",
+                fields: {
+                    enable: {
+                        label: "Enable Home Assistant Integration"
+                    }
+                }
+            }
+        },
+        validation: {
+            oneTilt: "You must select at least one tilt"
+        },
+        button: {
+            generateYaml: {
+                title: "Generate TiltSense YAML",
+            },
+            copy: {
+                title: "Copy",
+                shiftedTitle: "Copied"
+            },
+            download: {
+                title: "Download",
+            }
+        },
         notifications: {
             warning: {
                 brewfather: {
