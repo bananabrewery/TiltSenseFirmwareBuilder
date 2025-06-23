@@ -64,6 +64,7 @@ export type Tilt = {
   enabled: boolean;
   color: TiltColor;
   isPro: boolean;
+  haPressureSensor?: string;
 };
 
 export type Tilts = {

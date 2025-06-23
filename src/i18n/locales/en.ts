@@ -31,6 +31,14 @@ const en = {
     configuration: {
       tilt: {
         init: 'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
+        fields: {
+          tilt: {
+            pro: 'Pro',
+          },
+          pressureSensor: {
+            placeholder: 'Pressure Sensor Entity in Home Assistant',
+          },
+        },
       },
       wifi: {
         init: 'Please add the following <strong>Wi-Fi configuration</strong>.',
@@ -65,6 +73,14 @@ const en = {
         fields: {
           enable: {
             label: 'Enable Home Assistant Integration',
+          },
+        },
+      },
+      pressureSensor: {
+        init: 'Enable <strong>pressure sensors</strong>?',
+        fields: {
+          enable: {
+            label: 'I have pressure sensors in Home Assistant',
           },
         },
       },

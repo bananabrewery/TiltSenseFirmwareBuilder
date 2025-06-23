@@ -42,6 +42,7 @@ function App() {
       acc[colorKey] = {
         enabled: false,
         isPro: false,
+        haPressureSensor: '',
         color: {
           name: name,
           colorKey: colorKey,
@@ -65,6 +66,8 @@ function App() {
   });
 
   const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
+  const [pressureSensorsEnabled, setPressureSensorsEnabled] = useState(false);
+
   const [generatedYAML, setGeneratedYAML] = useState('');
 
   const toggleTilt = (color: string) => {
@@ -84,6 +87,16 @@ function App() {
       [color]: {
         ...prev[color],
         isPro: !prev[color].isPro,
+      },
+    }));
+  };
+
+  const manageTiltPressureSensor = (color: string, value: string) => {
+    setTilts((prev) => ({
+      ...prev,
+      [color]: {
+        ...prev[color],
+        haPressureSensor: value,
       },
     }));
   };
@@ -133,6 +146,7 @@ function App() {
       brewfather: brewfatherConfig,
       ha: homeAssistantEnabled,
       wifiConfig: wifiConfig,
+      enablePressureSensors: pressureSensorsEnabled,
     });
     setGeneratedYAML(tiltSenseGeneratedFirmware);
   };
@@ -222,9 +236,17 @@ function App() {
                 />
                 {tilts[key].enabled && (
                   <Checkbox
-                    label="Pro"
+                    label={t('configuration.tilt.fields.tilt.pro')}
                     checked={tilts[key].isPro}
                     onChange={() => togglePro(key)}
+                  />
+                )}
+                {tilts[key].enabled && homeAssistantEnabled && pressureSensorsEnabled && (
+                  <TextInput
+                    ml="xl"
+                    placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
+                    value={tilts[key].haPressureSensor}
+                    onChange={(event) => manageTiltPressureSensor(key, event.currentTarget.value)}
                   />
                 )}
               </Group>
@@ -318,6 +340,22 @@ function App() {
               mt="md"
             />
           </Box>
+          {homeAssistantEnabled && (
+            <Box mt="xl">
+              <Text>
+                <Trans
+                  i18nKey="configuration.pressureSensor.init"
+                  components={{ strong: <strong /> }}
+                />
+              </Text>
+              <Checkbox
+                label={t('configuration.pressureSensor.fields.enable.label')}
+                checked={pressureSensorsEnabled}
+                onChange={(event) => setPressureSensorsEnabled(event.currentTarget.checked)}
+                mt="md"
+              />
+            </Box>
+          )}
         </Stack>
       </Box>
       <Container fluid mt="xl" px="xl">
@@ -328,7 +366,6 @@ function App() {
             </Button>
           </Tooltip>
         </Group>
-
         {generatedYAML && <YamlViewer code={generatedYAML} />}
       </Container>
       <AppFooter />

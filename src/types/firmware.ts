@@ -7,6 +7,7 @@ export interface FirmwareConfig {
   swipeLeftThreshold: number;
   swipeRightThreshold: number;
   animationTime: string;
+  pressureUnits: string;
 }
 
 export interface BrewfatherOptions {
@@ -23,4 +24,5 @@ export interface FirmwareOptions {
   brewfather: BrewfatherOptions;
   ha: boolean;
   wifiConfig: WifiConfig;
+  enablePressureSensors: boolean;
 }

@@ -19,6 +19,7 @@ const config = {
   swipeLeftThreshold: 60,
   swipeRightThreshold: 180,
   animationTime: '200ms',
+  pressureUnits: 'PSI',
 };
 
 export function generateFirmwareConfig(tilts: Tilt[], firmwareOptions: FirmwareOptions): string {
@@ -26,7 +27,7 @@ export function generateFirmwareConfig(tilts: Tilt[], firmwareOptions: FirmwareO
   tiltSenseGeneratedFirmware += generateGlobalsBlock(tilts);
   tiltSenseGeneratedFirmware += generateBLEBlock(tilts);
   tiltSenseGeneratedFirmware += generateSwitchesBlock(tilts);
-  tiltSenseGeneratedFirmware += generateSensorsBlock(config, tilts);
+  tiltSenseGeneratedFirmware += generateSensorsBlock(tilts, config, firmwareOptions);
   tiltSenseGeneratedFirmware += generateHardwareBlock(config);
   tiltSenseGeneratedFirmware += generateIntervalsBlock(tilts, firmwareOptions, config);
   tiltSenseGeneratedFirmware += generateScriptsBlock(tilts, config);

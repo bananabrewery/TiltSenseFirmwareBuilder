@@ -1,7 +1,11 @@
 import type { Tilt } from '@/models/tilt.ts';
-import type { FirmwareConfig } from '@/types/firmware.ts';
+import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware.ts';
 
-export function generateSensorsBlock(config: FirmwareConfig, tilts: Tilt[]): string {
+export function generateSensorsBlock(
+  tilts: Tilt[],
+  config: FirmwareConfig,
+  firmwareOptions: FirmwareOptions
+): string {
   let sensorsBlock = `sensor:
 `;
   sensorsBlock += `  - platform: internal_temperature
@@ -71,6 +75,30 @@ export function generateSensorsBlock(config: FirmwareConfig, tilts: Tilt[]): str
                     char buffer[10];
                     snprintf(buffer, sizeof(buffer), "%.1f °C", id(tilt_temperature_${tilt.color.colorKey}).state);
                     return std::string(buffer);`;
+
+    if (
+      firmwareOptions.enablePressureSensors &&
+      tilt.haPressureSensor &&
+      tilt.haPressureSensor.length > 0
+    ) {
+      sensorsBlock += `
+  - platform: homeassistant
+    id: pressure_sensor_${tilt.color.colorKey}
+    entity_id: ${tilt.haPressureSensor}
+    internal: True
+    on_value:
+      then:
+        - lvgl.label.update:
+            id: pressure_label_${tilt.color.colorKey}
+            text: !lambda |-
+              char buffer[10];
+              if (std::isnan(id(pressure_sensor_${tilt.color.colorKey}).state)) {
+                return std::string("");
+              } else {
+                snprintf(buffer, sizeof(buffer), "%.1f ${config.pressureUnits}", id(pressure_sensor_${tilt.color.colorKey}).state);
+                return std::string(buffer);
+              }`;
+    }
   });
 
   sensorsBlock += `

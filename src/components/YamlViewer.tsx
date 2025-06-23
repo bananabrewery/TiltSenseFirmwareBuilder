@@ -14,7 +14,7 @@ interface YamlViewerProps {
 export const YamlViewer: React.FC<YamlViewerProps> = ({
   code,
   filename = 'tiltsense.yaml',
-  maxHeight = 600,
+  maxHeight = 1000,
 }) => {
   const { t } = useTranslation();
   const [copied, setCopied] = React.useState(false);
