@@ -14,8 +14,10 @@
     "@mantine/hooks": "^8.1.0",
     "@mantine/notifications": "^8.1.0",
     "@tabler/icons-react": "^3.34.0",
+    "i18next": "^25.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^15.5.3",
     "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {Trans, useTranslation} from 'react-i18next';
 import '@mantine/core/styles.css';
 import {
     Anchor,
@@ -32,6 +33,8 @@ import {generateFirmwareConfig} from "./generators/generateFirmware.ts";
 import {YamlViewer} from "./components/YamlViewer.tsx";
 
 function App() {
+    const {t} = useTranslation();
+
     const [tilts, setTilts] = useState<Tilts>(
         TiltColors.reduce((acc, name) => {
             const colorKey = name.toLowerCase() as TiltColorKey;
@@ -102,8 +105,8 @@ function App() {
     const handleGenerateYAML = () => {
         if (brewfatherConfig.enabled && (!brewfatherConfig.apiKey || brewfatherConfig.apiKey.trim() === '')) {
             showNotification({
-                title: 'Missing Brewfather API Key',
-                message: 'You enabled Brewfather integration but did not provide an API key.',
+                title: t('notifications.error.brewfather.title'),
+                message: t('notifications.error.brewfather.message'),
                 color: 'red',
                 autoClose: 4000,
                 withCloseButton: true,
@@ -113,13 +116,12 @@ function App() {
 
         if (brewfatherConfig.enabled && (!wifiConfig.SSID || !wifiConfig.password)) {
             showNotification({
-                title: 'Missing Wi-Fi configuration',
-                message: 'You enabled Brewfather integration but did not provide Wi-Fi credentials.',
+                title: t('notifications.warning.brewfather.title'),
+                message: t('notifications.warning.brewfather.message'),
                 color: 'yellow',
                 autoClose: 4000,
                 withCloseButton: true,
             });
-            return;
         }
 
         const enabledTilts = Object.values(tilts).filter(tilt => tilt.enabled);
@@ -148,34 +150,48 @@ function App() {
                 <Center>
                     <div style={{textAlign: 'center'}}>
                         <IconRadar size={64}/>
-                        <Title order={1}>TiltSense</Title>
-                        <Title order={3} mt="md">ESPHome YAML Generator</Title>
+                        <Title order={1}>{t('tiltSense')}</Title>
+                        <Title order={3} mt="md">{t('subTitle')}</Title>
                     </div>
                 </Center>
+
                 <Title order={4} mt="lg" mb="md">
-                    Welcome to the TiltSense dynamic ESPHome YAML generator
+                    {t('welcome')}
                 </Title>
 
                 <Text mb="md">
-                    This tool helps you generate a fully customized ESPHome configuration based on your specific setup
-                    and preferences.
+                    {t('introduction.text')}
                 </Text>
 
-                <Text mb="md">With TiltSense, you can easily:</Text>
+                <Text mb="md">
+                    {t('introduction.capabilities.init')}
+                </Text>
 
                 <List spacing="md" withPadding>
-                    <List.Item>Select one or multiple Tilt hydrometers</List.Item>
-                    <List.Item>Configure each Tilt individually by color</List.Item>
-                    <List.Item>Specify whether each device is a Tilt Pro</List.Item>
-                    <List.Item>Enable integration with <strong>Brewfather</strong> for fermentation tracking</List.Item>
-                    <List.Item>Enable integration with <strong>Home Assistant</strong> for home automation</List.Item>
-                    <List.Item>Add configuration for a <strong>pressure sensor</strong> if available</List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.1" components={{strong: <strong/>}}/>
+                    </List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.2" components={{strong: <strong/>}}/>
+                    </List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.3" components={{strong: <strong/>}}/>
+                    </List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.4" components={{strong: <strong/>}}/>
+                    </List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.5" components={{strong: <strong/>}}/>
+                    </List.Item>
+                    <List.Item>
+                        <Trans i18nKey="introduction.capabilities.6" components={{strong: <strong/>}}/>
+                    </List.Item>
                 </List>
 
                 <Text mt="md">
-                    All selected options will be used to generate a tailored YAML file that you can copy or download for
-                    your ESPHome device configuration.
+                    {t('introduction.capabilities.end')}
                 </Text>
+
                 <Title order={4} mt="xl" mb="md">
                     Let's start
                 </Title>
