@@ -1,5 +1,5 @@
 export function generateHardwareBlock(config: any): string {
-    const hardwareBlock = `psram:
+  const hardwareBlock = `psram:
   mode: quad
   speed: 80MHz
 
@@ -53,7 +53,7 @@ touchscreen:
           id(last_touch_y) = y;
           id(handle_touch).execute();
   
-`;
+`
 
-    return hardwareBlock;
+  return hardwareBlock
 }

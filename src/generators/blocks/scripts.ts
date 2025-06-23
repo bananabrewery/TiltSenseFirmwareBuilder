@@ -1,7 +1,7 @@
-import type {Tilt} from "@/models/tilt.ts";
+import type { Tilt } from '@/models/tilt.ts'
 
 export function generateScriptsBlock(tilts: Tilt[], config: any): string {
-    let scriptsBlock = `script:
+  let scriptsBlock = `script:
   - id: handle_touch
     mode: restart
     then:
@@ -20,30 +20,30 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                 condition:
                   lambda: 'return id(last_touch_y) > ${config.bottomScreenThreshold};'
                 then:
-                  - lambda: |-`;
+                  - lambda: |-`
 
-    tilts.forEach((tilt: Tilt, index: number) => {
-        if (index === 0) {
-            scriptsBlock += `
+  tilts.forEach((tilt: Tilt, index: number) => {
+    if (index === 0) {
+      scriptsBlock += `
                             if (id(current_page) == ${index}) {
                               if (id(enable_tilt_${tilt.color.colorKey})) {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
                               } else {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
                               }
-                            }`;
-        } else {
-            scriptsBlock += ` else if (id(current_page) == ${index}) {
+                            }`
+    } else {
+      scriptsBlock += ` else if (id(current_page) == ${index}) {
                               if (id(enable_tilt_${tilt.color.colorKey})) {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_off();
                               } else {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
                               }
-                            }`;
-        }
-    });
+                            }`
+    }
+  })
 
-    scriptsBlock += `
+  scriptsBlock += `
             - if:
                 condition:
                   lambda: 'return id(last_touch_x) < ${config.swipeLeftThreshold} && id(current_page) > 0;'
@@ -51,8 +51,8 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                   - lambda: |-
                       id(current_page) -= 1;`
 
-    for (let i = 0; i < tilts.length; i++) {
-        scriptsBlock += `
+  for (let i = 0; i < tilts.length; i++) {
+    scriptsBlock += `
                   - if:
                       condition:
                         lambda: 'return id(current_page) == ${i};'
@@ -60,10 +60,10 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                         - lvgl.page.show: 
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_RIGHT
-                            time: ${config.animationTime}`;
-    }
+                            time: ${config.animationTime}`
+  }
 
-    scriptsBlock += `
+  scriptsBlock += `
             - if:
                 condition:
                   lambda: 'return id(last_touch_x) > ${config.swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'
@@ -71,8 +71,8 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                   - lambda: |-
                       id(current_page) += 1;`
 
-    for (let i = 0; i < tilts.length; i++) {
-        scriptsBlock += ` 
+  for (let i = 0; i < tilts.length; i++) {
+    scriptsBlock += ` 
                   - if:
                       condition:
                         lambda: 'return id(current_page) == ${i};'
@@ -80,12 +80,12 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                         - lvgl.page.show:
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_LEFT
-                            time: ${config.animationTime}`;
-    }
+                            time: ${config.animationTime}`
+  }
 
-    scriptsBlock += `
+  scriptsBlock += `
   
-`;
+`
 
-    return scriptsBlock;
+  return scriptsBlock
 }

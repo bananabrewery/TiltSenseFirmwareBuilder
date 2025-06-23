@@ -1,16 +1,16 @@
-import type {Tilt} from "@/models/tilt.ts";
+import type { Tilt } from '@/models/tilt.ts'
 
 export function generateLVGLBlock(tilts: Tilt[]): string {
-    let lvglBlock = `lvgl:
+  let lvglBlock = `lvgl:
   id: lvgl_id
   displays:
     - lcd_display
   touchscreens:
     - tiltsense_touchscreen
-  pages:`;
+  pages:`
 
-    tilts.forEach((tilt: Tilt) => {
-        lvglBlock += `
+  tilts.forEach((tilt: Tilt) => {
+    lvglBlock += `
         - id: display_${tilt.color.colorKey}
           widgets:
             - arc:
@@ -18,7 +18,7 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
                 align: CENTER
                 arc_color: !lambda |-
                               if (id(enable_tilt_${tilt.color.colorKey})) {
-                                return lv_color_hex(${tilt.color.displayColor.replace("#", "0x")});
+                                return lv_color_hex(${tilt.color.displayColor.replace('#', '0x')});
                               } else {
                                 return lv_color_hex(0x808080);
                               }
@@ -49,12 +49,12 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
                 align: CENTER
                 text: "Tilt ${tilt.color.name}"
                 text_font: montserrat_16
-                y: 90`;
-    });
+                y: 90`
+  })
 
-    lvglBlock += `
+  lvglBlock += `
   
-`;
+`
 
-    return lvglBlock;
+  return lvglBlock
 }

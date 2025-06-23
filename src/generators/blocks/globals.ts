@@ -1,7 +1,7 @@
-import type {Tilt} from "@/models/tilt.ts";
+import type { Tilt } from '@/models/tilt.ts'
 
 export function generateGlobalsBlock(tilts: Tilt[]): string {
-    let globalsBlock = `globals:
+  let globalsBlock = `globals:
   - id: last_ble_update
     type: unsigned long
     restore_value: no
@@ -23,19 +23,19 @@ export function generateGlobalsBlock(tilts: Tilt[]): string {
   - id: current_page
     type: int
     restore_value: no
-    initial_value: '0'`;
+    initial_value: '0'`
 
-    tilts.forEach((tilt: Tilt) => {
-        globalsBlock += `
+  tilts.forEach((tilt: Tilt) => {
+    globalsBlock += `
   - id: enable_tilt_${tilt.color.colorKey}
     type: bool
     restore_value: true
-    initial_value: 'true'`;
-    });
+    initial_value: 'true'`
+  })
 
-    globalsBlock += `
+  globalsBlock += `
   
-`;
+`
 
-    return globalsBlock;
+  return globalsBlock
 }

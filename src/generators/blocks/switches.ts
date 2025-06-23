@@ -1,9 +1,9 @@
-import type {Tilt} from "@/models/tilt.ts";
+import type { Tilt } from '@/models/tilt.ts'
 
 export function generateSwitchesBlock(tilts: Tilt[]): string {
-    let switchesBlock = `switch:`;
-    tilts.forEach((tilt: Tilt) => {
-        switchesBlock += `
+  let switchesBlock = `switch:`
+  tilts.forEach((tilt: Tilt) => {
+    switchesBlock += `
   - platform: template
     name: "Enable Tilt ${tilt.color.name}"
     id: switch_enable_tilt_${tilt.color.colorKey}
@@ -34,12 +34,12 @@ export function generateSwitchesBlock(tilts: Tilt[]): string {
           id: ble_temp_label_${tilt.color.colorKey}
           text: " "
     lambda: |-
-      return id(enable_tilt_${tilt.color.colorKey});`;
-    });
+      return id(enable_tilt_${tilt.color.colorKey});`
+  })
 
-    switchesBlock += `
+  switchesBlock += `
   
-`;
+`
 
-    return switchesBlock;
+  return switchesBlock
 }

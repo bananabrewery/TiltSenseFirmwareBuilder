@@ -1,7 +1,7 @@
-import type {FirmwareOptions} from "@/types/firmware.ts";
+import type { FirmwareOptions } from '@/types/firmware.ts'
 
 export function generateBaseConfigBlock(config: any, firmwareOptions: FirmwareOptions): string {
-    let baseConfigBlock = `esphome:
+  let baseConfigBlock = `esphome:
   name: "${config.name}"
   friendly_name: "${config.friendlyName}"
 
@@ -13,33 +13,39 @@ esp32:
     version: latest
   flash_size: 16MB
 
-logger:`;
+logger:`
 
-    baseConfigBlock += config.isBeta ? `
-  level: DEBUG` : `
-  level: INFO`;
+  baseConfigBlock += config.isBeta
+    ? `
+  level: DEBUG`
+    : `
+  level: INFO`
 
-    baseConfigBlock += firmwareOptions.ha ? `
+  baseConfigBlock += firmwareOptions.ha
+    ? `
 
 api: 
-` : `
-`;
-    baseConfigBlock += firmwareOptions.brewfather.enabled ? `
+`
+    : `
+`
+  baseConfigBlock += firmwareOptions.brewfather.enabled
+    ? `
 http_request:
   verify_ssl: False 
-` : ``;
+`
+    : ``
 
-    baseConfigBlock += `
+  baseConfigBlock += `
 ota:
   - platform: esphome
 
-wifi:`;
-    if (firmwareOptions.wifiConfig.SSID.trim() && firmwareOptions.wifiConfig.password.trim()) {
-        baseConfigBlock += `
+wifi:`
+  if (firmwareOptions.wifiConfig.SSID.trim() && firmwareOptions.wifiConfig.password.trim()) {
+    baseConfigBlock += `
   ssid: ${firmwareOptions.wifiConfig.SSID}
   password: ${firmwareOptions.wifiConfig.password}`
-    }
-    baseConfigBlock += `
+  }
+  baseConfigBlock += `
   ap:
 
 captive_portal:
@@ -47,7 +53,7 @@ captive_portal:
 web_server:
   port: 80
   
-`;
+`
 
-    return baseConfigBlock;
+  return baseConfigBlock
 }

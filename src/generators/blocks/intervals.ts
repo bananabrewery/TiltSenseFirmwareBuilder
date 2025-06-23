@@ -1,8 +1,12 @@
-import type {Tilt} from "@/models/tilt.ts";
-import type {FirmwareOptions} from "@/types/firmware.ts";
+import type { Tilt } from '@/models/tilt.ts'
+import type { FirmwareOptions } from '@/types/firmware.ts'
 
-function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, config: any): string {
-    return `  - http_request.post:
+function createBrewfatherRequest(
+  firmwareOptions: FirmwareOptions,
+  tilt: Tilt,
+  config: any
+): string {
+  return `  - http_request.post:
                 url: https://log.brewfather.net/stream?id=${firmwareOptions.brewfather.apiKey}
                 request_headers: 
                   Content-Type: application/json
@@ -29,11 +33,15 @@ function createBrewfatherRequest(firmwareOptions: FirmwareOptions, tilt: Tilt, c
                             temp, 
                             "C"
                           );
-                          return std::string(buffer);`;
+                          return std::string(buffer);`
 }
 
-export function generateIntervalsBlock(tilts: Tilt[], firmwareOptions: FirmwareOptions, config: any): string {
-    let intervalsBlock = `interval:
+export function generateIntervalsBlock(
+  tilts: Tilt[],
+  firmwareOptions: FirmwareOptions,
+  config: any
+): string {
+  let intervalsBlock = `interval:
   - interval: 5s
     then:
       - lambda: |-
@@ -46,11 +54,11 @@ export function generateIntervalsBlock(tilts: Tilt[], firmwareOptions: FirmwareO
             lambda: 'return id(screen_dimmed);'
           then:
             - light.turn_off:
-                id: led`;
+                id: led`
 
-    if (firmwareOptions.brewfather.enabled) {
-        tilts.forEach((tilt: Tilt) => {
-            intervalsBlock += `  
+  if (firmwareOptions.brewfather.enabled) {
+    tilts.forEach((tilt: Tilt) => {
+      intervalsBlock += `  
   - interval: 15min
     then:
       - if:
@@ -62,14 +70,14 @@ export function generateIntervalsBlock(tilts: Tilt[], firmwareOptions: FirmwareO
                     !isnan(id(tilt_gravity_${tilt.color.colorKey}).state)
                 );
           then:
-          `;
-            intervalsBlock += createBrewfatherRequest(firmwareOptions, tilt, config);
-        });
-    }
+          `
+      intervalsBlock += createBrewfatherRequest(firmwareOptions, tilt, config)
+    })
+  }
 
-    intervalsBlock += `
+  intervalsBlock += `
   
-`;
+`
 
-    return intervalsBlock;
+  return intervalsBlock
 }
