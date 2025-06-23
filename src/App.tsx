@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import '@mantine/core/styles.css'
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import '@mantine/core/styles.css';
 import {
   Anchor,
   Box,
@@ -16,9 +16,9 @@ import {
   Text,
   TextInput,
   Title,
-  Tooltip
-} from '@mantine/core'
-import { IconInfoCircle, IconRadar, IconTestPipe2Filled } from '@tabler/icons-react'
+  Tooltip,
+} from '@mantine/core';
+import { IconInfoCircle, IconRadar, IconTestPipe2Filled } from '@tabler/icons-react';
 import {
   type Tilt,
   TiltColorId,
@@ -26,19 +26,19 @@ import {
   TiltColors,
   TiltColorsDisplay,
   TiltColorsHex,
-  type Tilts
-} from '@/models/tilt.ts'
-import { showNotification } from '@mantine/notifications'
-import { generateFirmwareConfig } from '@/generators/generateFirmware.ts'
-import { YamlViewer } from '@/components/YamlViewer.tsx'
-import AppFooter from '@/components/Footer.tsx'
+  type Tilts,
+} from '@/models/tilt.ts';
+import { showNotification } from '@mantine/notifications';
+import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
+import { YamlViewer } from '@/components/YamlViewer.tsx';
+import AppFooter from '@/components/Footer.tsx';
 
 function App() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const [tilts, setTilts] = useState<Tilts>(
     TiltColors.reduce((acc, name) => {
-      const colorKey = name.toLowerCase() as TiltColorKey
+      const colorKey = name.toLowerCase() as TiltColorKey;
       acc[colorKey] = {
         enabled: false,
         isPro: false,
@@ -47,25 +47,25 @@ function App() {
           colorKey: colorKey,
           hexColor: TiltColorsHex[colorKey],
           displayColor: TiltColorsDisplay[colorKey],
-          id: TiltColorId[colorKey]
-        }
-      }
-      return acc
+          id: TiltColorId[colorKey],
+        },
+      };
+      return acc;
     }, {} as Tilts)
-  )
+  );
 
   const [brewfatherConfig, setBrewfatherConfig] = useState({
     enabled: false,
-    apiKey: ''
-  })
+    apiKey: '',
+  });
 
   const [wifiConfig, setWifiConfig] = useState({
     SSID: '',
-    password: ''
-  })
+    password: '',
+  });
 
-  const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false)
-  const [generatedYAML, setGeneratedYAML] = useState('')
+  const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
+  const [generatedYAML, setGeneratedYAML] = useState('');
 
   const toggleTilt = (color: string) => {
     setTilts((prev) => ({
@@ -73,35 +73,35 @@ function App() {
       [color]: {
         ...prev[color],
         enabled: !prev[color].enabled,
-        isPro: prev[color].enabled ? false : prev[color].isPro
-      }
-    }))
-  }
+        isPro: prev[color].enabled ? false : prev[color].isPro,
+      },
+    }));
+  };
 
   const togglePro = (color: string) => {
     setTilts((prev) => ({
       ...prev,
       [color]: {
         ...prev[color],
-        isPro: !prev[color].isPro
-      }
-    }))
-  }
+        isPro: !prev[color].isPro,
+      },
+    }));
+  };
 
   const handleBrewfatherToggle = () => {
     setBrewfatherConfig((prev) => ({
       ...prev,
       enabled: !prev.enabled,
-      apiKey: !prev.enabled ? prev.apiKey : '' // clear API key when disabling
-    }))
-  }
+      apiKey: !prev.enabled ? prev.apiKey : '', // clear API key when disabling
+    }));
+  };
 
   const handleBrewfatherKeyChange = (value: string) => {
     setBrewfatherConfig((prev) => ({
       ...prev,
-      apiKey: value
-    }))
-  }
+      apiKey: value,
+    }));
+  };
 
   const handleGenerateYAML = () => {
     if (
@@ -113,9 +113,9 @@ function App() {
         message: t('notifications.error.brewfather.message'),
         color: 'red',
         autoClose: 4000,
-        withCloseButton: true
-      })
-      return
+        withCloseButton: true,
+      });
+      return;
     }
 
     if (brewfatherConfig.enabled && (!wifiConfig.SSID || !wifiConfig.password)) {
@@ -124,39 +124,39 @@ function App() {
         message: t('notifications.warning.brewfather.message'),
         color: 'yellow',
         autoClose: 4000,
-        withCloseButton: true
-      })
+        withCloseButton: true,
+      });
     }
 
-    const enabledTilts = Object.values(tilts).filter((tilt) => tilt.enabled)
+    const enabledTilts = Object.values(tilts).filter((tilt) => tilt.enabled);
     const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, {
       brewfather: brewfatherConfig,
       ha: homeAssistantEnabled,
-      wifiConfig: wifiConfig
-    })
-    setGeneratedYAML(tiltSenseGeneratedFirmware)
-  }
+      wifiConfig: wifiConfig,
+    });
+    setGeneratedYAML(tiltSenseGeneratedFirmware);
+  };
 
   const hasAnyTiltSelected = () => {
     try {
-      if (!tilts || typeof tilts !== 'object') return false
-      return Object.values(tilts).some((tilt: Tilt) => tilt?.enabled === true)
+      if (!tilts || typeof tilts !== 'object') return false;
+      return Object.values(tilts).some((tilt: Tilt) => tilt?.enabled === true);
     } catch {
-      return false
+      return false;
     }
-  }
+  };
 
-  const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false)
+  const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false);
 
   useEffect(() => {
-    const shouldShow = wifiConfig.password.length < 8 && wifiConfig.password.length > 0
+    const shouldShow = wifiConfig.password.length < 8 && wifiConfig.password.length > 0;
 
     const timeout = setTimeout(() => {
-      setShowWifiPasswordTooltip(shouldShow)
-    }, 500)
+      setShowWifiPasswordTooltip(shouldShow);
+    }, 500);
 
-    return () => clearTimeout(timeout)
-  }, [wifiConfig.password])
+    return () => clearTimeout(timeout);
+  }, [wifiConfig.password]);
 
   return (
     <MantineProvider>
@@ -211,7 +211,7 @@ function App() {
             <Trans i18nKey="configuration.tilt.init" components={{ strong: <strong /> }} />
           </Text>
           {TiltColors.map((color) => {
-            const key = color.toLowerCase() as TiltColorKey
+            const key = color.toLowerCase() as TiltColorKey;
             return (
               <Group key={key}>
                 <IconTestPipe2Filled size={24} color={TiltColorsHex[key]} />
@@ -228,7 +228,7 @@ function App() {
                   />
                 )}
               </Group>
-            )
+            );
           })}
           <Box mt="xl">
             <Text>
@@ -246,7 +246,7 @@ function App() {
               onChange={(event) =>
                 setWifiConfig({
                   ...wifiConfig,
-                  SSID: event.currentTarget.value
+                  SSID: event.currentTarget.value,
                 })
               }
             />
@@ -264,7 +264,7 @@ function App() {
                 onChange={(event) =>
                   setWifiConfig({
                     ...wifiConfig,
-                    password: event.currentTarget.value
+                    password: event.currentTarget.value,
                   })
                 }
               />
@@ -333,7 +333,7 @@ function App() {
       </Container>
       <AppFooter />
     </MantineProvider>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -53,7 +53,7 @@ touchscreen:
           id(last_touch_y) = y;
           id(handle_touch).execute();
   
-`
+`;
 
-  return hardwareBlock
+  return hardwareBlock;
 }

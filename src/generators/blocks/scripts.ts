@@ -1,4 +1,4 @@
-import type { Tilt } from '@/models/tilt.ts'
+import type { Tilt } from '@/models/tilt.ts';
 
 export function generateScriptsBlock(tilts: Tilt[], config: any): string {
   let scriptsBlock = `script:
@@ -20,7 +20,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                 condition:
                   lambda: 'return id(last_touch_y) > ${config.bottomScreenThreshold};'
                 then:
-                  - lambda: |-`
+                  - lambda: |-`;
 
   tilts.forEach((tilt: Tilt, index: number) => {
     if (index === 0) {
@@ -31,7 +31,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                               } else {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
                               }
-                            }`
+                            }`;
     } else {
       scriptsBlock += ` else if (id(current_page) == ${index}) {
                               if (id(enable_tilt_${tilt.color.colorKey})) {
@@ -39,9 +39,9 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                               } else {
                                 id(switch_enable_tilt_${tilt.color.colorKey}).turn_on();
                               }
-                            }`
+                            }`;
     }
-  })
+  });
 
   scriptsBlock += `
             - if:
@@ -49,7 +49,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                   lambda: 'return id(last_touch_x) < ${config.swipeLeftThreshold} && id(current_page) > 0;'
                 then:
                   - lambda: |-
-                      id(current_page) -= 1;`
+                      id(current_page) -= 1;`;
 
   for (let i = 0; i < tilts.length; i++) {
     scriptsBlock += `
@@ -60,7 +60,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                         - lvgl.page.show: 
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_RIGHT
-                            time: ${config.animationTime}`
+                            time: ${config.animationTime}`;
   }
 
   scriptsBlock += `
@@ -69,7 +69,7 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                   lambda: 'return id(last_touch_x) > ${config.swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'
                 then:
                   - lambda: |-
-                      id(current_page) += 1;`
+                      id(current_page) += 1;`;
 
   for (let i = 0; i < tilts.length; i++) {
     scriptsBlock += ` 
@@ -80,12 +80,12 @@ export function generateScriptsBlock(tilts: Tilt[], config: any): string {
                         - lvgl.page.show:
                             id: display_${tilts[i].color.colorKey}
                             animation: MOVE_LEFT
-                            time: ${config.animationTime}`
+                            time: ${config.animationTime}`;
   }
 
   scriptsBlock += `
   
-`
+`;
 
-  return scriptsBlock
+  return scriptsBlock;
 }

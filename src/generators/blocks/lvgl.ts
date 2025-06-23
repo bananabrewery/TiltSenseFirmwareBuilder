@@ -1,4 +1,4 @@
-import type { Tilt } from '@/models/tilt.ts'
+import type { Tilt } from '@/models/tilt.ts';
 
 export function generateLVGLBlock(tilts: Tilt[]): string {
   let lvglBlock = `lvgl:
@@ -7,7 +7,7 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
     - lcd_display
   touchscreens:
     - tiltsense_touchscreen
-  pages:`
+  pages:`;
 
   tilts.forEach((tilt: Tilt) => {
     lvglBlock += `
@@ -49,12 +49,12 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
                 align: CENTER
                 text: "Tilt ${tilt.color.name}"
                 text_font: montserrat_16
-                y: 90`
-  })
+                y: 90`;
+  });
 
   lvglBlock += `
   
-`
+`;
 
-  return lvglBlock
+  return lvglBlock;
 }

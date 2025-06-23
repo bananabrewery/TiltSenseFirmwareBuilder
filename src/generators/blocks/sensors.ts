@@ -1,8 +1,8 @@
-import type { Tilt } from '@/models/tilt.ts'
+import type { Tilt } from '@/models/tilt.ts';
 
 export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
   let sensorsBlock = `sensor:
-`
+`;
   sensorsBlock += `  - platform: internal_temperature
     name: "${config.friendlyName} Internal Temperature"  
   - platform: adc
@@ -36,7 +36,7 @@ export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
               float percent = 100.0 / (1.0 + exp(-10.0 * (v - 3.85)));
               if (percent > 100.0) return 100.0;
               else if (percent < 0.0) return 0.0;
-              else return percent;`
+              else return percent;`;
 
   tilts.forEach((tilt: Tilt) => {
     sensorsBlock += `
@@ -69,12 +69,12 @@ export function generateSensorsBlock(config: any, tilts: Tilt[]): string {
             text: !lambda |-
                     char buffer[10];
                     snprintf(buffer, sizeof(buffer), "%.1f °C", id(tilt_temperature_${tilt.color.colorKey}).state);
-                    return std::string(buffer);`
-  })
+                    return std::string(buffer);`;
+  });
 
   sensorsBlock += `
   
-`
+`;
 
-  return sensorsBlock
+  return sensorsBlock;
 }

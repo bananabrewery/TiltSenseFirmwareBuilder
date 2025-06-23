@@ -1,7 +1,9 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path';
-import pkg from './package.json' assert {type: 'json'};
+import fs from 'fs';
+
+const pkg: { version: string } = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'));
 
 export default defineConfig({
     base: '/tiltsense-yaml-generator/',
@@ -12,6 +14,6 @@ export default defineConfig({
         },
     },
     define: {
-        __APP_VERSION__: JSON.stringify(pkg.version), // <- define variable global
+        __APP_VERSION__: JSON.stringify(pkg.version),
     },
 })

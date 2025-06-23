@@ -6,15 +6,15 @@ export type TiltColorKey =
   | 'red'
   | 'yellow'
   | 'pink'
-  | 'purple'
+  | 'purple';
 
 export type TiltColor = {
-  name: Capitalize<TiltColorKey>
-  colorKey: TiltColorKey
-  hexColor: string
-  displayColor: string
-  id: string
-}
+  name: Capitalize<TiltColorKey>;
+  colorKey: TiltColorKey;
+  hexColor: string;
+  displayColor: string;
+  id: string;
+};
 
 export const TiltColorsHex: Record<TiltColorKey, string> = {
   black: '#666666',
@@ -24,8 +24,8 @@ export const TiltColorsHex: Record<TiltColorKey, string> = {
   red: '#e74c3c',
   yellow: '#f1c40f',
   pink: '#e91e63',
-  purple: '#9b59b6'
-}
+  purple: '#9b59b6',
+};
 
 export const TiltColorsDisplay: Record<TiltColorKey, string> = {
   black: '#000000',
@@ -35,8 +35,8 @@ export const TiltColorsDisplay: Record<TiltColorKey, string> = {
   red: '#FF0000',
   yellow: '#FFFF00',
   pink: '#FF00FF',
-  purple: '#800080'
-}
+  purple: '#800080',
+};
 
 export const TiltColorId: Record<TiltColorKey, string> = {
   black: 'A495BB30-C5B1-4B44-B512-1370F02D74DE',
@@ -46,8 +46,8 @@ export const TiltColorId: Record<TiltColorKey, string> = {
   red: 'A495BB10-C5B1-4B44-B512-1370F02D74DE',
   yellow: 'A495BB70-C5B1-4B44-B512-1370F02D74DE',
   pink: 'A495BB80-C5B1-4B44-B512-1370F02D74DE',
-  purple: 'A495BB40-C5B1-4B44-B512-1370F02D74DE'
-}
+  purple: 'A495BB40-C5B1-4B44-B512-1370F02D74DE',
+};
 
 export const TiltColors: TiltColor['name'][] = [
   'Black',
@@ -57,15 +57,15 @@ export const TiltColors: TiltColor['name'][] = [
   'Red',
   'Yellow',
   'Pink',
-  'Purple'
-]
+  'Purple',
+];
 
 export type Tilt = {
-  enabled: boolean
-  color: TiltColor
-  isPro: boolean
-}
+  enabled: boolean;
+  color: TiltColor;
+  isPro: boolean;
+};
 
 export type Tilts = {
-  [key: string]: Tilt
-}
+  [key: string]: Tilt;
+};

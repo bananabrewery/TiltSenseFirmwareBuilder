@@ -2,7 +2,6 @@
 
 ## TiltSense YAML Generator
 
-
 **TiltSense YAML Generator** is a simple, interactive web app that helps you create a customized ESPHome YAML
 configuration for your TiltSense device — no manual editing required.
 

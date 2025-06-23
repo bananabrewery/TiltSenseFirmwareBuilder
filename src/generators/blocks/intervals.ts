@@ -1,5 +1,5 @@
-import type { Tilt } from '@/models/tilt.ts'
-import type { FirmwareOptions } from '@/types/firmware.ts'
+import type { Tilt } from '@/models/tilt.ts';
+import type { FirmwareOptions } from '@/types/firmware.ts';
 
 function createBrewfatherRequest(
   firmwareOptions: FirmwareOptions,
@@ -33,7 +33,7 @@ function createBrewfatherRequest(
                             temp, 
                             "C"
                           );
-                          return std::string(buffer);`
+                          return std::string(buffer);`;
 }
 
 export function generateIntervalsBlock(
@@ -54,7 +54,7 @@ export function generateIntervalsBlock(
             lambda: 'return id(screen_dimmed);'
           then:
             - light.turn_off:
-                id: led`
+                id: led`;
 
   if (firmwareOptions.brewfather.enabled) {
     tilts.forEach((tilt: Tilt) => {
@@ -70,14 +70,14 @@ export function generateIntervalsBlock(
                     !isnan(id(tilt_gravity_${tilt.color.colorKey}).state)
                 );
           then:
-          `
-      intervalsBlock += createBrewfatherRequest(firmwareOptions, tilt, config)
-    })
+          `;
+      intervalsBlock += createBrewfatherRequest(firmwareOptions, tilt, config);
+    });
   }
 
   intervalsBlock += `
   
-`
+`;
 
-  return intervalsBlock
+  return intervalsBlock;
 }
