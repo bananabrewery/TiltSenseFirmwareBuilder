@@ -25,6 +25,7 @@ The application is ready to be tested and used. If you encounter any issues or h
 Please open an issue in the [GitHub repository](https://github.com/bananabrewery/tiltsense-yaml-generator/issues).
 
 🔧 **Next steps:**
+
 - Minor improvements
   - Store values in the device's local storage
   - Display "Unavailable" instead of "0.0" for missing readings
