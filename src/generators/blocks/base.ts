@@ -12,8 +12,7 @@ esp32:
   board: esp32-s3-devkitc-1
   variant: esp32s3
   framework:
-    type: arduino
-    version: latest
+    type: esp-idf
   flash_size: 16MB
 
 logger:`;

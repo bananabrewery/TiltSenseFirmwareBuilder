@@ -13,14 +13,25 @@ covered.
 
 ## 📦 Project Status
 
-TiltSense YAML Generator is currently in active development.
+TiltSense YAML Generator now has its **first fully functional release**. 🎉
 
-🛠️ **First release in progress:**  
-I'm currently working on the initial version of the web application, which will allow users to generate custom ESPHome
-YAML files through a simple UI.
+🧪 **Beta testing phase:**  
+The application is ready to be tested and used. If you encounter any issues or have suggestions, your feedback is more than welcome!
 
-🌐 **It will be published here:**  
+🌐 **Try it here:**  
 [https://bananabrewery.github.io/tiltsense-yaml-generator](https://bananabrewery.github.io/tiltsense-yaml-generator)
+
+🐛 **Found a bug or have a feature request?**  
+Please open an issue in the [GitHub repository](https://github.com/bananabrewery/tiltsense-yaml-generator/issues).
+
+🔧 **Next steps:**
+- Minor improvements
+  - Store values in the device's local storage
+  - Display "Unavailable" instead of "0.0" for missing readings
+  - Refactor project architecture (introduce React Context, extract Form component, etc.)
+- Document the parent project
+- Design a proper logo
+- Improve the accuracy of battery level readings
 
 ---
 
