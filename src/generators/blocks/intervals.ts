@@ -6,14 +6,22 @@ function createBrewfatherRequest(
   tilt: Tilt,
   config: FirmwareConfig
 ): string {
-  return `  - http_request.post:
+  let brewFatherBlock = `  - http_request.post:
                 url: https://log.brewfather.net/stream?id=${firmwareOptions.brewfather.apiKey}
                 request_headers:
                   Content-Type: application/json
                 body: !lambda |-
                           char buffer[256];
                           float gravity = id(tilt_gravity_${tilt.color.colorKey}).state / 1000.0;
-                          float temp = id(tilt_temperature_${tilt.color.colorKey}).state;
+                          float temp = id(tilt_temperature_${tilt.color.colorKey}).state;`;
+
+  if (tilt.haPressureSensor && tilt.haPressureSensor.length > 0) {
+    brewFatherBlock += `
+                          float pressure = id(pressure_sensor_black).state;
+                          if (std::isnan(pressure)) pressure = 0.0;`;
+  }
+
+  brewFatherBlock += `
 
                           snprintf(buffer, sizeof(buffer),
                             "{"
@@ -23,7 +31,14 @@ function createBrewfatherRequest(
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
                               "\\"temp\\": %.1f,"
-                              "\\"temp_unit\\": \\"%s\\""
+                              "\\"temp_unit\\": \\"%s\\`;
+
+  if (tilt.haPressureSensor && tilt.haPressureSensor.length > 0) {
+    brewFatherBlock += `","
+                              "\\"pressure\\": %.1f,"
+                              "\\"pressure_unit\\": \\"%s\\""`;
+  }
+  brewFatherBlock += `
                             "}",
                             "Tilt",
                             "Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}",
@@ -31,9 +46,17 @@ function createBrewfatherRequest(
                             gravity,
                             "G",
                             temp,
-                            "C"
+                            "C"`;
+  if (tilt.haPressureSensor && tilt.haPressureSensor.length > 0) {
+    brewFatherBlock += `,
+                            pressure,
+                            "${config.pressureUnits}"`;
+  }
+  brewFatherBlock += `
                           );
                           return std::string(buffer);`;
+
+  return brewFatherBlock;
 }
 
 export function generateIntervalsBlock(

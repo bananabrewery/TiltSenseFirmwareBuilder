@@ -3,7 +3,7 @@ import type { Tilt } from '@/models/tilt.ts';
 export function generateBLEBlock(tilts: Tilt[]): string {
   let BLEBlock = `esp32_ble_tracker:
   scan_parameters:
-    interval: 10000ms
+    interval: 5000ms
     window: 1000ms
   on_ble_advertise:
     then:

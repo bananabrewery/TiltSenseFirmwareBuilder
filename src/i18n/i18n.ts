@@ -12,10 +12,12 @@ i18n
       en,
       es,
     },
-    lng: 'en',
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
+    },
+    detection: {
+      order: ['navigator'],
     },
   });
 
