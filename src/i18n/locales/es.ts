@@ -29,6 +29,7 @@ const es = {
       },
     },
     configuration: {
+      text: '¡Empecemos!',
       tilt: {
         init: 'Especifica que <strong>hidrómetros Tilt</strong> tienes disponibles, sus colores y si son versión Pro.',
         fields: {

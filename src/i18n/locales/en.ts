@@ -29,6 +29,7 @@ const en = {
       },
     },
     configuration: {
+      text: "Let's start!",
       tilt: {
         init: 'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
         fields: {

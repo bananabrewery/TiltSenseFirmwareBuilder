@@ -217,7 +217,7 @@ function App() {
         <Text mt="md">{t('introduction.capabilities.end')}</Text>
 
         <Title order={4} mt="xl" mb="md">
-          Let's start
+          {t('configuration.text')}
         </Title>
 
         <Stack>
