@@ -23,10 +23,10 @@ export function generateSwitchesBlock(tilts: Tilt[]): string {
           id(enable_tilt_${tilt.color.colorKey}) = false;
       - sensor.template.publish:
           id: tilt_gravity_${tilt.color.colorKey}
-          state: 0.0
+          state: !lambda 'return NAN;'
       - sensor.template.publish:
           id: tilt_temperature_${tilt.color.colorKey}
-          state: 0.0
+          state: !lambda 'return NAN;'
       - lvgl.label.update:
           id: ble_gravity_label_${tilt.color.colorKey}
           text: " "
@@ -38,7 +38,7 @@ export function generateSwitchesBlock(tilts: Tilt[]): string {
   });
 
   switchesBlock += `
-  
+
 `;
 
   return switchesBlock;

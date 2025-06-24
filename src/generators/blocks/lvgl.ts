@@ -47,13 +47,13 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
                 y: 60
             - label:
                 align: CENTER
-                text: "Tilt ${tilt.color.name}"
+                text: "Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}"
                 text_font: montserrat_16
                 y: 90`;
   });
 
   lvglBlock += `
-  
+
 `;
 
   return lvglBlock;

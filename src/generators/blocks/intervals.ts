@@ -26,7 +26,7 @@ function createBrewfatherRequest(
                               "\\"temp_unit\\": \\"%s\\""
                             "}",
                             "Tilt",
-                            "Tilt ${tilt.color.name}",
+                            "Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}",
                             "${config.friendlyName}",
                             gravity,
                             "G",

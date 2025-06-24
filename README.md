@@ -28,7 +28,7 @@ Please open an issue in the [GitHub repository](https://github.com/bananabrewery
 
 - Minor improvements
   - Store values in the device's local storage
-  - Display "Unavailable" instead of "0.0" for missing readings
+  - Display "Unavailable" instead of "0.0" for missing readings (✅ Done!)
   - Refactor project architecture (introduce React Context, extract Form component, etc.)
 - Document the parent project
 - Design a proper logo

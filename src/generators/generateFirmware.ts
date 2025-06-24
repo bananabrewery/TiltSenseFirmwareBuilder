@@ -11,9 +11,9 @@ import { generateScriptsBlock } from '@/generators/blocks/scripts.ts';
 import { generateLVGLBlock } from '@/generators/blocks/lvgl.ts';
 
 const config = {
-  isBeta: true,
-  name: 'tiltsensebeta',
-  friendlyName: 'TiltSenseBeta',
+  isBeta: false,
+  name: 'tiltsense',
+  friendlyName: 'TiltSense',
   screenTimeout: 120000,
   bottomScreenThreshold: 220,
   swipeLeftThreshold: 60,

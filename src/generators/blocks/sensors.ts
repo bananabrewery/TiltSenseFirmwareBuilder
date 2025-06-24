@@ -8,14 +8,19 @@ export function generateSensorsBlock(
 ): string {
   let sensorsBlock = `sensor:
 `;
-  sensorsBlock += `  - platform: internal_temperature
+
+  if (config.isBeta) {
+    sensorsBlock += `  - platform: internal_temperature
     name: "${config.friendlyName} Internal Temperature"
-  - platform: adc
+`;
+  }
+
+  sensorsBlock += `  - platform: adc
     pin: GPIO01
     name: "${config.friendlyName} Battery Voltage"
     id: battery_voltage
     unit_of_measurement: "V"
-    accuracy_decimals: 2
+    accuracy_decimals: 1
     device_class: voltage
     entity_category: diagnostic
     update_interval: 30s
