@@ -10,7 +10,6 @@ import {
   Container,
   Group,
   List,
-  MantineProvider,
   PasswordInput,
   Stack,
   Text,
@@ -19,15 +18,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IconInfoCircle, IconRadar, IconTestPipe2Filled } from '@tabler/icons-react';
-import {
-  type Tilt,
-  TiltColorId,
-  type TiltColorKey,
-  TiltColors,
-  TiltColorsDisplay,
-  TiltColorsHex,
-  type Tilts,
-} from '@/models/tilt.ts';
+import { type Tilt } from '@/models/tilt.ts';
 import { showNotification } from '@mantine/notifications';
 import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
 import { YamlViewer } from '@/components/YamlViewer.tsx';
@@ -37,58 +28,9 @@ import { useAppContext } from '@/context/useAppContext.ts';
 function App() {
   const { t } = useTranslation();
   const { firmwareOptions, setFirmwareOptions } = useAppContext();
-
-  const [tilts, setTilts] = useState<Tilts>(
-    TiltColors.reduce((acc, name) => {
-      const colorKey = name.toLowerCase() as TiltColorKey;
-      acc[colorKey] = {
-        enabled: false,
-        isPro: false,
-        haPressureSensor: '',
-        color: {
-          name: name,
-          colorKey: colorKey,
-          hexColor: TiltColorsHex[colorKey],
-          displayColor: TiltColorsDisplay[colorKey],
-          id: TiltColorId[colorKey],
-        },
-      };
-      return acc;
-    }, {} as Tilts)
-  );
+  const { tilts, setTilts } = useAppContext();
 
   const [generatedYAML, setGeneratedYAML] = useState('');
-
-  const toggleTilt = (color: string) => {
-    setTilts((prev) => ({
-      ...prev,
-      [color]: {
-        ...prev[color],
-        enabled: !prev[color].enabled,
-        isPro: prev[color].enabled ? false : prev[color].isPro,
-      },
-    }));
-  };
-
-  const togglePro = (color: string) => {
-    setTilts((prev) => ({
-      ...prev,
-      [color]: {
-        ...prev[color],
-        isPro: !prev[color].isPro,
-      },
-    }));
-  };
-
-  const manageTiltPressureSensor = (color: string, value: string) => {
-    setTilts((prev) => ({
-      ...prev,
-      [color]: {
-        ...prev[color],
-        haPressureSensor: value,
-      },
-    }));
-  };
 
   const handleGenerateYAML = () => {
     if (
@@ -147,7 +89,7 @@ function App() {
   }, [firmwareOptions.wifiConfig.password]);
 
   return (
-    <MantineProvider>
+    <>
       <Box style={{ padding: 32 }}>
         <Center>
           <div style={{ textAlign: 'center' }}>
@@ -198,33 +140,52 @@ function App() {
           <Text>
             <Trans i18nKey="configuration.tilt.init" components={{ strong: <strong /> }} />
           </Text>
-          {TiltColors.map((color) => {
-            const key = color.toLowerCase() as TiltColorKey;
+          {tilts.map((tilt) => {
             return (
-              <Group key={key}>
-                <IconTestPipe2Filled size={24} color={TiltColorsHex[key]} />
+              <Group key={tilt.key}>
+                <IconTestPipe2Filled size={24} color={tilt.color.hexColor} />
                 <Checkbox
-                  label={t(`tilt.colors.${color}`)}
-                  checked={tilts[key].enabled}
-                  onChange={() => toggleTilt(key)}
+                  label={t(`tilt.colors.${tilt.color.name}`)}
+                  onChange={(event) => {
+                    const checked = event.currentTarget.checked;
+                    setTilts((prev) =>
+                      prev.map((t) =>
+                        t.color.colorKey === tilt.color.colorKey ? { ...t, enabled: checked } : t
+                      )
+                    );
+                  }}
                 />
-                {tilts[key].enabled && (
+                {tilt.enabled && (
                   <Checkbox
                     label={t('configuration.tilt.fields.tilt.pro')}
-                    checked={tilts[key].isPro}
-                    onChange={() => togglePro(key)}
+                    checked={tilt.isPro}
+                    onChange={(event) => {
+                      const checked = event.currentTarget.checked;
+                      setTilts((prev) =>
+                        prev.map((t) =>
+                          t.color.colorKey === tilt.color.colorKey ? { ...t, isPro: checked } : t
+                        )
+                      );
+                    }}
                   />
                 )}
-                {tilts[key].enabled &&
-                  firmwareOptions.ha &&
-                  firmwareOptions.enablePressureSensors && (
-                    <TextInput
-                      ml="xl"
-                      placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-                      value={tilts[key].haPressureSensor}
-                      onChange={(event) => manageTiltPressureSensor(key, event.currentTarget.value)}
-                    />
-                  )}
+                {tilt.enabled && firmwareOptions.ha && firmwareOptions.enablePressureSensors && (
+                  <TextInput
+                    ml="xl"
+                    placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
+                    value={tilt.haPressureSensor}
+                    onChange={(event) => {
+                      const value = event.currentTarget.value;
+                      setTilts((prev) =>
+                        prev.map((t) =>
+                          t.color.colorKey === tilt.color.colorKey
+                            ? { ...t, haPressureSensor: value }
+                            : t
+                        )
+                      );
+                    }}
+                  />
+                )}
               </Group>
             );
           })}
@@ -383,7 +344,7 @@ function App() {
         {generatedYAML && <YamlViewer code={generatedYAML} />}
       </Container>
       <AppFooter />
-    </MantineProvider>
+    </>
   );
 }
 

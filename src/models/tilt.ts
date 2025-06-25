@@ -1,12 +1,15 @@
-export type TiltColorKey =
-  | 'black'
-  | 'blue'
-  | 'green'
-  | 'orange'
-  | 'red'
-  | 'yellow'
-  | 'pink'
-  | 'purple';
+export const TiltColorKeys = [
+  'black',
+  'blue',
+  'green',
+  'orange',
+  'red',
+  'yellow',
+  'pink',
+  'purple',
+] as const;
+
+export type TiltColorKey = (typeof TiltColorKeys)[number];
 
 export type TiltColor = {
   name: Capitalize<TiltColorKey>;
@@ -61,12 +64,9 @@ export const TiltColors: TiltColor['name'][] = [
 ];
 
 export type Tilt = {
+  key: TiltColorKey;
   enabled: boolean;
   color: TiltColor;
   isPro: boolean;
   haPressureSensor?: string;
-};
-
-export type Tilts = {
-  [key: string]: Tilt;
 };
