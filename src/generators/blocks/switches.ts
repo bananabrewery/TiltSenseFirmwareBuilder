@@ -1,4 +1,4 @@
-import type { Tilt } from '@/models/tilt.ts';
+import type { Tilt } from '@/models/tilt';
 
 export function generateSwitchesBlock(tilts: Tilt[]): string {
   let switchesBlock = `switch:`;

@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IconInfoCircle, IconTestPipe2Filled } from '@tabler/icons-react';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
 
 export const ConfigurationForm: React.FC = () => {
   const { t } = useTranslation();
@@ -44,51 +44,60 @@ export const ConfigurationForm: React.FC = () => {
         </Text>
         {tilts.map((tilt) => {
           return (
-            <Group key={tilt.key}>
-              <IconTestPipe2Filled size={24} color={tilt.color.hexColor} />
-              <Checkbox
-                label={t(`tilt.colors.${tilt.color.name}`)}
-                onChange={(event) => {
-                  const checked = event.currentTarget.checked;
-                  setTilts((prev) =>
-                    prev.map((t) =>
-                      t.color.colorKey === tilt.color.colorKey ? { ...t, enabled: checked } : t
-                    )
-                  );
-                }}
-              />
-              {tilt.enabled && (
+            <Box key={tilt.key} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <Box style={{ width: 24 }}>
+                <IconTestPipe2Filled size={24} color={tilt.color.hexColor} />
+              </Box>
+              <Box style={{ minWidth: 100 }}>
                 <Checkbox
-                  label={t('configuration.tilt.fields.tilt.pro')}
-                  checked={tilt.isPro}
+                  label={t(`tilt.colors.${tilt.color.name}`)}
+                  checked={tilt.enabled}
                   onChange={(event) => {
                     const checked = event.currentTarget.checked;
                     setTilts((prev) =>
                       prev.map((t) =>
-                        t.color.colorKey === tilt.color.colorKey ? { ...t, isPro: checked } : t
+                        t.color.colorKey === tilt.color.colorKey ? { ...t, enabled: checked } : t
                       )
                     );
                   }}
                 />
-              )}
-              {tilt.enabled && firmwareOptions.ha && firmwareOptions.enablePressureSensors && (
-                <TextInput
-                  ml="xl"
-                  placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-                  value={tilt.haPressureSensor}
-                  onChange={(event) => {
-                    const value = event.currentTarget.value;
-                    setTilts((prev) =>
-                      prev.map((t) =>
-                        t.color.colorKey === tilt.color.colorKey
-                          ? { ...t, haPressureSensor: value }
-                          : t
-                      )
-                    );
-                  }}
-                />
-              )}
-            </Group>
+              </Box>
+              <Box style={{ minWidth: 80 }}>
+                {tilt.enabled && (
+                  <Checkbox
+                    label={t('configuration.tilt.fields.tilt.pro')}
+                    checked={tilt.isPro}
+                    onChange={(event) => {
+                      const checked = event.currentTarget.checked;
+                      setTilts((prev) =>
+                        prev.map((t) =>
+                          t.color.colorKey === tilt.color.colorKey ? { ...t, isPro: checked } : t
+                        )
+                      );
+                    }}
+                  />
+                )}
+              </Box>
+              <Box style={{ flex: 1 }}>
+                {tilt.enabled && firmwareOptions.ha && firmwareOptions.enablePressureSensors && (
+                  <TextInput
+                    style={{ width: 600 }}
+                    placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
+                    value={tilt.haPressureSensor}
+                    onChange={(event) => {
+                      const value = event.currentTarget.value;
+                      setTilts((prev) =>
+                        prev.map((t) =>
+                          t.color.colorKey === tilt.color.colorKey
+                            ? { ...t, haPressureSensor: value }
+                            : t
+                        )
+                      );
+                    }}
+                  />
+                )}
+              </Box>
+            </Box>
           );
         })}
         <Box mt="xl">

@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import type { FirmwareOptions } from '@/types/firmware';
-import type { Tilt } from '@/models/tilt.ts';
+import type { Tilt } from '@/models/tilt';
 
 export type AppContextType = {
   firmwareOptions: FirmwareOptions;

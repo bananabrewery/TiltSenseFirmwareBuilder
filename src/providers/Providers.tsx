@@ -1,4 +1,4 @@
-import { AppProvider } from '@/context/AppProvider';
+import { AppProvider } from '@/providers/AppProvider';
 import { createTheme, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import React from 'react';

@@ -1,5 +1,5 @@
-import type { Tilt } from '@/models/tilt.ts';
-import type { FirmwareConfig } from '@/types/firmware.ts';
+import type { Tilt } from '@/models/tilt';
+import type { FirmwareConfig } from '@/types/firmware';
 
 export function generateScriptsBlock(tilts: Tilt[], config: FirmwareConfig): string {
   let scriptsBlock = `script:

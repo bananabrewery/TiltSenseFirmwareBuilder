@@ -1,4 +1,4 @@
-import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware.ts';
+import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware';
 
 export function generateBaseConfigBlock(
   config: FirmwareConfig,

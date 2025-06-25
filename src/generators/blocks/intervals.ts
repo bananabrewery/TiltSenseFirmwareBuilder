@@ -1,5 +1,5 @@
-import type { Tilt } from '@/models/tilt.ts';
-import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware.ts';
+import type { Tilt } from '@/models/tilt';
+import type { FirmwareConfig, FirmwareOptions } from '@/types/firmware';
 
 function createBrewfatherRequest(
   firmwareOptions: FirmwareOptions,

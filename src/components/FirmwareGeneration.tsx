@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Container, Group, Tooltip } from '@mantine/core';
-import { YamlViewer } from '@/components/YamlViewer.tsx';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { YamlViewer } from '@/components/YamlViewer';
+import { useAppContext } from '@/context/useAppContext';
 import { showNotification } from '@mantine/notifications';
-import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
-import type { Tilt } from '@/models/tilt.ts';
+import { generateFirmwareConfig } from '@/generators/generateFirmware';
+import type { Tilt } from '@/models/tilt';
 
 export const FirmwareGeneration: React.FC = () => {
   const { t } = useTranslation();

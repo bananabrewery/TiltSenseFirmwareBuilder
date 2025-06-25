@@ -1,4 +1,4 @@
-import type { Tilt } from '@/models/tilt.ts';
+import type { Tilt } from '@/models/tilt';
 
 export function generateGlobalsBlock(tilts: Tilt[]): string {
   let globalsBlock = `globals:
@@ -34,7 +34,7 @@ export function generateGlobalsBlock(tilts: Tilt[]): string {
   });
 
   globalsBlock += `
-  
+
 `;
 
   return globalsBlock;

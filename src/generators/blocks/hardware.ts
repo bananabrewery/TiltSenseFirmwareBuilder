@@ -1,4 +1,4 @@
-import type { FirmwareConfig } from '@/types/firmware.ts';
+import type { FirmwareConfig } from '@/types/firmware';
 
 export function generateHardwareBlock(config: FirmwareConfig): string {
   const hardwareBlock = `psram:
