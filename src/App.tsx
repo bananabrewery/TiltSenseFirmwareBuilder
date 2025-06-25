@@ -32,9 +32,11 @@ import { showNotification } from '@mantine/notifications';
 import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
 import { YamlViewer } from '@/components/YamlViewer.tsx';
 import AppFooter from '@/components/Footer.tsx';
+import { useAppContext } from '@/context/useAppContext.ts';
 
 function App() {
   const { t } = useTranslation();
+  const { firmwareOptions, setFirmwareOptions } = useAppContext();
 
   const [tilts, setTilts] = useState<Tilts>(
     TiltColors.reduce((acc, name) => {
@@ -54,19 +56,6 @@ function App() {
       return acc;
     }, {} as Tilts)
   );
-
-  const [brewfatherConfig, setBrewfatherConfig] = useState({
-    enabled: false,
-    apiKey: '',
-  });
-
-  const [wifiConfig, setWifiConfig] = useState({
-    SSID: '',
-    password: '',
-  });
-
-  const [homeAssistantEnabled, setHomeAssistantEnabled] = useState(false);
-  const [pressureSensorsEnabled, setPressureSensorsEnabled] = useState(false);
 
   const [generatedYAML, setGeneratedYAML] = useState('');
 
@@ -101,25 +90,10 @@ function App() {
     }));
   };
 
-  const handleBrewfatherToggle = () => {
-    setBrewfatherConfig((prev) => ({
-      ...prev,
-      enabled: !prev.enabled,
-      apiKey: !prev.enabled ? prev.apiKey : '', // clear API key when disabling
-    }));
-  };
-
-  const handleBrewfatherKeyChange = (value: string) => {
-    setBrewfatherConfig((prev) => ({
-      ...prev,
-      apiKey: value,
-    }));
-  };
-
   const handleGenerateYAML = () => {
     if (
-      brewfatherConfig.enabled &&
-      (!brewfatherConfig.apiKey || brewfatherConfig.apiKey.trim() === '')
+      firmwareOptions.brewfather.enabled &&
+      (!firmwareOptions.brewfather.apiKey || firmwareOptions.brewfather.apiKey.trim() === '')
     ) {
       showNotification({
         title: t('notifications.error.brewfather.title'),
@@ -131,7 +105,10 @@ function App() {
       return;
     }
 
-    if (brewfatherConfig.enabled && (!wifiConfig.SSID || !wifiConfig.password)) {
+    if (
+      firmwareOptions.brewfather.enabled &&
+      (!firmwareOptions.wifiConfig.SSID || !firmwareOptions.wifiConfig.password)
+    ) {
       showNotification({
         title: t('notifications.warning.brewfather.title'),
         message: t('notifications.warning.brewfather.message'),
@@ -142,16 +119,11 @@ function App() {
     }
 
     const enabledTilts = Object.values(tilts).filter((tilt) => tilt.enabled);
-    const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, {
-      brewfather: brewfatherConfig,
-      ha: homeAssistantEnabled,
-      wifiConfig: wifiConfig,
-      enablePressureSensors: pressureSensorsEnabled,
-    });
+    const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, firmwareOptions);
     setGeneratedYAML(tiltSenseGeneratedFirmware);
   };
 
-  const hasAnyTiltSelected = () => {
+  const isAnyTiltSelected = () => {
     try {
       if (!tilts || typeof tilts !== 'object') return false;
       return Object.values(tilts).some((tilt: Tilt) => tilt?.enabled === true);
@@ -163,14 +135,16 @@ function App() {
   const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false);
 
   useEffect(() => {
-    const shouldShow = wifiConfig.password.length < 8 && wifiConfig.password.length > 0;
+    const shouldShow =
+      firmwareOptions.wifiConfig.password.length < 8 &&
+      firmwareOptions.wifiConfig.password.length > 0;
 
     const timeout = setTimeout(() => {
       setShowWifiPasswordTooltip(shouldShow);
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [wifiConfig.password]);
+  }, [firmwareOptions.wifiConfig.password]);
 
   return (
     <MantineProvider>
@@ -241,14 +215,16 @@ function App() {
                     onChange={() => togglePro(key)}
                   />
                 )}
-                {tilts[key].enabled && homeAssistantEnabled && pressureSensorsEnabled && (
-                  <TextInput
-                    ml="xl"
-                    placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-                    value={tilts[key].haPressureSensor}
-                    onChange={(event) => manageTiltPressureSensor(key, event.currentTarget.value)}
-                  />
-                )}
+                {tilts[key].enabled &&
+                  firmwareOptions.ha &&
+                  firmwareOptions.enablePressureSensors && (
+                    <TextInput
+                      ml="xl"
+                      placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
+                      value={tilts[key].haPressureSensor}
+                      onChange={(event) => manageTiltPressureSensor(key, event.currentTarget.value)}
+                    />
+                  )}
               </Group>
             );
           })}
@@ -264,13 +240,17 @@ function App() {
               mt="md"
               label={t('configuration.wifi.fields.SSID.label')}
               placeholder={t('configuration.wifi.fields.SSID.placeholder')}
-              value={wifiConfig.SSID}
-              onChange={(event) =>
-                setWifiConfig({
-                  ...wifiConfig,
-                  SSID: event.currentTarget.value,
-                })
-              }
+              value={firmwareOptions.wifiConfig.SSID}
+              onChange={(event) => {
+                const value = event.currentTarget.value;
+                setFirmwareOptions((prev) => ({
+                  ...prev,
+                  wifiConfig: {
+                    ...prev.wifiConfig,
+                    SSID: value,
+                  },
+                }));
+              }}
             />
             <Tooltip
               label={t('configuration.wifi.fields.password.validationMessage')}
@@ -282,13 +262,17 @@ function App() {
                 label={t('configuration.wifi.fields.password.label')}
                 placeholder={t('configuration.wifi.fields.password.placeholder')}
                 mt="md"
-                value={wifiConfig.password}
-                onChange={(event) =>
-                  setWifiConfig({
-                    ...wifiConfig,
-                    password: event.currentTarget.value,
-                  })
-                }
+                value={firmwareOptions.wifiConfig.password}
+                onChange={(event) => {
+                  const value = event.currentTarget.value;
+                  setFirmwareOptions((prev) => ({
+                    ...prev,
+                    wifiConfig: {
+                      ...prev.wifiConfig,
+                      password: value,
+                    },
+                  }));
+                }}
               />
             </Tooltip>
           </Box>
@@ -298,11 +282,20 @@ function App() {
             </Text>
             <Checkbox
               label={t('configuration.brewfather.fields.enable.label')}
-              checked={brewfatherConfig.enabled}
-              onChange={handleBrewfatherToggle}
+              checked={firmwareOptions.brewfather.enabled}
+              onChange={(event) => {
+                const checked = event.currentTarget.checked;
+                setFirmwareOptions((prev) => ({
+                  ...prev,
+                  brewfather: {
+                    ...prev.brewfather,
+                    enabled: checked,
+                  },
+                }));
+              }}
               mt="md"
             />
-            {brewfatherConfig.enabled && (
+            {firmwareOptions.brewfather.enabled && (
               <TextInput
                 style={{ maxWidth: '350px' }}
                 label={
@@ -323,8 +316,17 @@ function App() {
                 }
                 labelProps={{ style: { marginBottom: '10px' } }}
                 placeholder={t('configuration.brewfather.fields.key.placeholder')}
-                value={brewfatherConfig.apiKey}
-                onChange={(event) => handleBrewfatherKeyChange(event.currentTarget.value)}
+                value={firmwareOptions.brewfather.apiKey}
+                onChange={(event) => {
+                  const value = event.currentTarget.value;
+                  setFirmwareOptions((prev) => ({
+                    ...prev,
+                    brewfather: {
+                      ...prev.brewfather,
+                      apiKey: value,
+                    },
+                  }));
+                }}
                 mt="md"
               />
             )}
@@ -335,12 +337,18 @@ function App() {
             </Text>
             <Checkbox
               label={t('configuration.ha.fields.enable.label')}
-              checked={homeAssistantEnabled}
-              onChange={(event) => setHomeAssistantEnabled(event.currentTarget.checked)}
+              checked={firmwareOptions.ha}
+              onChange={(event) => {
+                const checked = event.currentTarget.checked;
+                setFirmwareOptions((prev) => ({
+                  ...prev,
+                  ha: checked,
+                }));
+              }}
               mt="md"
             />
           </Box>
-          {homeAssistantEnabled && (
+          {firmwareOptions.ha && (
             <Box mt="xl">
               <Text>
                 <Trans
@@ -350,8 +358,14 @@ function App() {
               </Text>
               <Checkbox
                 label={t('configuration.pressureSensor.fields.enable.label')}
-                checked={pressureSensorsEnabled}
-                onChange={(event) => setPressureSensorsEnabled(event.currentTarget.checked)}
+                checked={firmwareOptions.enablePressureSensors}
+                onChange={(event) => {
+                  const checked = event.currentTarget.checked;
+                  setFirmwareOptions((prev) => ({
+                    ...prev,
+                    enablePressureSensors: checked,
+                  }));
+                }}
                 mt="md"
               />
             </Box>
@@ -360,8 +374,8 @@ function App() {
       </Box>
       <Container fluid mt="xl" px="xl">
         <Group justify="center" mb="md">
-          <Tooltip label={t('validation.oneTilt')} disabled={hasAnyTiltSelected()}>
-            <Button onClick={handleGenerateYAML} disabled={!hasAnyTiltSelected()}>
+          <Tooltip label={t('validation.oneTilt')} disabled={isAnyTiltSelected()}>
+            <Button onClick={handleGenerateYAML} disabled={!isAnyTiltSelected()}>
               {t('button.generateYaml.title')}
             </Button>
           </Tooltip>
