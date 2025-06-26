@@ -14,5 +14,13 @@ export async function uploadYamlAsText(yaml: string): Promise<Response> {
     throw new Error(`Upload failed with status ${res.status}`);
   }
 
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'firmware.factory.bin';
+  a.click();
+
   return res;
 }
