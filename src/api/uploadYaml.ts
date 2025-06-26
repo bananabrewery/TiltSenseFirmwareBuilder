@@ -1,17 +1,12 @@
 import { apiFetch } from '@/api/api.ts';
 
 export async function uploadYamlAsText(yaml: string): Promise<Response> {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-
   const file = new File([yaml], 'tiltsense.yaml', { type: 'text/yaml' });
   const formData = new FormData();
   formData.append('file', file);
 
-  const res = await apiFetch('/upload', {
+  const res = await apiFetch('/compile', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'text/yaml',
-    },
     body: formData,
   });
 
