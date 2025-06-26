@@ -8,7 +8,7 @@ const pkg: { version: string } = JSON.parse(
 );
 
 export default defineConfig({
-  base: '/tiltsense-yaml-generator/',
+  base: '/TiltSenseYAMLGenerator/',
   plugins: [react()],
   resolve: {
     alias: {
