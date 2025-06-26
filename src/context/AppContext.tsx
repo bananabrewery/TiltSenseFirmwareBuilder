@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 import type { FirmwareOptions } from '@/types/firmware';
 import type { Tilt } from '@/models/tilt';
 

@@ -51,18 +51,6 @@ export const TiltColorId: Record<TiltColorKey, string> = {
   pink: 'A495BB80-C5B1-4B44-B512-1370F02D74DE',
   purple: 'A495BB40-C5B1-4B44-B512-1370F02D74DE',
 };
-
-export const TiltColors: TiltColor['name'][] = [
-  'Black',
-  'Blue',
-  'Green',
-  'Orange',
-  'Red',
-  'Yellow',
-  'Pink',
-  'Purple',
-];
-
 export type Tilt = {
   key: TiltColorKey;
   enabled: boolean;

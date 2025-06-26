@@ -14,7 +14,7 @@ export const FirmwareGeneration: React.FC = () => {
 
   const isAnyTiltSelected = (): boolean => {
     if (!Array.isArray(tilts)) return false;
-    return tilts.some((tilt) => tilt.enabled === true);
+    return tilts.some((tilt) => tilt.enabled);
   };
 
   const handleGenerateYAML = () => {
