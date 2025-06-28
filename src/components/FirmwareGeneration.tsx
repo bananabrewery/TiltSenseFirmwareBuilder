@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Container, Group, Tooltip } from '@mantine/core';
 import { YamlViewer } from '@/components/YamlViewer';
@@ -6,11 +6,11 @@ import { useAppContext } from '@/context/useAppContext';
 import { showNotification } from '@mantine/notifications';
 import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import type { Tilt } from '@/models/tilt';
+import { YamlSubmit } from '@/components/YamlSubmit.tsx';
 
 export const FirmwareGeneration: React.FC = () => {
   const { t } = useTranslation();
-  const { tilts, firmwareOptions } = useAppContext();
-  const [generatedYAML, setGeneratedYAML] = useState('');
+  const { tilts, firmwareOptions, yamlContent, setYamlContent } = useAppContext();
 
   const isAnyTiltSelected = (): boolean => {
     if (!Array.isArray(tilts)) return false;
@@ -47,7 +47,7 @@ export const FirmwareGeneration: React.FC = () => {
 
     const enabledTilts: Tilt[] = tilts.filter((tilt) => tilt.enabled);
     const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, firmwareOptions);
-    setGeneratedYAML(tiltSenseGeneratedFirmware);
+    setYamlContent(tiltSenseGeneratedFirmware);
   };
 
   return (
@@ -59,8 +59,9 @@ export const FirmwareGeneration: React.FC = () => {
               {t('button.generateYaml.title')}
             </Button>
           </Tooltip>
+          <YamlSubmit />
         </Group>
-        {generatedYAML && <YamlViewer code={generatedYAML} />}
+        {yamlContent && <YamlViewer code={yamlContent} />}
       </Container>
     </>
   );

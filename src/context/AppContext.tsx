@@ -7,6 +7,8 @@ export type AppContextType = {
   setFirmwareOptions: React.Dispatch<React.SetStateAction<FirmwareOptions>>;
   tilts: Tilt[];
   setTilts: React.Dispatch<React.SetStateAction<Tilt[]>>;
+  yamlContent: string;
+  setYamlContent: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

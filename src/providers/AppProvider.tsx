@@ -13,6 +13,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const [tilts, setTilts] = useState<Tilt[]>(persisted?.tilts ?? defaultTilts);
+  const [yamlContent, setYamlContent] = useState<string>('');
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -23,7 +24,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [firmwareOptions, tilts]);
 
   return (
-    <AppContext.Provider value={{ firmwareOptions, setFirmwareOptions, tilts, setTilts }}>
+    <AppContext.Provider
+      value={{ firmwareOptions, setFirmwareOptions, tilts, setTilts, yamlContent, setYamlContent }}
+    >
       {children}
     </AppContext.Provider>
   );
