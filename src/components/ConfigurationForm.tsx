@@ -3,6 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import {
   Anchor,
   Box,
+  Button,
   Checkbox,
   Group,
   PasswordInput,
@@ -12,7 +13,12 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { IconGripVertical, IconInfoCircle, IconTestPipe2Filled } from '@tabler/icons-react';
+import {
+  IconGripVertical,
+  IconInfoCircle,
+  IconRotateClockwise,
+  IconTestPipe2Filled,
+} from '@tabler/icons-react';
 import { useAppContext } from '@/context/useAppContext';
 
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
@@ -52,6 +58,18 @@ export const ConfigurationForm: React.FC = () => {
         <Text>
           <Trans i18nKey="configuration.tilt.init" components={{ strong: <strong /> }} />
         </Text>
+        <Box mb="md" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              const sorted = [...tiltList].sort((a, b) => a.color.name.localeCompare(b.color.name));
+              tiltHandlers.setState(sorted);
+            }}
+            leftSection={<IconRotateClockwise size={14} />}
+          >
+            {t('button.restore_order.title')}
+          </Button>
+        </Box>
         <DragDropContext
           onDragEnd={({ destination, source }) => {
             if (destination && source.index !== destination.index) {

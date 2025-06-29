@@ -7,6 +7,7 @@ import { showNotification } from '@mantine/notifications';
 import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import type { Tilt } from '@/models/tilt';
 import { YamlSubmit } from '@/components/YamlSubmit.tsx';
+import { IconFileCode } from '@tabler/icons-react';
 
 export const FirmwareGeneration: React.FC = () => {
   const { t } = useTranslation();
@@ -55,7 +56,11 @@ export const FirmwareGeneration: React.FC = () => {
       <Container fluid mt="xl" px="xl">
         <Group justify="center" mb="md">
           <Tooltip label={t('validation.oneTilt')} disabled={isAnyTiltSelected()}>
-            <Button onClick={handleGenerateYAML} disabled={!isAnyTiltSelected()}>
+            <Button
+              onClick={handleGenerateYAML}
+              disabled={!isAnyTiltSelected()}
+              leftSection={<IconFileCode size={14} />}
+            >
               {t('button.generateYaml.title')}
             </Button>
           </Tooltip>

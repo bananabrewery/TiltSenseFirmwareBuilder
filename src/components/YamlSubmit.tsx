@@ -2,6 +2,7 @@ import { Button, Loader, Tooltip } from '@mantine/core';
 import { uploadYamlAsText } from '../api/uploadYaml';
 import { useState } from 'react';
 import { useAppContext } from '@/context/useAppContext.ts';
+import { IconCpu } from '@tabler/icons-react';
 
 export function YamlSubmit() {
   const { yamlContent } = useAppContext();
@@ -30,7 +31,11 @@ export function YamlSubmit() {
       color={error ? 'red' : 'green'}
       withArrow
     >
-      <Button onClick={handleSubmit} disabled={!yamlContent || loading}>
+      <Button
+        onClick={handleSubmit}
+        disabled={!yamlContent || loading}
+        leftSection={<IconCpu size={14} />}
+      >
         {loading && <Loader size="xs" mr="xs" />}
         Generate firmware
       </Button>

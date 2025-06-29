@@ -99,6 +99,9 @@ const es = {
       download: {
         title: 'Descargar',
       },
+      restore_order: {
+        title: 'Restaurar ordenación',
+      },
     },
     notifications: {
       warning: {

@@ -100,6 +100,9 @@ const en = {
       download: {
         title: 'Download',
       },
+      restore_order: {
+        title: 'Restore order',
+      },
     },
     notifications: {
       warning: {
