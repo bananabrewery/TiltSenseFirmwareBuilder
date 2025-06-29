@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Container, Group, Tooltip } from '@mantine/core';
-import { YamlViewer } from '@/components/YamlViewer';
+import { YamlViewer } from '@/components/firmware/YamlViewer';
 import { useAppContext } from '@/context/useAppContext';
 import { showNotification } from '@mantine/notifications';
 import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import type { Tilt } from '@/models/tilt';
-import { YamlSubmit } from '@/components/YamlSubmit.tsx';
+import { YamlSubmit } from '@/components/firmware/YamlSubmit';
 import { IconFileCode } from '@tabler/icons-react';
 
 export const FirmwareGeneration: React.FC = () => {

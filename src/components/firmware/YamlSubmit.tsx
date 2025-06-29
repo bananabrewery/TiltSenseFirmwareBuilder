@@ -1,5 +1,5 @@
 import { Button, Loader, Tooltip } from '@mantine/core';
-import { uploadYamlAsText } from '../api/uploadYaml';
+import { uploadYamlAsText } from '@/api/uploadYaml';
 import { useState } from 'react';
 import { useAppContext } from '@/context/useAppContext.ts';
 import { IconCpu } from '@tabler/icons-react';
