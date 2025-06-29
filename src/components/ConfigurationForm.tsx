@@ -12,14 +12,24 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { IconInfoCircle, IconTestPipe2Filled } from '@tabler/icons-react';
+import { IconGripVertical, IconInfoCircle, IconTestPipe2Filled } from '@tabler/icons-react';
 import { useAppContext } from '@/context/useAppContext';
+
+import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
+import { useListState } from '@mantine/hooks';
+import cx from 'clsx';
+import classes from './DndTilts.module.css';
 
 export const ConfigurationForm: React.FC = () => {
   const { t } = useTranslation();
   const { firmwareOptions, setFirmwareOptions } = useAppContext();
-  const { tilts, setTilts } = useAppContext();
+  const { tilts: contextTilts, setTilts: setContextTilts } = useAppContext();
+  const [tiltList, tiltHandlers] = useListState(contextTilts);
   const [showWifiPasswordTooltip, setShowWifiPasswordTooltip] = useState(false);
+
+  useEffect(() => {
+    setContextTilts(tiltList);
+  }, [tiltList, setContextTilts]);
 
   useEffect(() => {
     const shouldShow =
@@ -42,64 +52,82 @@ export const ConfigurationForm: React.FC = () => {
         <Text>
           <Trans i18nKey="configuration.tilt.init" components={{ strong: <strong /> }} />
         </Text>
-        {tilts.map((tilt) => {
-          return (
-            <Box key={tilt.key} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <Box style={{ width: 24 }}>
-                <IconTestPipe2Filled size={24} color={tilt.color.hexColor} />
-              </Box>
-              <Box style={{ minWidth: 100 }}>
-                <Checkbox
-                  label={t(`tilt.colors.${tilt.color.name}`)}
-                  checked={tilt.enabled}
-                  onChange={(event) => {
-                    const checked = event.currentTarget.checked;
-                    setTilts((prev) =>
-                      prev.map((t) =>
-                        t.color.colorKey === tilt.color.colorKey ? { ...t, enabled: checked } : t
-                      )
-                    );
-                  }}
-                />
-              </Box>
-              <Box style={{ minWidth: 80 }}>
-                {tilt.enabled && (
-                  <Checkbox
-                    label={t('configuration.tilt.fields.tilt.pro')}
-                    checked={tilt.isPro}
-                    onChange={(event) => {
-                      const checked = event.currentTarget.checked;
-                      setTilts((prev) =>
-                        prev.map((t) =>
-                          t.color.colorKey === tilt.color.colorKey ? { ...t, isPro: checked } : t
-                        )
-                      );
-                    }}
-                  />
-                )}
-              </Box>
-              <Box style={{ flex: 1 }}>
-                {tilt.enabled && firmwareOptions.ha && firmwareOptions.enablePressureSensors && (
-                  <TextInput
-                    style={{ width: 600 }}
-                    placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-                    value={tilt.haPressureSensor}
-                    onChange={(event) => {
-                      const value = event.currentTarget.value;
-                      setTilts((prev) =>
-                        prev.map((t) =>
-                          t.color.colorKey === tilt.color.colorKey
-                            ? { ...t, haPressureSensor: value }
-                            : t
-                        )
-                      );
-                    }}
-                  />
-                )}
-              </Box>
-            </Box>
-          );
-        })}
+        <DragDropContext
+          onDragEnd={({ destination, source }) => {
+            if (destination && source.index !== destination.index) {
+              tiltHandlers.reorder({ from: source.index, to: destination.index });
+            }
+          }}
+        >
+          <Droppable droppableId="tilts-droppable" direction="vertical">
+            {(provided) => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {tiltList.map((tilt, index) => (
+                  <Draggable key={tilt.key} draggableId={tilt.key} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        className={cx(classes.item, {
+                          [classes.itemDragging]: snapshot.isDragging,
+                        })}
+                      >
+                        <Box style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                          <Box {...provided.dragHandleProps} className={classes.dragHandle}>
+                            <IconGripVertical size={20} />
+                          </Box>
+                          <Box style={{ width: 24 }}>
+                            <IconTestPipe2Filled size={24} color={tilt.color.hexColor} />
+                          </Box>
+                          <Box style={{ minWidth: 100 }}>
+                            <Checkbox
+                              label={t(`tilt.colors.${tilt.color.name}`)}
+                              checked={tilt.enabled}
+                              onChange={(event) => {
+                                const checked = event.currentTarget.checked;
+                                tiltHandlers.setItemProp(index, 'enabled', checked);
+                              }}
+                            />
+                          </Box>
+                          <Box style={{ minWidth: 80 }}>
+                            {tilt.enabled && (
+                              <Checkbox
+                                label={t('configuration.tilt.fields.tilt.pro')}
+                                checked={tilt.isPro}
+                                onChange={(event) => {
+                                  const checked = event.currentTarget.checked;
+                                  tiltHandlers.setItemProp(index, 'isPro', checked);
+                                }}
+                              />
+                            )}
+                          </Box>
+                          <Box style={{ flex: 1 }}>
+                            {tilt.enabled &&
+                              firmwareOptions.ha &&
+                              firmwareOptions.enablePressureSensors && (
+                                <TextInput
+                                  style={{ width: 600 }}
+                                  placeholder={t(
+                                    'configuration.tilt.fields.pressureSensor.placeholder'
+                                  )}
+                                  value={tilt.haPressureSensor}
+                                  onChange={(event) => {
+                                    const value = event.currentTarget.value;
+                                    tiltHandlers.setItemProp(index, 'haPressureSensor', value);
+                                  }}
+                                />
+                              )}
+                          </Box>
+                        </Box>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         <Box mt="xl">
           <Text>
             <Trans i18nKey="configuration.wifi.init" components={{ strong: <strong /> }} />
