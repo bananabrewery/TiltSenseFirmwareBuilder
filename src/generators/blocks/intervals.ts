@@ -31,7 +31,7 @@ function createBrewfatherRequest(
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
                               "\\"temp\\": %.1f,"
-                              "\\"temp_unit\\": \\"%s\\`;
+                              "\\"temp_unit\\": \\"%s\\""`;
 
   if (tilt.haPressureSensor && tilt.haPressureSensor.length > 0) {
     brewFatherBlock += `","
