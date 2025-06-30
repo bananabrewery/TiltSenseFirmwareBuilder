@@ -3,9 +3,7 @@
   padding: 8px;
   border-radius: 8px;
   background-color: var(--mantine-color-body);
-  transition:
-    transform 150ms ease,
-    background-color 150ms ease;
+  transition: background-color 150ms ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -20,4 +18,31 @@
 
 .dragHandle:hover {
   transform: scale(1.2);
+}
+
+.dragBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dragIcon {
+  width: 24px;
+}
+
+.dragCheckbox {
+  min-width: 100px;
+}
+
+.dragSensorBox {
+  flex: 1;
+}
+
+.dragSensorInput {
+  width: 500px;
+}
+
+.dragListButton{
+  display: flex;
+  justify-content: flex-end;
 }

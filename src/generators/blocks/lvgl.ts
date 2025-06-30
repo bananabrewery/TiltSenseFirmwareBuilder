@@ -52,9 +52,5 @@ export function generateLVGLBlock(tilts: Tilt[]): string {
                 y: 90`;
   });
 
-  lvglBlock += `
-
-`;
-
   return lvglBlock;
 }
