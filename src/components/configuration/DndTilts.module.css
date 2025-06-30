@@ -42,7 +42,7 @@
   width: 500px;
 }
 
-.dragListButton{
+.dragListButton {
   display: flex;
   justify-content: flex-end;
 }
