@@ -103,6 +103,12 @@ const en = {
       restore_order: {
         title: 'Restore order',
       },
+      generateFirmware: {
+        title: 'Generate Firmware',
+      },
+      generateFirmwareAsync: {
+        title: 'Generate Firmware Asynchronous',
+      },
     },
     notifications: {
       warning: {
@@ -115,6 +121,25 @@ const en = {
         brewfather: {
           title: 'Missing Brewfather API Key',
           message: 'You enabled Brewfather integration but did not provide an API key.',
+        },
+        firmware: {
+          title: 'Error',
+          message: 'Something went wrong...',
+        },
+        firmwareAsync: {
+          title: 'Error',
+          message: 'Something went wrong...',
+        },
+      },
+      success: {
+        firmware: {
+          title: 'Success',
+          message: 'Firmware generated successfully. Downloading file...',
+        },
+        firmwareAsync: {
+          title: 'Success',
+          message:
+            "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",
         },
       },
     },

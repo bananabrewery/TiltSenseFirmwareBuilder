@@ -15,6 +15,7 @@ export const defaultFirmwareOptions: FirmwareOptions = {
     password: '',
   },
   enablePressureSensors: false,
+  fileName: 'tiltsense.yaml',
 };
 
 export const defaultTilts = (): Tilt[] =>
