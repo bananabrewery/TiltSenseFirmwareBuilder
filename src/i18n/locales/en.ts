@@ -86,13 +86,52 @@ const en = {
         },
       },
     },
+    stepper: {
+      title: 'Get your TiltSense ready',
+      button: {
+        next: 'Next step',
+        prev: 'Previous step',
+      },
+      step1: {
+        label: 'TiltSense configuration',
+        description: 'First step',
+        content: {
+          text: 'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
+          required: {
+            title: 'Required configuration',
+            check: {
+              tilt: 'At least one Tilt selected.',
+            },
+          },
+          optional: {
+            title: 'Optional configuration',
+            check: {
+              wifi: 'Wi-Fi configured.',
+              brewfather: 'Brewfather integration.',
+              ha: 'Home Assistant integration',
+              pressureSensor: 'Pressure sensor configured.',
+            },
+          },
+        },
+      },
+      step2: {
+        label: 'Generate firmware',
+        description: 'Second step',
+        content: {
+          text: "TiltSense firmware was generated successfully with your configuration. Now it's time to compile it. Jump into the next step unless you are out of curiosity to see how your ESPHome Yaml file looks like :)",
+          accordionTitle: 'TiltSense ESPHome YAML',
+        },
+      },
+      step3: {
+        label: 'Compile firmware',
+        description: 'Last step',
+        content: {},
+      },
+    },
     validation: {
       oneTilt: 'You must select at least one tilt',
     },
     button: {
-      generateYaml: {
-        title: 'Generate TiltSense YAML',
-      },
       copy: {
         title: 'Copy',
         shiftedTitle: 'Copied',
@@ -105,9 +144,6 @@ const en = {
       },
       generateFirmware: {
         title: 'Generate Firmware',
-      },
-      generateFirmwareAsync: {
-        title: 'Generate Firmware Asynchronous',
       },
     },
     notifications: {
@@ -133,10 +169,6 @@ const en = {
       },
       success: {
         firmware: {
-          title: 'Success',
-          message: 'Firmware generated successfully. Downloading file...',
-        },
-        firmwareAsync: {
           title: 'Success',
           message:
             "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",
