@@ -29,9 +29,7 @@ const en = {
       },
     },
     configuration: {
-      text: "Let's start!",
       tilt: {
-        init: 'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
         fields: {
           tilt: {
             pro: 'Pro',
@@ -42,9 +40,6 @@ const en = {
         },
       },
       wifi: {
-        init: 'Please add the following <strong>Wi-Fi configuration</strong>.',
-        subinit:
-          'If you plan to use your TiltSense without connectivity, you can skip these fields.',
         fields: {
           SSID: {
             label: 'Wi-Fi SSID',
@@ -58,7 +53,6 @@ const en = {
         },
       },
       brewfather: {
-        init: 'Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?',
         fields: {
           enable: {
             label: 'Enable Brewfather Integration',
@@ -70,7 +64,6 @@ const en = {
         },
       },
       ha: {
-        init: 'Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?',
         fields: {
           enable: {
             label: 'Enable Home Assistant Integration',
@@ -86,46 +79,74 @@ const en = {
         },
       },
     },
-    stepper: {
-      title: 'Get your TiltSense ready',
+    processStepper: {
+      title: 'Get your TiltSense ready!',
       button: {
         next: 'Next step',
         prev: 'Previous step',
       },
-      step1: {
-        label: 'TiltSense configuration',
-        description: 'First step',
-        content: {
-          text: 'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
-          required: {
-            title: 'Required configuration',
-            check: {
-              tilt: 'At least one Tilt selected.',
-            },
+      steps: {
+        step1: {
+          label: 'Tilt selection',
+          description: 'Required configuration',
+          content: {
+            intro:
+              'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
           },
-          optional: {
-            title: 'Optional configuration',
-            check: {
-              wifi: 'Wi-Fi configured.',
-              brewfather: 'Brewfather integration.',
-              ha: 'Home Assistant integration',
-              pressureSensor: 'Pressure sensor configured.',
+        },
+        step2: {
+          label: 'Wi-Fi configuration',
+          description: 'Optional',
+          content: {
+            intro: 'Please add the following <strong>Wi-Fi configuration</strong>.',
+            subintro:
+              'If you plan to use your TiltSense without connectivity, you can skip these fields.',
+          },
+        },
+        step3: {
+          label: 'Brewfather integration',
+          description: 'Optional',
+          content: {
+            intro:
+              'Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?',
+          },
+        },
+        step4: {
+          label: 'Home Assistant integration',
+          description: 'Optional',
+          content: {
+            intro:
+              'Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?',
+          },
+        },
+        step5: {
+          label: 'Firmware compilation',
+          description: 'Last step',
+          summary: {
+            title: 'Configuration summary',
+            required: {
+              title: 'Required configuration',
+              check: {
+                tilt: 'At least one Tilt selected.',
+              },
+            },
+            optional: {
+              title: 'Optional configuration',
+              check: {
+                wifi: 'Wi-Fi configured.',
+                brewfather: 'Brewfather integration.',
+                ha: 'Home Assistant integration',
+                pressureSensor: 'Pressure sensor configured.',
+              },
             },
           },
         },
-      },
-      step2: {
-        label: 'Generate firmware',
-        description: 'Second step',
-        content: {
-          text: "TiltSense firmware was generated successfully with your configuration. Now it's time to compile it. Jump into the next step unless you are out of curiosity to see how your ESPHome Yaml file looks like :)",
-          accordionTitle: 'TiltSense ESPHome YAML',
+        completedStep: {
+          content: {
+            intro:
+              "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",
+          },
         },
-      },
-      step3: {
-        label: 'Compile firmware',
-        description: 'Last step',
-        content: {},
       },
     },
     validation: {

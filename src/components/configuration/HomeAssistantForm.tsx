@@ -10,9 +10,6 @@ export const HomeAssistantForm: React.FC = () => {
   return (
     <>
       <Box mt="xl">
-        <Text>
-          <Trans i18nKey="configuration.ha.init" components={{ strong: <strong /> }} />
-        </Text>
         <Checkbox
           label={t('configuration.ha.fields.enable.label')}
           checked={firmwareOptions.ha}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Anchor, Box, Checkbox, Group, Text, TextInput } from '@mantine/core';
+import { Anchor, Box, Checkbox, Group, TextInput } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppContext } from '@/context/useAppContext.ts';
 import { IconInfoCircle } from '@tabler/icons-react';
@@ -11,9 +11,6 @@ export const BrewfatherForm: React.FC = () => {
   return (
     <>
       <Box mt="xl">
-        <Text>
-          <Trans i18nKey="configuration.brewfather.init" components={{ strong: <strong /> }} />
-        </Text>
         <Checkbox
           label={t('configuration.brewfather.fields.enable.label')}
           checked={firmwareOptions.brewfather.enabled}

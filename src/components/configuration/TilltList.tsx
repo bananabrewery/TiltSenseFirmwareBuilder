@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Text } from '@mantine/core';
+import { Box, Button } from '@mantine/core';
 import { IconRotateClockwise } from '@tabler/icons-react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useListState } from '@mantine/hooks';
 import { useAppContext } from '@/context/useAppContext.ts';
@@ -20,10 +20,7 @@ export const TiltList: React.FC = () => {
 
   return (
     <>
-      <Text>
-        <Trans i18nKey="configuration.tilt.init" components={{ strong: <strong /> }} />
-      </Text>
-      <Box mb="md" className={classes.dragListButton}>
+      <Box className={classes.dragListButton}>
         <Button
           variant="outline"
           onClick={() => {

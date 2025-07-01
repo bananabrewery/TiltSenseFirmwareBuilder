@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, PasswordInput, Text, TextInput, Tooltip } from '@mantine/core';
-import { Trans, useTranslation } from 'react-i18next';
+import { Box, PasswordInput, TextInput, Tooltip } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { useAppContext } from '@/context/useAppContext.ts';
 
 export const WifiForm: React.FC = () => {
@@ -23,12 +23,6 @@ export const WifiForm: React.FC = () => {
   return (
     <>
       <Box mt="xl">
-        <Text>
-          <Trans i18nKey="configuration.wifi.init" components={{ strong: <strong /> }} />
-        </Text>
-        <Text mt="xs" c="dimmed">
-          {t('configuration.wifi.subinit')}
-        </Text>
         <TextInput
           style={{ maxWidth: '350px' }}
           mt="md"
