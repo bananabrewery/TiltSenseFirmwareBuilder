@@ -21,7 +21,10 @@ export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange
             <IconTestPipe2Filled size={24} color={tilt.color?.hexColor ?? '#ccc'} />
           </Box>
           <Box className={classes.dragCheckbox}>
-            <Text>{t(`tilt.colors.${tilt.color?.name ?? 'unknown'}`)}</Text>
+            <Text>
+              {t(`tilt.colors.${tilt.color?.name ?? 'unknown'}`)}
+              {tilt.isPro ? ` ${t('configuration.tilt.fields.tilt.pro')}` : ''}
+            </Text>
           </Box>
           <Box className={classes.dragSensorBox}>
             <TextInput

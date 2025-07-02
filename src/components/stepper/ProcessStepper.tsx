@@ -487,7 +487,7 @@ export const ProcessStepper: React.FC = () => {
               label={
                 !hasAnyTiltEnabled ? t('validation.oneTilt') : t('validation.generateFirmware')
               }
-              disabled={hasAnyTiltEnabled && hasYamlContent}
+              disabled={(hasAnyTiltEnabled && active === 0) || (hasYamlContent && active === 5)}
             >
               <Button
                 disabled={disableNextButton()}

@@ -77,6 +77,7 @@ const en = {
             label: 'I have pressure sensors in Home Assistant',
           },
         },
+        description: 'Add the Pressure Sensor entities from Home Assistant for each of your Tilts.',
       },
     },
     processStepper: {
