@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Accordion,
   Button,
@@ -37,6 +37,7 @@ import type { Tilt } from '@/models/tilt';
 import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import { showNotification } from '@mantine/notifications';
 import { compileYAMLAsync } from '@/api/uploadYaml';
+import { appConstants } from '@/constants/firmware.ts';
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
@@ -156,17 +157,44 @@ export const ProcessStepper: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const [remainingTime, setRemainingTime] = useState<number | null>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const lastCompile = localStorage.getItem('tiltSenseLastFirmwareCompile');
+      if (lastCompile) {
+        const timeLeft = 60 * 60 * 1000 - (Date.now() - parseInt(lastCompile, 10));
+        if (timeLeft <= 0) {
+          setRemainingTime(null);
+          clearInterval(interval);
+        } else {
+          setRemainingTime(timeLeft);
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const canCompile = (): boolean => {
+    const lastCompile = localStorage.getItem('tiltSenseLastFirmwareCompile');
+    if (!lastCompile) return true;
+
+    const elapsed = Date.now() - parseInt(lastCompile, 10);
+    return elapsed > appConstants.timeBetweenCompilations;
+  };
+
   const handleSubmitAsync = async () => {
     if (!isValidEmail(email)) {
       setEmailError(t('validation.invalidEmail'));
       return;
     }
-
     setLoading(true);
-
     try {
       await compileYAMLAsync(yamlContent, email);
       resNotification(true);
+      const now = Date.now();
+      localStorage.setItem('tiltSenseLastFirmwareCompile', now.toString());
       setActive(6);
       setFinished(true);
     } catch (err) {
@@ -402,20 +430,29 @@ export const ProcessStepper: React.FC = () => {
               onChange={handleEmailChange}
               error={emailError}
             />
-            <Group justify="center" mt="xl">
+            <Group
+              justify="center"
+              mt="xl"
+              style={{ flexDirection: 'column', alignItems: 'center' }}
+            >
               <Tooltip
                 label={!hasYamlContent ? t('validation.yamlError') : t('validation.email')}
                 disabled={hasYamlContent && !!email}
               >
                 <Button
                   onClick={handleSubmitAsync}
-                  disabled={!hasYamlContent || loading || !email}
+                  disabled={!hasYamlContent || loading || !email || !canCompile()}
                   leftSection={<IconCpu size={14} />}
                 >
                   {loading && <Loader size="xs" mr="xs" />}
                   {t('button.compileFirmware.title')}
                 </Button>
               </Tooltip>
+              {remainingTime && (
+                <Text c="dimmed" size="sm">
+                  You can compile again in {Math.ceil(remainingTime / 60000)} minutes.
+                </Text>
+              )}
             </Group>
           </Stepper.Step>
           <Stepper.Completed>
