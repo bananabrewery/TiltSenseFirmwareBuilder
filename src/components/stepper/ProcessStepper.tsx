@@ -155,9 +155,7 @@ export const ProcessStepper: React.FC = () => {
             label={t('processStepper.steps.4.label')}
             description={t('processStepper.steps.4.description')}
           >
-            <Text mt="xl">
-              {t('processStepper.steps.4.content.intro')}
-            </Text>
+            <Text mt="xl">{t('processStepper.steps.4.content.intro')}</Text>
             <Text style={{ fontWeight: 'bold' }} mt="xl">
               {t('processStepper.steps.4.summary.title')}
             </Text>
