@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, PasswordInput, TextInput, Tooltip } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
 
 export const WifiForm: React.FC = () => {
   const { t } = useTranslation();

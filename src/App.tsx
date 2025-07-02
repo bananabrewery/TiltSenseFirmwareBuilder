@@ -1,15 +1,13 @@
 import '@mantine/core/styles.css';
 import AppFooter from '@/components/Footer';
 import { Intro } from '@/components/Intro';
-import { FirmwareGeneration } from '@/components/firmware/FirmwareGeneration';
-import { ProcessStepper } from '@/components/stepper/ProcessStepper.tsx';
+import { ProcessStepper } from '@/components/stepper/ProcessStepper';
 
 function App() {
   return (
     <>
       <Intro />
       <ProcessStepper />
-      <FirmwareGeneration />
       <AppFooter />
     </>
   );

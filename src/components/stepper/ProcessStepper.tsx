@@ -6,33 +6,37 @@ import {
   Divider,
   Flex,
   Group,
+  Loader,
   Stepper,
   Text,
+  TextInput,
   Title,
   Tooltip,
 } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAppContext } from '@/context/useAppContext.ts';
-import { TiltList } from '@/components/configuration/TilltList.tsx';
-import { WifiForm } from '@/components/configuration/WifiForm.tsx';
-import { BrewfatherForm } from '@/components/configuration/BrewfatherForm.tsx';
-import { HomeAssistantForm } from '@/components/configuration/HomeAssistantForm.tsx';
-import { StatusItem } from '@/components/stepper/StatusItem.tsx';
+import { useAppContext } from '@/context/useAppContext';
+import { TiltList } from '@/components/configuration/TilltList';
+import { WifiForm } from '@/components/configuration/WifiForm';
+import { BrewfatherForm } from '@/components/configuration/BrewfatherForm';
+import { HomeAssistantForm } from '@/components/configuration/HomeAssistantForm';
+import { StatusItem } from '@/components/stepper/StatusItem';
 import {
   IconArrowLeft,
   IconArrowRight,
   IconCheck,
+  IconCircleCheck,
   IconCopy,
   IconCpu,
   IconDownload,
   IconFileCode,
 } from '@tabler/icons-react';
-import { defaultFirmwareOptions } from '@/constants/defaults.ts';
-import { YamlViewer } from '@/components/firmware/YamlViewer.tsx';
+import { defaultFirmwareOptions } from '@/constants/defaults';
+import { YamlViewer } from '@/components/stepper/YamlViewer';
 import { usePersistentStep } from '@/hooks/usePersistentStep';
-import type { Tilt } from '@/models/tilt.ts';
-import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
+import type { Tilt } from '@/models/tilt';
+import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import { showNotification } from '@mantine/notifications';
+import { compileYAMLAsync } from '@/api/uploadYaml';
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
@@ -42,6 +46,11 @@ export const ProcessStepper: React.FC = () => {
   const [loadingSteps, setLoadingSteps] = useState<number[]>([]);
   const nextStep = () => setActive((current) => (current < 5 ? current + 1 : current));
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [finished, setFinished] = useState(false);
 
   const hasAnyTiltEnabled = tilts.some((tilt) => tilt.enabled);
   const hasYamlContent = !!yamlContent;
@@ -54,6 +63,9 @@ export const ProcessStepper: React.FC = () => {
 
   const disableNextButton = () => {
     if (active === 4 && !hasYamlContent) {
+      return true;
+    }
+    if (active === 5) {
       return true;
     }
     return !hasAnyTiltEnabled;
@@ -98,6 +110,12 @@ export const ProcessStepper: React.FC = () => {
     setStepLoading(active, false);
   };
 
+  const handleStepClick = (step: number) => {
+    if (step === 5 && !hasYamlContent) return;
+    setActive(step);
+    setFinished(false);
+  };
+
   const handleGenerateYAML = () => {
     const enabledTilts: Tilt[] = tilts.filter((tilt) => tilt.enabled);
     const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, firmwareOptions);
@@ -138,9 +156,53 @@ export const ProcessStepper: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
-  const handleStepClick = (step: number) => {
-    if (step === 5 && !hasYamlContent) return;
-    setActive(step);
+  const handleSubmitAsync = async () => {
+    if (!isValidEmail(email)) {
+      setEmailError(t('validation.invalidEmail'));
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await compileYAMLAsync(yamlContent, email);
+      resNotification(true);
+      setActive(6);
+      setFinished(true);
+    } catch (err) {
+      resNotification(false, (err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resNotification = (success: boolean, msg?: string) => {
+    if (success) {
+      showNotification({
+        title: t('notifications.success.firmwareCompilation.title'),
+        message: t('notifications.success.firmwareCompilation.message'),
+        color: 'green',
+        autoClose: 4000,
+        withCloseButton: true,
+      });
+    } else {
+      showNotification({
+        title: t('notifications.error.firmwareCompilation.title'),
+        message: msg || t('notifications.error.firmwareCompilation.message'),
+        color: 'red',
+        withCloseButton: true,
+      });
+    }
+  };
+
+  const isValidEmail = (email: string): boolean => {
+    return /^\S+@\S+\.\S+$/.test(email);
+  };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setEmail(value);
+    setEmailError(null);
   };
 
   return (
@@ -323,34 +385,82 @@ export const ProcessStepper: React.FC = () => {
               pointerEvents: hasYamlContent ? 'auto' : 'none',
               opacity: hasYamlContent ? 1 : 0.5,
             }}
-          ></Stepper.Step>
+          >
+            <Text mt="xl">
+              <Trans i18nKey="processStepper.steps.5.content.intro" components={{ i: <i /> }} />
+            </Text>
+            <Text mt="xs" c="dimmed">
+              {t('processStepper.steps.5.content.subintro')}
+            </Text>
+            <TextInput
+              mt="xl"
+              style={{ maxWidth: 450, width: '100%' }}
+              label={t('processStepper.steps.5.content.emailInput.label')}
+              labelProps={{ style: { marginBottom: '10px' } }}
+              placeholder={t('processStepper.steps.5.content.emailInput.placeholder')}
+              value={email}
+              onChange={handleEmailChange}
+              error={emailError}
+            />
+            <Group justify="center" mt="xl">
+              <Tooltip
+                label={!hasYamlContent ? t('validation.yamlError') : t('validation.email')}
+                disabled={hasYamlContent && !!email}
+              >
+                <Button
+                  onClick={handleSubmitAsync}
+                  disabled={!hasYamlContent || loading || !email}
+                  leftSection={<IconCpu size={14} />}
+                >
+                  {loading && <Loader size="xs" mr="xs" />}
+                  {t('button.compileFirmware.title')}
+                </Button>
+              </Tooltip>
+            </Group>
+          </Stepper.Step>
           <Stepper.Completed>
-            {t('processStepper.steps.completedStep.content.intro')}
+            <Group
+              mt="xl"
+              gap="md"
+              align="center"
+              style={{ justifyContent: 'center', flexDirection: 'column' }}
+            >
+              <IconCircleCheck size={64} color="green" />
+              <Text mt="lg" size="xl">
+                {t('processStepper.steps.completedStep.content.intro')}
+              </Text>
+              <Text size="xl" c="dimmed">
+                {t('processStepper.steps.completedStep.content.subintro')}
+              </Text>
+            </Group>
           </Stepper.Completed>
         </Stepper>
-
-        <Group justify="center" mt="xl">
-          <Button
-            disabled={disablePrevButton()}
-            variant="default"
-            onClick={prevStep}
-            leftSection={<IconArrowLeft size={14} />}
-          >
-            {t('processStepper.button.prev')}
-          </Button>
-          <Tooltip
-            label={!hasAnyTiltEnabled ? t('validation.oneTilt') : t('validation.generateFirmware')}
-            disabled={hasAnyTiltEnabled && hasYamlContent}
-          >
+        {!finished && (
+          <Group justify="center" mt="xl">
             <Button
-              disabled={disableNextButton()}
-              onClick={handleNextStep}
-              leftSection={<IconArrowRight size={14} />}
+              disabled={disablePrevButton()}
+              variant="default"
+              onClick={prevStep}
+              leftSection={<IconArrowLeft size={14} />}
             >
-              {t('processStepper.button.next')}
+              {t('processStepper.button.prev')}
             </Button>
-          </Tooltip>
-        </Group>
+            <Tooltip
+              label={
+                !hasAnyTiltEnabled ? t('validation.oneTilt') : t('validation.generateFirmware')
+              }
+              disabled={hasAnyTiltEnabled && hasYamlContent}
+            >
+              <Button
+                disabled={disableNextButton()}
+                onClick={handleNextStep}
+                leftSection={<IconArrowRight size={14} />}
+              >
+                {t('processStepper.button.next')}
+              </Button>
+            </Tooltip>
+          </Group>
+        )}
       </Container>
     </>
   );

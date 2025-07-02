@@ -127,7 +127,7 @@ const en = {
               'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
             accordionTitle: 'TiltSense ESPHome YAML',
             outro:
-              'If everything looks good, just press the <i>Generate Firmware</i> button. Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file, or you’re used to working with ESPHome and want to compile the firmware yourself.',
+              'If everything looks good, just press the <i>Generate Firmware File</i> button. Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file, or you’re used to working with ESPHome and want to compile the firmware yourself.',
           },
           summary: {
             title: 'Configuration summary',
@@ -151,11 +151,21 @@ const en = {
         5: {
           label: 'Firmware compilation',
           description: 'Last step',
+          content: {
+            intro:
+              'It’s time to compile your firmware. This process takes quite a bit of time (at least 10 minutes), so it will continue running in the background. You will receive an email as soon as your firmware is ready. Please enter your email and press the <i>Compile Firmware</i> button to complete the process.',
+            subintro:
+              'We do not store your email anywhere; it is used only to send your compiled TiltSense firmware.',
+            emailInput: {
+              label: 'Email',
+              placeholder: 'Enter your email address',
+            },
+          },
         },
         completedStep: {
           content: {
-            intro:
-              "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",
+            intro: 'Your TiltSense firmware request has been received successfully.',
+            subintro: 'You’ll receive an email with the compiled firmware soon.',
           },
         },
       },
@@ -169,6 +179,10 @@ const en = {
         'Brewfather or Home Assistant integration is enabled, but Wi-Fi is not configured. Wi-Fi is required to use with integrations.',
       brewfatherError:
         'You’ve enabled the Brewfather integration, but there’s no API key set. Please add your API key.',
+      email: 'Please enter your email first.',
+      invalidEmail: 'Invalid email address',
+      yamlError:
+        'Navigate to the Firmware File Generation step to review your settings and generate the firmware first.',
     },
     button: {
       copy: {
@@ -184,8 +198,8 @@ const en = {
       generateYaml: {
         title: 'Generate Firmware File',
       },
-      generateFirmware: {
-        title: 'Generate Firmware',
+      compileFirmware: {
+        title: 'Compile Firmware',
       },
     },
     notifications: {
@@ -200,9 +214,9 @@ const en = {
           title: 'Missing Brewfather API Key',
           message: 'You enabled Brewfather integration but did not provide an API key.',
         },
-        firmware: {
+        firmwareCompilation: {
           title: 'Error',
-          message: 'Something went wrong...',
+          firmwareCompilation: 'Something went wrong. Please try again later.',
         },
       },
       success: {

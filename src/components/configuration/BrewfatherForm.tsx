@@ -1,7 +1,7 @@
 import React from 'react';
 import { Anchor, Box, Checkbox, Group, TextInput } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
 import { IconInfoCircle } from '@tabler/icons-react';
 
 export const BrewfatherForm: React.FC = () => {

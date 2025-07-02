@@ -1,5 +1,5 @@
-import { apiFetch } from '@/api/api.ts';
-import { defaultFirmwareOptions } from '@/constants/defaults.ts';
+import { apiFetch } from '@/api/api';
+import { defaultFirmwareOptions } from '@/constants/defaults';
 import i18n from 'i18next';
 
 export async function compileYAML(yaml: string): Promise<Response> {
@@ -27,11 +27,11 @@ export async function compileYAML(yaml: string): Promise<Response> {
   return res;
 }
 
-export async function compileYAMLAsync(yaml: string): Promise<Response> {
+export async function compileYAMLAsync(yaml: string, email: string): Promise<Response> {
   const file = new File([yaml], defaultFirmwareOptions.fileName, { type: 'text/yaml' });
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('email', 'miqueljardi.mac@gmail.com');
+  formData.append('email', email);
   formData.append('language', i18n.language);
 
   const res = await apiFetch('/compile-async', {

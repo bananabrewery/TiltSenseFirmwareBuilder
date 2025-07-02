@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Checkbox, Text } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
 
 export const HomeAssistantForm: React.FC = () => {
   const { t } = useTranslation();

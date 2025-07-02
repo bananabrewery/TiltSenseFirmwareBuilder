@@ -4,7 +4,7 @@ import { IconRotateClockwise } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useListState } from '@mantine/hooks';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
 import { TiltItem } from '@/components/configuration/TiltItem';
 import classes from '@/components/configuration/DndTilts.module.css';
 
