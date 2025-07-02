@@ -26,3 +26,7 @@ dist-ssr
 # Environment files
 .env.local
 .env.*.local
+
+
+# locales folder is used only to validate the structure of i18n files
+locales
