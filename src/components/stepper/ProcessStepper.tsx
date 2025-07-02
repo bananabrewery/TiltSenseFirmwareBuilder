@@ -462,7 +462,7 @@ export const ProcessStepper: React.FC = () => {
               align="center"
               style={{ justifyContent: 'center', flexDirection: 'column' }}
             >
-              <IconCircleCheck size={64} color="green" />
+              <IconCircleCheck size={64} color="lime" />
               <Text mt="lg" size="xl">
                 {t('processStepper.steps.completedStep.content.intro')}
               </Text>

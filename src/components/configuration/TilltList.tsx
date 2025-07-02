@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Button } from '@mantine/core';
 import { IconRotateClockwise } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-import { useListState } from '@mantine/hooks';
 import { useAppContext } from '@/context/useAppContext';
 import { TiltItem } from '@/components/configuration/TiltItem';
 import classes from '@/components/configuration/DndTilts.module.css';
@@ -11,12 +10,7 @@ import classes from '@/components/configuration/DndTilts.module.css';
 export const TiltList: React.FC = () => {
   const { t } = useTranslation();
   const { firmwareOptions } = useAppContext();
-  const { tilts: contextTilts, setTilts: setContextTilts } = useAppContext();
-  const [tiltList, tiltHandlers] = useListState(contextTilts);
-
-  useEffect(() => {
-    setContextTilts(tiltList);
-  }, [tiltList, setContextTilts]);
+  const { tilts, tiltHandlers } = useAppContext();
 
   return (
     <>
@@ -24,7 +18,7 @@ export const TiltList: React.FC = () => {
         <Button
           variant="outline"
           onClick={() => {
-            const sorted = [...tiltList].sort((a, b) => a.color.name.localeCompare(b.color.name));
+            const sorted = [...tilts].sort((a, b) => a.color.name.localeCompare(b.color.name));
             tiltHandlers.setState(sorted);
           }}
           leftSection={<IconRotateClockwise size={14} />}
@@ -42,7 +36,7 @@ export const TiltList: React.FC = () => {
         <Droppable droppableId="tilts-droppable" direction="vertical">
           {(provided) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {tiltList.map((tilt, index) => (
+              {tilts.map((tilt, index) => (
                 <TiltItem
                   key={tilt.key}
                   tilt={tilt}

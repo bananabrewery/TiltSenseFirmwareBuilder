@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Checkbox, Text } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppContext } from '@/context/useAppContext';
+import { EnabledTiltList } from '@/components/configuration/EnabledTiltList.tsx';
 
 export const HomeAssistantForm: React.FC = () => {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ export const HomeAssistantForm: React.FC = () => {
           />
         </Box>
       )}
+      <EnabledTiltList />
     </>
   );
 };
