@@ -1,9 +1,8 @@
 import { Draggable } from '@hello-pangea/dnd';
-import { Box, Checkbox, TextInput } from '@mantine/core';
+import { Box, Checkbox } from '@mantine/core';
 import { IconGripVertical, IconTestPipe2Filled } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import type { Tilt } from '@/models/tilt';
-import type { FirmwareOptions } from '@/types/firmware';
 import React from 'react';
 import cx from 'clsx';
 import classes from '@/components/configuration/DndTilts.module.css';
@@ -11,11 +10,10 @@ import classes from '@/components/configuration/DndTilts.module.css';
 type Props = {
   tilt: Tilt;
   index: number;
-  firmwareOptions: FirmwareOptions;
   onChange: (index: number, field: keyof Tilt, value: boolean | string) => void;
 };
 
-export const TiltItem = React.memo(({ tilt, index, firmwareOptions, onChange }: Props) => {
+export const TiltItem = React.memo(({ tilt, index, onChange }: Props) => {
   const { t } = useTranslation();
 
   const handleChange = (field: keyof Tilt) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,9 +25,6 @@ export const TiltItem = React.memo(({ tilt, index, firmwareOptions, onChange }: 
         : event.currentTarget.value
     );
   };
-
-  const showPressureInput =
-    tilt.enabled && firmwareOptions.ha && firmwareOptions.enablePressureSensors;
 
   return (
     <Draggable key={tilt.key} draggableId={tilt.key} index={index}>
@@ -61,16 +56,6 @@ export const TiltItem = React.memo(({ tilt, index, firmwareOptions, onChange }: 
                   label={t('configuration.tilt.fields.tilt.pro')}
                   checked={tilt.isPro}
                   onChange={handleChange('isPro')}
-                />
-              )}
-            </Box>
-            <Box className={classes.dragSensorBox}>
-              {showPressureInput && (
-                <TextInput
-                  className={classes.dragSensorInput}
-                  placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-                  value={tilt.haPressureSensor}
-                  onChange={handleChange('haPressureSensor')}
                 />
               )}
             </Box>

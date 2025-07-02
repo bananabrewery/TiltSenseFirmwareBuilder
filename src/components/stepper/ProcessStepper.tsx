@@ -376,6 +376,7 @@ export const ProcessStepper: React.FC = () => {
                   <Accordion.Control icon={<IconCpu />}>
                     <Flex justify="space-between" align="center" w="100%">
                       <Text>{t('processStepper.steps.4.content.accordionTitle')}</Text>
+                      {/*//TODO: This buttons inside the Accordion.Control provides an error.*/}
                       <Group gap="xs">
                         <Button
                           onClick={(event) => handleCopy(event)}

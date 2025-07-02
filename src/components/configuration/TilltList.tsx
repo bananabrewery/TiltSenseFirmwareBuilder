@@ -9,7 +9,6 @@ import classes from '@/components/configuration/DndTilts.module.css';
 
 export const TiltList: React.FC = () => {
   const { t } = useTranslation();
-  const { firmwareOptions } = useAppContext();
   const { tilts, tiltHandlers } = useAppContext();
 
   return (
@@ -41,7 +40,6 @@ export const TiltList: React.FC = () => {
                   key={tilt.key}
                   tilt={tilt}
                   index={index}
-                  firmwareOptions={firmwareOptions}
                   onChange={(i, field, value) => tiltHandlers.setItemProp(i, field, value)}
                 />
               ))}

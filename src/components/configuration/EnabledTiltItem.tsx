@@ -25,6 +25,7 @@ export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange
           </Box>
           <Box className={classes.dragSensorBox}>
             <TextInput
+              className={classes.dragSensorInput}
               placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
               value={tilt.haPressureSensor}
               onChange={(event) => {
