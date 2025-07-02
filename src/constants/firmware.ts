@@ -9,3 +9,7 @@ export const configConstants = {
   animationTime: '200ms',
   pressureUnits: 'PSI',
 };
+
+export const appConstants = {
+  timeBetweenCompilations: 3600000,
+};

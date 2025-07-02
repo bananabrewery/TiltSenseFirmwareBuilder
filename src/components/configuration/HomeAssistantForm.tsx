@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Checkbox, Text } from '@mantine/core';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAppContext } from '@/context/useAppContext.ts';
+import { useAppContext } from '@/context/useAppContext';
+import { EnabledTiltList } from '@/components/configuration/EnabledTiltList.tsx';
 
 export const HomeAssistantForm: React.FC = () => {
   const { t } = useTranslation();
@@ -10,9 +11,6 @@ export const HomeAssistantForm: React.FC = () => {
   return (
     <>
       <Box mt="xl">
-        <Text>
-          <Trans i18nKey="configuration.ha.init" components={{ strong: <strong /> }} />
-        </Text>
         <Checkbox
           label={t('configuration.ha.fields.enable.label')}
           checked={firmwareOptions.ha}
@@ -46,6 +44,12 @@ export const HomeAssistantForm: React.FC = () => {
             }}
             mt="md"
           />
+        </Box>
+      )}
+      {firmwareOptions.enablePressureSensors && (
+        <Box mt="xl">
+          <Text mb="md">{t('configuration.pressureSensor.description')}</Text>
+          <EnabledTiltList />
         </Box>
       )}
     </>

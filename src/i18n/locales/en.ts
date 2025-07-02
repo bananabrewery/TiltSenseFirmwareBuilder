@@ -29,9 +29,7 @@ const en = {
       },
     },
     configuration: {
-      text: "Let's start!",
       tilt: {
-        init: 'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
         fields: {
           tilt: {
             pro: 'Pro',
@@ -42,9 +40,6 @@ const en = {
         },
       },
       wifi: {
-        init: 'Please add the following <strong>Wi-Fi configuration</strong>.',
-        subinit:
-          'If you plan to use your TiltSense without connectivity, you can skip these fields.',
         fields: {
           SSID: {
             label: 'Wi-Fi SSID',
@@ -58,7 +53,6 @@ const en = {
         },
       },
       brewfather: {
-        init: 'Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?',
         fields: {
           enable: {
             label: 'Enable Brewfather Integration',
@@ -70,7 +64,6 @@ const en = {
         },
       },
       ha: {
-        init: 'Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?',
         fields: {
           enable: {
             label: 'Enable Home Assistant Integration',
@@ -84,15 +77,115 @@ const en = {
             label: 'I have pressure sensors in Home Assistant',
           },
         },
+        description: 'Add the Pressure Sensor entities from Home Assistant for each of your Tilts.',
+      },
+    },
+    processStepper: {
+      title: 'Get your TiltSense ready!',
+      button: {
+        next: 'Next step',
+        prev: 'Previous step',
+      },
+      steps: {
+        0: {
+          label: 'Tilt selection',
+          description: 'Required configuration',
+          content: {
+            intro:
+              'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
+          },
+        },
+        1: {
+          label: 'Wi-Fi configuration',
+          description: 'Optional',
+          content: {
+            intro: 'Please add the following <strong>Wi-Fi configuration</strong>.',
+            subintro:
+              'If you plan to use your TiltSense without connectivity, you can skip these fields.',
+          },
+        },
+        2: {
+          label: 'Brewfather integration',
+          description: 'Optional',
+          content: {
+            intro:
+              'Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?',
+          },
+        },
+        3: {
+          label: 'Home Assistant integration',
+          description: 'Optional',
+          content: {
+            intro:
+              'Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?',
+          },
+        },
+        4: {
+          label: 'Firmware file generation',
+          description: 'ESPHome YAML',
+          content: {
+            intro:
+              'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
+            accordionTitle: 'TiltSense ESPHome YAML',
+            outro:
+              'If everything looks good, just press the <i>Generate Firmware File</i> button. Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file, or you’re used to working with ESPHome and want to compile the firmware yourself.',
+          },
+          summary: {
+            title: 'Configuration summary',
+            required: {
+              title: 'Required configuration',
+              check: {
+                tilt: 'At least one Tilt selected',
+              },
+            },
+            optional: {
+              title: 'Optional configuration',
+              check: {
+                wifi: 'Wi-Fi configured.',
+                brewfather: 'Brewfather integration',
+                ha: 'Home Assistant integration',
+                pressureSensor: 'Pressure sensor configured',
+              },
+            },
+          },
+        },
+        5: {
+          label: 'Firmware compilation',
+          description: 'Last step',
+          content: {
+            intro:
+              'It’s time to compile your firmware. This process takes quite a bit of time (at least 10 minutes), so it will continue running in the background. You will receive an email as soon as your firmware is ready. Please enter your email and press the <i>Compile Firmware</i> button to complete the process.',
+            subintro:
+              'We do not store your email anywhere; it is used only to send your compiled TiltSense firmware.',
+            emailInput: {
+              label: 'Email',
+              placeholder: 'Enter your email address',
+            },
+          },
+        },
+        completedStep: {
+          content: {
+            intro: 'Your TiltSense firmware request has been received successfully.',
+            subintro: 'You’ll receive an email with the compiled firmware soon.',
+          },
+        },
       },
     },
     validation: {
-      oneTilt: 'You must select at least one tilt',
+      oneTilt: 'You must select at least one tilt.',
+      generateFirmware: 'Generate the firmware file before continuing to the next step.',
+      wifiWarning:
+        'You configured the SSID without a password. Make sure the Wi-Fi network is open and not password-protected.',
+      wifiError:
+        'Brewfather or Home Assistant integration is enabled, but Wi-Fi is not configured. Wi-Fi is required to use with integrations.',
+      brewfatherError:
+        'You’ve enabled the Brewfather integration, but there’s no API key set. Please add your API key.',
+      email: 'Please enter your email first.',
+      invalidEmail: 'Invalid email address',
+      yamlError:
+        'Navigate to the Firmware File Generation step to review your settings and generate the firmware first.',
     },
     button: {
-      generateYaml: {
-        title: 'Generate TiltSense YAML',
-      },
       copy: {
         title: 'Copy',
         shiftedTitle: 'Copied',
@@ -103,11 +196,11 @@ const en = {
       restore_order: {
         title: 'Restore order',
       },
-      generateFirmware: {
-        title: 'Generate Firmware',
+      generateYaml: {
+        title: 'Generate Firmware File',
       },
-      generateFirmwareAsync: {
-        title: 'Generate Firmware Asynchronous',
+      compileFirmware: {
+        title: 'Compile Firmware',
       },
     },
     notifications: {
@@ -122,21 +215,18 @@ const en = {
           title: 'Missing Brewfather API Key',
           message: 'You enabled Brewfather integration but did not provide an API key.',
         },
-        firmware: {
+        firmwareCompilation: {
           title: 'Error',
-          message: 'Something went wrong...',
-        },
-        firmwareAsync: {
-          title: 'Error',
-          message: 'Something went wrong...',
+          firmwareCompilation: 'Something went wrong. Please try again later.',
         },
       },
       success: {
-        firmware: {
+        firmwareGeneration: {
           title: 'Success',
-          message: 'Firmware generated successfully. Downloading file...',
+          message:
+            'Your TiltSense firmware has been successfully generated based on your configuration. Now it’s time to <strong>compile it</strong>.',
         },
-        firmwareAsync: {
+        firmwareCompilation: {
           title: 'Success',
           message:
             "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",
