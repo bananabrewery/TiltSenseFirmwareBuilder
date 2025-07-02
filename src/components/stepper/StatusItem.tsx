@@ -14,6 +14,7 @@ type StatusItemProps = {
   warning?: boolean;
   errorMessage?: string;
   warningMessage?: string;
+  onClick?: () => void;
 };
 
 export const StatusItem: React.FC<StatusItemProps> = ({
@@ -23,6 +24,7 @@ export const StatusItem: React.FC<StatusItemProps> = ({
   warning = false,
   errorMessage,
   warningMessage,
+  onClick,
 }) => {
   let Icon = IconCircleDashed;
   let color = 'gray';
@@ -44,7 +46,7 @@ export const StatusItem: React.FC<StatusItemProps> = ({
   const iconElement = <Icon size={20} color={color} />;
 
   return (
-    <Group mt="md" gap="xs">
+    <Group mt="md" gap="xs" onClick={onClick} style={{ cursor: 'pointer' }}>
       {tooltip ? (
         <Tooltip label={tooltip} withArrow color={color}>
           <span>{iconElement}</span>

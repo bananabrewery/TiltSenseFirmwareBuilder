@@ -18,6 +18,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       savePersistedState({ firmwareOptions, tilts });
+      setYamlContent('');
     }, 1000);
 
     return () => clearTimeout(timeout);

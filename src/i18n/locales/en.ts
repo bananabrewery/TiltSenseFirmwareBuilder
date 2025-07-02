@@ -134,16 +134,16 @@ const en = {
             required: {
               title: 'Required configuration',
               check: {
-                tilt: 'At least one Tilt selected.',
+                tilt: 'At least one Tilt selected',
               },
             },
             optional: {
               title: 'Optional configuration',
               check: {
                 wifi: 'Wi-Fi configured.',
-                brewfather: 'Brewfather integration.',
+                brewfather: 'Brewfather integration',
                 ha: 'Home Assistant integration',
-                pressureSensor: 'Pressure sensor configured.',
+                pressureSensor: 'Pressure sensor configured',
               },
             },
           },
@@ -163,6 +163,12 @@ const en = {
     validation: {
       oneTilt: 'You must select at least one tilt.',
       generateFirmware: 'Generate the firmware file before continuing to the next step.',
+      wifiWarning:
+        'You configured the SSID without a password. Make sure the Wi-Fi network is open and not password-protected.',
+      wifiError:
+        'Brewfather or Home Assistant integration is enabled, but Wi-Fi is not configured. Wi-Fi is required to use with integrations.',
+      brewfatherError:
+        'You’ve enabled the Brewfather integration, but there’s no API key set. Please add your API key.',
     },
     button: {
       copy: {

@@ -45,6 +45,13 @@ export const ProcessStepper: React.FC = () => {
 
   const hasAnyTiltEnabled = tilts.some((tilt) => tilt.enabled);
   const hasYamlContent = !!yamlContent;
+  const wifiConfigured = !!firmwareOptions.wifiConfig.SSID;
+  const wifiPassword = !!firmwareOptions.wifiConfig.password;
+  const brewfatherEnabled = firmwareOptions.brewfather.enabled;
+  const brewfatherApiKey = !!firmwareOptions.brewfather.apiKey;
+  const haEnabled = firmwareOptions.ha;
+  const pressureSensorsEnabled = firmwareOptions.enablePressureSensors;
+
   const disableNextButton = () => {
     if (active === 4 && !hasYamlContent) {
       return true;
@@ -223,6 +230,7 @@ export const ProcessStepper: React.FC = () => {
             />
             <StatusItem
               label={t('processStepper.steps.4.summary.required.check.tilt')}
+              onClick={() => setActive(0)}
               checked={hasAnyTiltEnabled}
             />
             <Divider
@@ -232,19 +240,29 @@ export const ProcessStepper: React.FC = () => {
             />
             <StatusItem
               label={t('processStepper.steps.4.summary.optional.check.wifi')}
-              checked={!!firmwareOptions.wifiConfig.SSID}
+              onClick={() => setActive(1)}
+              checked={wifiConfigured}
+              warning={wifiConfigured && !wifiPassword}
+              warningMessage={t('validation.wifiWarning')}
+              error={!wifiConfigured && (brewfatherEnabled || haEnabled)}
+              errorMessage={t('validation.wifiError')}
             />
             <StatusItem
               label={t('processStepper.steps.4.summary.optional.check.brewfather')}
-              checked={firmwareOptions.brewfather.enabled}
+              onClick={() => setActive(2)}
+              checked={brewfatherEnabled}
+              error={brewfatherEnabled && !brewfatherApiKey}
+              errorMessage={t('validation.brewfatherError')}
             />
             <StatusItem
               label={t('processStepper.steps.4.summary.optional.check.ha')}
-              checked={firmwareOptions.ha}
+              onClick={() => setActive(3)}
+              checked={haEnabled}
             />
             <StatusItem
               label={t('processStepper.steps.4.summary.optional.check.pressureSensor')}
-              checked={firmwareOptions.enablePressureSensors}
+              onClick={() => setActive(3)}
+              checked={haEnabled && pressureSensorsEnabled}
             />
             <Text mt="xl">
               <Trans i18nKey="processStepper.steps.4.content.outro" components={{ i: <i /> }} />
@@ -252,7 +270,11 @@ export const ProcessStepper: React.FC = () => {
             <Group justify="center" mt="xl">
               <Button
                 onClick={handleGenerateYAML}
-                disabled={!hasAnyTiltEnabled}
+                disabled={
+                  !hasAnyTiltEnabled ||
+                  ((brewfatherEnabled || haEnabled) && !wifiConfigured) ||
+                  (brewfatherEnabled && !brewfatherApiKey)
+                }
                 leftSection={<IconFileCode size={14} />}
               >
                 {t('button.generateYaml.title')}
