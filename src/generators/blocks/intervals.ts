@@ -30,14 +30,18 @@ function createBrewfatherRequest(
                               "\\"report_source\\": \\"%s\\","
                               "\\"gravity\\": %.3f,"
                               "\\"gravity_unit\\": \\"%s\\","
-                              "\\"temp\\": %.1f,"
-                              "\\"temp_unit\\": \\"%s\\`;
+                              "\\"temp\\": %.1f,"`;
 
   if (tilt.haPressureSensor && tilt.haPressureSensor.length > 0) {
-    brewFatherBlock += `","
+    brewFatherBlock += `
+                              "\\"temp_unit\\": \\"%s\\","
                               "\\"pressure\\": %.1f,"
                               "\\"pressure_unit\\": \\"%s\\""`;
+  } else {
+    brewFatherBlock += `
+                              "\\"temp_unit\\": \\"%s\\""`;
   }
+
   brewFatherBlock += `
                             "}",
                             "Tilt",

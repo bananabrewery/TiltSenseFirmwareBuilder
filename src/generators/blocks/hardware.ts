@@ -1,7 +1,7 @@
 import type { FirmwareConfig } from '@/types/firmware';
 
 export function generateHardwareBlock(config: FirmwareConfig): string {
-  const hardwareBlock = `psram:
+  return `psram:
   mode: quad
   speed: 80MHz
 
@@ -56,6 +56,4 @@ touchscreen:
           id(handle_touch).execute();
 
 `;
-
-  return hardwareBlock;
 }

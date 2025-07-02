@@ -19,10 +19,10 @@ TiltSense YAML Generator now has its **first fully functional release**. 🎉
 The application is ready to be tested and used. If you encounter any issues or have suggestions, your feedback is more than welcome!
 
 🌐 **Try it here:**  
-[https://bananabrewery.github.io/tiltsense-yaml-generator](https://bananabrewery.github.io/tiltsense-yaml-generator)
+[https://bananabrewery.github.io/TiltSenseYAMLGenerator](https://bananabrewery.github.io/TiltSenseYAMLGenerator)
 
 🐛 **Found a bug or have a feature request?**  
-Please open an issue in the [GitHub repository](https://github.com/bananabrewery/tiltsense-yaml-generator/issues).
+Please open an issue in the [GitHub repository](https://github.com/bananabrewery/TiltSenseYAMLGenerator/issues).
 
 🔧 **Next steps:**
 
@@ -30,6 +30,7 @@ Please open an issue in the [GitHub repository](https://github.com/bananabrewery
   - Store values in the device's local storage. ✅ Done!
   - Display "Unavailable" instead of "0.0" for missing readings. ✅ Done!
   - Refactor project architecture (introduce React Context, extract Form component, etc.) ✅ Done!
+  - Drag and Drop to order the Tilt list. ✅ Done!
 - Document the parent project
 - Design a proper logo
 - Improve the accuracy of battery level readings

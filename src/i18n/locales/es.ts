@@ -99,6 +99,15 @@ const es = {
       download: {
         title: 'Descargar',
       },
+      restore_order: {
+        title: 'Restaurar ordenación',
+      },
+      generateFirmware: {
+        title: 'Generar Firmware',
+      },
+      generateFirmwareAsync: {
+        title: 'Generar Firmware Asíncrono',
+      },
     },
     notifications: {
       warning: {
@@ -113,6 +122,25 @@ const es = {
           title: 'Falta la clave API de Brewfather',
           message:
             'Has activado la integración con Brewfather pero no has proporcionado una clave API.',
+        },
+        firmware: {
+          title: 'Error',
+          message: 'Algo salió mal...',
+        },
+        firmwareAsync: {
+          title: 'Error',
+          message: 'Algo salió mal...',
+        },
+      },
+      success: {
+        firmware: {
+          title: 'Éxito',
+          message: 'Firmware generado con éxito. Descargando fichero...',
+        },
+        firmwareAsync: {
+          title: 'Éxito',
+          message:
+            'Petición de Firmware recibida correctamente. Pronto recibirás un correo con el firmware compilado.',
         },
       },
     },
