@@ -1,18 +1,57 @@
-import { IconCircleCheck, IconCircleDashed } from '@tabler/icons-react';
-import { Group, Text } from '@mantine/core';
+import {
+  IconAlertTriangle,
+  IconCircleCheck,
+  IconCircleDashed,
+  IconCircleX,
+} from '@tabler/icons-react';
+import { Group, Text, Tooltip } from '@mantine/core';
 import React from 'react';
 
 type StatusItemProps = {
   label: string;
-  checked: boolean;
+  checked?: boolean;
+  error?: boolean;
+  warning?: boolean;
+  errorMessage?: string;
+  warningMessage?: string;
 };
 
-export const StatusItem: React.FC<StatusItemProps> = ({ label, checked }) => {
-  const Icon = checked ? IconCircleCheck : IconCircleDashed;
+export const StatusItem: React.FC<StatusItemProps> = ({
+  label,
+  checked = false,
+  error = false,
+  warning = false,
+  errorMessage,
+  warningMessage,
+}) => {
+  let Icon = IconCircleDashed;
+  let color = 'gray';
+  let tooltip: string | null = null;
+
+  if (error) {
+    Icon = IconCircleX;
+    color = 'red';
+    tooltip = errorMessage || 'An error occurred';
+  } else if (warning) {
+    Icon = IconAlertTriangle;
+    color = 'orange';
+    tooltip = warningMessage || 'There is a warning';
+  } else if (checked) {
+    Icon = IconCircleCheck;
+    color = 'lime';
+  }
+
+  const iconElement = <Icon size={20} color={color} />;
 
   return (
     <Group mt="md" gap="xs">
-      <Icon size={20} color={checked ? 'lime' : 'gray'} />
+      {tooltip ? (
+        <Tooltip label={tooltip} withArrow color={color}>
+          <span>{iconElement}</span>
+        </Tooltip>
+      ) : (
+        iconElement
+      )}
       <Text>{label}</Text>
     </Group>
   );

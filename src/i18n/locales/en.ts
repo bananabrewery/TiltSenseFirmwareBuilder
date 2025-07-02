@@ -86,7 +86,7 @@ const en = {
         prev: 'Previous step',
       },
       steps: {
-        step1: {
+        0: {
           label: 'Tilt selection',
           description: 'Required configuration',
           content: {
@@ -94,7 +94,7 @@ const en = {
               'Specify which <strong>Tilt Hydrometers</strong> you have available, their colors, and whether they are the Pro version.',
           },
         },
-        step2: {
+        1: {
           label: 'Wi-Fi configuration',
           description: 'Optional',
           content: {
@@ -103,7 +103,7 @@ const en = {
               'If you plan to use your TiltSense without connectivity, you can skip these fields.',
           },
         },
-        step3: {
+        2: {
           label: 'Brewfather integration',
           description: 'Optional',
           content: {
@@ -111,7 +111,7 @@ const en = {
               'Are you going to use TiltSense to send Tilt data (temperature and gravity) to <strong>Brewfather</strong>?',
           },
         },
-        step4: {
+        3: {
           label: 'Home Assistant integration',
           description: 'Optional',
           content: {
@@ -119,9 +119,17 @@ const en = {
               'Do you plan to monitor your TiltSense data with <strong>Home Assistant</strong>?',
           },
         },
-        step5: {
-          label: 'Firmware compilation',
-          description: 'Last step',
+        4: {
+          label: 'Firmware file generation',
+          description: 'ESPHome YAML',
+          content: {
+            intro:
+              'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
+            text: 'Your TiltSense firmware has been successfully generated based on your configuration. Now it’s time to <strong>compile it</strong>.',
+            subtext:
+              'Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file 😉',
+            accordionTitle: 'TiltSense ESPHome YAML',
+          },
           summary: {
             title: 'Configuration summary',
             required: {
@@ -140,6 +148,10 @@ const en = {
               },
             },
           },
+        },
+        5: {
+          label: 'Firmware compilation',
+          description: 'Last step',
         },
         completedStep: {
           content: {
