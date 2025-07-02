@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md,scss,html,yaml,yml}\" \"*.{json,md,yaml,yml}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "i18n:extract": "i18next 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -39,6 +40,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
+    "i18next-parser": "^9.3.0",
     "postcss": "^8.5.5",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",

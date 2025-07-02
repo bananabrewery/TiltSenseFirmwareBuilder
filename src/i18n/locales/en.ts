@@ -125,10 +125,9 @@ const en = {
           content: {
             intro:
               'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
-            text: 'Your TiltSense firmware has been successfully generated based on your configuration. Now it’s time to <strong>compile it</strong>.',
-            subtext:
-              'Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file 😉',
             accordionTitle: 'TiltSense ESPHome YAML',
+            outro:
+              'If everything looks good, just press the <i>Generate Firmware</i> button. Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file, or you’re used to working with ESPHome and want to compile the firmware yourself.',
           },
           summary: {
             title: 'Configuration summary',
@@ -162,7 +161,8 @@ const en = {
       },
     },
     validation: {
-      oneTilt: 'You must select at least one tilt',
+      oneTilt: 'You must select at least one tilt.',
+      generateFirmware: 'Generate the firmware file before continuing to the next step.',
     },
     button: {
       copy: {
@@ -174,6 +174,9 @@ const en = {
       },
       restore_order: {
         title: 'Restore order',
+      },
+      generateYaml: {
+        title: 'Generate Firmware File',
       },
       generateFirmware: {
         title: 'Generate Firmware',
@@ -195,13 +198,14 @@ const en = {
           title: 'Error',
           message: 'Something went wrong...',
         },
-        firmwareAsync: {
-          title: 'Error',
-          message: 'Something went wrong...',
-        },
       },
       success: {
-        firmware: {
+        firmwareGeneration: {
+          title: 'Success',
+          message:
+            'Your TiltSense firmware has been successfully generated based on your configuration. Now it’s time to <strong>compile it</strong>.',
+        },
+        firmwareCompilation: {
           title: 'Success',
           message:
             "Firmware request received successfully. You'll receive an email with the compiled firmware soon.",

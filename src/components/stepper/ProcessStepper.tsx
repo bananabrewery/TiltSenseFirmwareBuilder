@@ -18,22 +18,37 @@ import { WifiForm } from '@/components/configuration/WifiForm.tsx';
 import { BrewfatherForm } from '@/components/configuration/BrewfatherForm.tsx';
 import { HomeAssistantForm } from '@/components/configuration/HomeAssistantForm.tsx';
 import { StatusItem } from '@/components/stepper/StatusItem.tsx';
-import { IconCheck, IconCopy, IconCpu, IconDownload } from '@tabler/icons-react';
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconCheck,
+  IconCopy,
+  IconCpu,
+  IconDownload,
+  IconFileCode,
+} from '@tabler/icons-react';
 import { defaultFirmwareOptions } from '@/constants/defaults.ts';
 import { YamlViewer } from '@/components/firmware/YamlViewer.tsx';
+import { usePersistentStep } from '@/hooks/usePersistentStep';
+import type { Tilt } from '@/models/tilt.ts';
+import { generateFirmwareConfig } from '@/generators/generateFirmware.ts';
+import { showNotification } from '@mantine/notifications';
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
-  const { tilts, firmwareOptions, yamlContent } = useAppContext();
+  const { tilts, firmwareOptions, yamlContent, setYamlContent } = useAppContext();
 
-  const [active, setActive] = useState(0);
+  const [active, setActive, resetStep] = usePersistentStep();
   const [loadingSteps, setLoadingSteps] = useState<number[]>([]);
-  const nextStep = () => setActive((current) => (current < 4 ? current + 1 : current));
+  const nextStep = () => setActive((current) => (current < 5 ? current + 1 : current));
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
   const hasAnyTiltEnabled = tilts.some((tilt) => tilt.enabled);
-
+  const hasYamlContent = !!yamlContent;
   const disableNextButton = () => {
+    if (active === 4 && !hasYamlContent) {
+      return true;
+    }
     return !hasAnyTiltEnabled;
   };
 
@@ -54,6 +69,19 @@ export const ProcessStepper: React.FC = () => {
     () => {
       return true;
     },
+    () => {
+      return true;
+    },
+    () => {
+      return true;
+    },
+    () => {
+      return hasYamlContent;
+    },
+    () => {
+      resetStep();
+      return true;
+    },
   ];
 
   const handleNextStep = () => {
@@ -61,6 +89,26 @@ export const ProcessStepper: React.FC = () => {
     const canContinue = stepHandlers[active]?.() ?? true;
     if (canContinue) nextStep();
     setStepLoading(active, false);
+  };
+
+  const handleGenerateYAML = () => {
+    const enabledTilts: Tilt[] = tilts.filter((tilt) => tilt.enabled);
+    const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, firmwareOptions);
+    setYamlContent(tiltSenseGeneratedFirmware);
+    showNotification({
+      title: t('notifications.success.firmwareGeneration.title'),
+      message: (
+        <Text>
+          <Trans
+            i18nKey="notifications.success.firmwareGeneration.message"
+            components={{ strong: <strong /> }}
+          />
+        </Text>
+      ),
+      color: 'green',
+      autoClose: 4000,
+      withCloseButton: true,
+    });
   };
 
   const [copied, setCopied] = React.useState(false);
@@ -83,13 +131,22 @@ export const ProcessStepper: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const handleStepClick = (step: number) => {
+    if (step === 5 && !hasYamlContent) return;
+    setActive(step);
+  };
+
   return (
     <>
       <Container fluid mt="xl" px="xl">
         <Title order={4} mb="md">
           {t('processStepper.title')}
         </Title>
-        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={hasAnyTiltEnabled}>
+        <Stepper
+          active={active}
+          onStepClick={handleStepClick}
+          allowNextStepsSelect={hasAnyTiltEnabled}
+        >
           <Stepper.Step
             loading={loadingSteps.includes(0)}
             mt="md"
@@ -189,6 +246,18 @@ export const ProcessStepper: React.FC = () => {
               label={t('processStepper.steps.4.summary.optional.check.pressureSensor')}
               checked={firmwareOptions.enablePressureSensors}
             />
+            <Text mt="xl">
+              <Trans i18nKey="processStepper.steps.4.content.outro" components={{ i: <i /> }} />
+            </Text>
+            <Group justify="center" mt="xl">
+              <Button
+                onClick={handleGenerateYAML}
+                disabled={!hasAnyTiltEnabled}
+                leftSection={<IconFileCode size={14} />}
+              >
+                {t('button.generateYaml.title')}
+              </Button>
+            </Group>
             {yamlContent && (
               <Accordion variant="separated" mt="xl">
                 <Accordion.Item value="firmware">
@@ -228,6 +297,10 @@ export const ProcessStepper: React.FC = () => {
             mt="md"
             label={t('processStepper.steps.5.label')}
             description={t('processStepper.steps.5.description')}
+            style={{
+              pointerEvents: hasYamlContent ? 'auto' : 'none',
+              opacity: hasYamlContent ? 1 : 0.5,
+            }}
           ></Stepper.Step>
           <Stepper.Completed>
             {t('processStepper.steps.completedStep.content.intro')}
@@ -235,11 +308,23 @@ export const ProcessStepper: React.FC = () => {
         </Stepper>
 
         <Group justify="center" mt="xl">
-          <Button disabled={disablePrevButton()} variant="default" onClick={prevStep}>
+          <Button
+            disabled={disablePrevButton()}
+            variant="default"
+            onClick={prevStep}
+            leftSection={<IconArrowLeft size={14} />}
+          >
             {t('processStepper.button.prev')}
           </Button>
-          <Tooltip label={t('validation.oneTilt')} disabled={hasAnyTiltEnabled}>
-            <Button disabled={disableNextButton()} onClick={handleNextStep}>
+          <Tooltip
+            label={!hasAnyTiltEnabled ? t('validation.oneTilt') : t('validation.generateFirmware')}
+            disabled={hasAnyTiltEnabled && hasYamlContent}
+          >
+            <Button
+              disabled={disableNextButton()}
+              onClick={handleNextStep}
+              leftSection={<IconArrowRight size={14} />}
+            >
               {t('processStepper.button.next')}
             </Button>
           </Tooltip>
