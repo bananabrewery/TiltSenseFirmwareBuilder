@@ -46,7 +46,7 @@ export const HomeAssistantForm: React.FC = () => {
           />
         </Box>
       )}
-      {firmwareOptions.enablePressureSensors && (
+      {firmwareOptions.ha && firmwareOptions.enablePressureSensors && (
         <Box mt="xl">
           <Text mb="md">{t('configuration.pressureSensor.description')}</Text>
           <EnabledTiltList />
