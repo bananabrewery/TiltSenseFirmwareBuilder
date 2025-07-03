@@ -38,6 +38,7 @@ import { generateFirmwareConfig } from '@/generators/generateFirmware';
 import { showNotification } from '@mantine/notifications';
 import { compileYAMLAsync } from '@/api/uploadYaml';
 import { appConstants } from '@/constants/firmware.ts';
+import { isValidPressureSensorEntity } from '@/utils/validation.ts';
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
@@ -61,6 +62,9 @@ export const ProcessStepper: React.FC = () => {
   const brewfatherApiKey = !!firmwareOptions.brewfather.apiKey;
   const haEnabled = firmwareOptions.ha;
   const pressureSensorsEnabled = firmwareOptions.enablePressureSensors;
+  const hasInvalidPressureSensor = tilts.some(
+    (tilt) => !isValidPressureSensorEntity(tilt.haPressureSensor)
+  );
 
   const disableNextButton = () => {
     if (active === 4 && !hasYamlContent) {
@@ -348,6 +352,8 @@ export const ProcessStepper: React.FC = () => {
               label={t('processStepper.steps.4.summary.optional.check.pressureSensor')}
               onClick={() => setActive(3)}
               checked={haEnabled && pressureSensorsEnabled}
+              error={hasInvalidPressureSensor}
+              errorMessage={t('validation.invalidPressureSensors')}
             />
             <Text mt="xl">
               <Trans i18nKey="processStepper.steps.4.content.outro" components={{ i: <i /> }} />
@@ -358,7 +364,8 @@ export const ProcessStepper: React.FC = () => {
                 disabled={
                   !hasAnyTiltEnabled ||
                   ((brewfatherEnabled || haEnabled) && !wifiConfigured) ||
-                  (brewfatherEnabled && !brewfatherApiKey)
+                  (brewfatherEnabled && !brewfatherApiKey) ||
+                  hasInvalidPressureSensor
                 }
                 leftSection={<IconFileCode size={14} />}
               >

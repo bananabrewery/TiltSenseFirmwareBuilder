@@ -187,6 +187,8 @@ const es = {
       yamlError:
         'Ve al paso de generación del fichero de firmware para revisar la configuración y generar el YAML.',
       invalidPressureEntity: 'La entidad en Home Assistant debe empezar por "sensor."',
+      invalidPressureSensors:
+        'Hay entidades de sensores de presión no válidas. Por favor, revísalas antes de continuar.',
     },
     button: {
       copy: {

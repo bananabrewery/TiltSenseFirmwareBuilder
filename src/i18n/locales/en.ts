@@ -186,6 +186,8 @@ const en = {
       yamlError:
         'Navigate to the Firmware File Generation step to review your settings and generate the firmware first.',
       invalidPressureEntity: 'The Home Assistant entity must start with "sensor."',
+      invalidPressureSensors:
+        'Invalid pressure sensor entity found. Please fix it before continuing.',
     },
     button: {
       copy: {

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Tilt } from '@/models/tilt';
 import classes from '@/components/configuration/DndTilts.module.css';
+import { isValidPressureSensorEntity } from '@/utils/validation';
 
 interface EnabledTiltItemProps {
   tilt: Tilt;
@@ -15,11 +16,6 @@ export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange
 
   const [error, setError] = useState<string | false>(false);
   const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const isValidPressureSensorEntity = (value: string | undefined): boolean => {
-    if (!value) return true;
-    return /^sensor\.[\w.]+$/.test(value.trim());
-  };
 
   useEffect(() => {
     if (debounceTimeout.current) {
