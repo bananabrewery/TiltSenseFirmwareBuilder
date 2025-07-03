@@ -16,7 +16,7 @@ export const Intro: React.FC = () => {
           </Title>
         </div>
       </Center>
-      <Title order={4} mt="lg" mb="md">
+      <Title order={4} mt="xl" mb="md">
         {t('welcome')}
       </Title>
       <Text mb="md">{t('introduction.text')}</Text>

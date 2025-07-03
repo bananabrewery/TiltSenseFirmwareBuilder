@@ -15,6 +15,7 @@ export const TiltList: React.FC = () => {
     <>
       <Box className={classes.dragListButton}>
         <Button
+          mt="md"
           variant="outline"
           onClick={() => {
             const sorted = [...tilts].sort((a, b) => a.color.name.localeCompare(b.color.name));

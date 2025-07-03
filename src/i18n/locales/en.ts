@@ -1,8 +1,8 @@
 const en = {
   translation: {
     tiltSense: 'TiltSense',
-    subTitle: 'ESPHome YAML Generator',
-    welcome: 'Welcome to the TiltSense dynamic ESPHome YAML generator',
+    subTitle: 'Firmware Generator',
+    welcome: 'Welcome to the TiltSense dynamic firmware generator',
     tilt: {
       colors: {
         Black: 'Black',
@@ -16,7 +16,7 @@ const en = {
       },
     },
     introduction: {
-      text: 'This tool helps you generate a fully customized ESPHome configuration based on your specific setup and preferences.',
+      text: 'This tool helps you generate a fully customized configuration based on your specific setup and preferences.',
       capabilities: {
         init: 'With TiltSense, you can easily:',
         1: 'Select one or multiple Tilt hydrometers.',
@@ -25,7 +25,7 @@ const en = {
         4: 'Enable integration with <strong>Brewfather</strong> for fermentation tracking.',
         5: 'Enable integration with <strong>Home Assistant</strong> for home automation.',
         6: 'Add configuration for a <strong>pressure sensor</strong> if available',
-        end: 'All selected options will be used to generate a tailored YAML file that you can copy or download for your ESPHome device configuration.',
+        end: 'All selected options will be used to generate a tailored YAML file, which you can copy or download and compile yourself using ESPHome - or let us do it for you!',
       },
     },
     configuration: {
