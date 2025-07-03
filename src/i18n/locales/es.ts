@@ -168,6 +168,7 @@ const es = {
           content: {
             intro: 'Hemos recibido correctamente tu solicitud de firmware para tu TiltSense.',
             subintro: 'Recibirás un correo con el firmware compilado en breve.',
+            end: 'El próximo paso es instalar el firmware compilado mediante la web de <0>ESPHome</0>.',
           },
         },
       },

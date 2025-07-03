@@ -464,6 +464,21 @@ export const ProcessStepper: React.FC = () => {
               <Text size="xl" c="dimmed">
                 {t('processStepper.steps.completedStep.content.subintro')}
               </Text>
+              <Text size="md" c="dimmed" ta="center">
+                <Trans
+                  i18nKey="processStepper.steps.completedStep.content.end"
+                  components={[
+                    <Text
+                      span
+                      component="a"
+                      href="https://web.esphome.io"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      c="blue"
+                    />,
+                  ]}
+                />
+              </Text>
             </Group>
           </Stepper.Completed>
         </Stepper>
