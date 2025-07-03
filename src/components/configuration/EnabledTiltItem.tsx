@@ -1,7 +1,7 @@
 import { Box, Text, TextInput } from '@mantine/core';
 import { IconTestPipe2Filled } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Tilt } from '@/models/tilt';
 import classes from '@/components/configuration/DndTilts.module.css';
 
@@ -12,6 +12,31 @@ interface EnabledTiltItemProps {
 
 export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange }) => {
   const { t } = useTranslation();
+
+  const [error, setError] = useState<string | false>(false);
+  const debounceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isValidPressureSensorEntity = (value: string | undefined): boolean => {
+    if (!value) return true;
+    return /^sensor\.[\w.]+$/.test(value.trim());
+  };
+
+  useEffect(() => {
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(() => {
+      const isValid = isValidPressureSensorEntity(tilt.haPressureSensor);
+      setError(isValid ? false : t('validation.invalidPressureEntity'));
+    }, 500);
+
+    return () => {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+    };
+  }, [tilt.haPressureSensor, t]);
 
   return (
     <>
@@ -30,11 +55,12 @@ export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange
             <TextInput
               className={classes.dragSensorInput}
               placeholder={t('configuration.tilt.fields.pressureSensor.placeholder')}
-              value={tilt.haPressureSensor}
+              value={tilt.haPressureSensor ?? ''}
               onChange={(event) => {
                 const newValue = event.currentTarget.value;
                 onChange(tilt.key, 'haPressureSensor', newValue);
               }}
+              error={error}
             />
           </Box>
         </Box>

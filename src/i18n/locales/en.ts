@@ -185,6 +185,7 @@ const en = {
       invalidEmail: 'Invalid email address',
       yamlError:
         'Navigate to the Firmware File Generation step to review your settings and generate the firmware first.',
+      invalidPressureEntity: 'The Home Assistant entity must start with "sensor."',
     },
     button: {
       copy: {

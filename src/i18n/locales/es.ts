@@ -186,6 +186,7 @@ const es = {
       invalidEmail: 'Dirección de correo inválida',
       yamlError:
         'Ve al paso de generación del fichero de firmware para revisar la configuración y generar el YAML.',
+      invalidPressureEntity: 'La entidad en Home Assistant debe empezar por "sensor."',
     },
     button: {
       copy: {
