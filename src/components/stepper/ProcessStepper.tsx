@@ -132,8 +132,6 @@ export const ProcessStepper: React.FC = () => {
         </Text>
       ),
       color: 'green',
-      autoClose: 4000,
-      withCloseButton: true,
     });
   };
 
@@ -210,15 +208,12 @@ export const ProcessStepper: React.FC = () => {
         title: t('notifications.success.firmwareCompilation.title'),
         message: t('notifications.success.firmwareCompilation.message'),
         color: 'green',
-        autoClose: 4000,
-        withCloseButton: true,
       });
     } else {
       showNotification({
         title: t('notifications.error.firmwareCompilation.title'),
         message: msg || t('notifications.error.firmwareCompilation.message'),
         color: 'red',
-        withCloseButton: true,
       });
     }
   };
@@ -412,7 +407,6 @@ export const ProcessStepper: React.FC = () => {
             description={t('processStepper.steps.5.description')}
             style={{
               pointerEvents: hasYamlContent ? 'auto' : 'none',
-              opacity: hasYamlContent ? 1 : 0.5,
             }}
           >
             <Text mt="xl">

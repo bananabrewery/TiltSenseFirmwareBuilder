@@ -121,8 +121,8 @@ const en = {
           },
         },
         4: {
-          label: 'Firmware file generation',
-          description: 'ESPHome YAML',
+          label: 'Firmware generation',
+          description: 'YAML file',
           content: {
             intro:
               'Before continuing, double-check that all key settings are in place. These ensure your TiltSense works just the way you want.',
@@ -151,7 +151,7 @@ const en = {
         },
         5: {
           label: 'Firmware compilation',
-          description: 'Last step',
+          description: 'Final step',
           content: {
             intro:
               'It’s time to compile your firmware. This process takes quite a bit of time (at least 10 minutes), so it will continue running in the background. You will receive an email as soon as your firmware is ready. Please enter your email and press the <i>Compile Firmware</i> button to complete the process.',
