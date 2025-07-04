@@ -1,8 +1,8 @@
 <img src="public/radar.svg" alt="TiltSense YAML Generator" width="120" />
 
-## TiltSense YAML Generator
+## TiltSense Firmware Builder
 
-**TiltSense YAML Generator** is a simple, interactive web app that helps you create a customized ESPHome YAML
+**TiltSense Firmware Builder** is a simple, interactive web app that helps you create a customized firmware
 configuration for your TiltSense device — no manual editing required.
 
 This tool makes it easy to tailor the firmware to your specific setup, including which sensors and integrations you want
@@ -13,13 +13,13 @@ covered.
 
 ## 📦 Project Status
 
-TiltSense YAML Generator now has its **first fully functional release**. 🎉
+TiltSense Firmware Builder now has its **first fully functional release**. 🎉
 
 🧪 **Beta testing phase:**  
 The application is ready to be tested and used. If you encounter any issues or have suggestions, your feedback is more than welcome!
 
 🌐 **Try it here:**  
-[https://bananabrewery.github.io/TiltSenseYAMLGenerator](https://bananabrewery.github.io/TiltSenseYAMLGenerator)
+[https://bananabrewery.github.io/TiltSenseFirmwareBuilder](https://bananabrewery.github.io/TiltSenseFirmwareBuilder)
 
 🐛 **Found a bug or have a feature request?**  
 Please open an issue in the [GitHub repository](https://github.com/bananabrewery/TiltSenseYAMLGenerator/issues).
@@ -31,9 +31,9 @@ Please open an issue in the [GitHub repository](https://github.com/bananabrewery
   - Display "Unavailable" instead of "0.0" for missing readings. ✅ Done!
   - Refactor project architecture (introduce React Context, extract Form component, etc.) ✅ Done!
   - Drag and Drop to order the Tilt list. ✅ Done!
-- Document the parent project
-- Design a proper logo
-- Improve the accuracy of battery level readings
+- Document the parent project ⚙️ In process...
+- Design a proper logo ⚙️ In process...
+- Improve the accuracy of battery level readings ⏰ Pending...
 
 ---
 
@@ -46,17 +46,20 @@ Please open an issue in the [GitHub repository](https://github.com/bananabrewery
 - 💨 Whether you include a **pressure sensor**
 
 Once configured, the app will generate a ready-to-use YAML file that you can flash to your ESP32
-using [ESPHome](https://esphome.io/).
+using [ESPHome](https://web.esphome.io/).
 
 ---
 
 ## 🚀 How it works
 
-1. Open the YAML Generator in your browser.
+1. Open the TiltSense Firmware Builder in your web browser.
 2. Select your Tilt colors and sensor options.
 3. Choose your integrations (Brewfather, Home Assistant, etc.).
-4. Click **Generate** to download your custom YAML file.
-5. Flash it using ESPHome — and you're done!
+4. Click **Generate** to create your custom YAML file.
+5. You have two options:
+   1. Compile the firmware yourself using ESPHome.
+   2. Let us compile it for you!
+6. Flash it to your device using the ESPHome web tool — and you're done!
 
 ---
 
@@ -64,15 +67,13 @@ using [ESPHome](https://esphome.io/).
 
 - A compatible ESP32 device (see [TiltSense project](https://github.com/bananabrewery/tiltsense) for hardware
   recommendations)
-- [ESPHome](https://esphome.io/) installed locally or via the Home Assistant Add-on
 - Optional: Brewfather account or Home Assistant setup for integration
 
 ---
 
 ## 🌍 Why this exists
 
-The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The YAML
-Generator eliminates that step — making the setup faster, easier, and less error-prone.
+The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The Firmware Builder eliminates that step — making the setup faster, easier, and less error-prone.
 
 Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in
 minutes.
