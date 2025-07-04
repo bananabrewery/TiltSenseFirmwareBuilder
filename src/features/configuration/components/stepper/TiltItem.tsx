@@ -41,7 +41,11 @@ export const TiltItem = React.memo(({ tilt, index, onChange }: Props) => {
             <Box {...provided.dragHandleProps} className={classes.dragHandle}>
               <IconGripVertical size={20} />
             </Box>
-            <Box className={classes.dragIcon}>
+            <Box
+              className={cx(classes.dragIcon, {
+                [classes.dragIconTilting]: snapshot.isDragging,
+              })}
+            >
               <IconTilt width={24} height={24} color={tilt.color?.hexColor} />
             </Box>
             <Box className={classes.dragCheckbox}>

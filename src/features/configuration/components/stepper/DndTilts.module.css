@@ -46,3 +46,11 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.dragIcon {
+  transition: transform 0.2s ease;
+}
+
+.dragIconTilting {
+  transform: rotate(8deg);
+}
