@@ -33,7 +33,7 @@ function AppFooter() {
   return (
     <Box component="footer" mt="xl" py="md" px="md">
       <Group justify="space-between">
-        <Text size="xs" c="dimmed" onClick={handleVersionClick} style={{ cursor: 'pointer' }}>
+        <Text size="xs" c="dimmed" onClick={handleVersionClick}>
           {t('footer.version')} {__APP_VERSION__}
         </Text>
         <Text size="xs">{t('footer.powered')}</Text>
