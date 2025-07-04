@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import {
   Accordion,
   Button,
+  Center,
   Container,
   Divider,
   Flex,
@@ -31,7 +32,6 @@ import {
   IconFileCode,
 } from '@tabler/icons-react';
 import { defaultFirmwareOptions } from '@/constants/defaults.ts';
-import { YamlViewer } from '@/features/firmware/components/YamlViewer.tsx';
 import { usePersistentStep } from '@/features/configuration/hooks/usePersistentStep.ts';
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { generateFirmwareConfig } from '@/features/firmware/generateFirmware.ts';
@@ -39,6 +39,8 @@ import { showNotification } from '@mantine/notifications';
 import { compileYAMLAsync } from '@/features/firmware/api/uploadYaml.ts';
 import { appConstants } from '@/constants/firmware.ts';
 import { isValidPressureSensorEntity } from '@/utils/validation.ts';
+
+const YamlViewer = React.lazy(() => import('@/features/firmware/components/YamlViewer'));
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
@@ -373,38 +375,46 @@ export const ProcessStepper: React.FC = () => {
               </Button>
             </Group>
             {yamlContent && (
-              <Accordion variant="separated" mt="xl">
-                <Accordion.Item value="firmware">
-                  <Accordion.Control icon={<IconCpu />}>
-                    <Flex justify="space-between" align="center" w="100%">
-                      <Text>{t('processStepper.steps.4.content.accordionTitle')}</Text>
-                      {/*//TODO: This buttons inside the Accordion.Control provides an error.*/}
-                      <Group gap="xs">
-                        <Button
-                          onClick={(event) => handleCopy(event)}
-                          variant="subtle"
-                          size="xs"
-                          leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-                        >
-                          {copied ? t('button.copy.shiftedTitle') : t('button.copy.title')}
-                        </Button>
-                        <Button
-                          onClick={(event) => handleDownload(event)}
-                          variant="subtle"
-                          size="xs"
-                          mr="lg"
-                          leftSection={<IconDownload size={14} />}
-                        >
-                          {t('button.download.title')}
-                        </Button>
-                      </Group>
-                    </Flex>
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <YamlViewer code={yamlContent} />
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
+              <Suspense
+                fallback={
+                  <Center mt="xl">
+                    <Loader />
+                  </Center>
+                }
+              >
+                <Accordion variant="separated" mt="xl">
+                  <Accordion.Item value="firmware">
+                    <Accordion.Control icon={<IconCpu />}>
+                      <Flex justify="space-between" align="center" w="100%">
+                        <Text>{t('processStepper.steps.4.content.accordionTitle')}</Text>
+                        {/*//TODO: This buttons inside the Accordion.Control provides an error.*/}
+                        <Group gap="xs">
+                          <Button
+                            onClick={(event) => handleCopy(event)}
+                            variant="subtle"
+                            size="xs"
+                            leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+                          >
+                            {copied ? t('button.copy.shiftedTitle') : t('button.copy.title')}
+                          </Button>
+                          <Button
+                            onClick={(event) => handleDownload(event)}
+                            variant="subtle"
+                            size="xs"
+                            mr="lg"
+                            leftSection={<IconDownload size={14} />}
+                          >
+                            {t('button.download.title')}
+                          </Button>
+                        </Group>
+                      </Flex>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                      <YamlViewer code={yamlContent} />
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+              </Suspense>
             )}
           </Stepper.Step>
           <Stepper.Step

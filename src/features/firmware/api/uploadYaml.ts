@@ -1,4 +1,4 @@
-import { apiFetch } from '@/shared/api/api.ts';
+import { apiFetch } from '@/shared/api/apiClient.ts';
 import { defaultFirmwareOptions } from '@/constants/defaults.ts';
 import i18n from 'i18next';
 
