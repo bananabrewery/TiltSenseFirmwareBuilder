@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Box, Center, List, Text, Title } from '@mantine/core';
-import { IconRadar } from '@tabler/icons-react';
+import { Logo } from '@/components/Logo.tsx';
 
 export const Intro: React.FC = () => {
   const { t } = useTranslation();
@@ -9,8 +9,10 @@ export const Intro: React.FC = () => {
     <Box style={{ padding: 32 }}>
       <Center>
         <div style={{ textAlign: 'center' }}>
-          <IconRadar size={64} />
-          <Title order={1}>{t('tiltSense')}</Title>
+          <Logo />
+          <Text style={{ fontSize: '30px' }}>
+            <Trans i18nKey="tiltSense" components={{ strong: <strong /> }} />
+          </Text>
           <Title order={3} mt="md">
             {t('subTitle')}
           </Title>

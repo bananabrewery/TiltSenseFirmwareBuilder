@@ -1,6 +1,6 @@
 const es = {
   translation: {
-    tiltSense: 'TiltSense',
+    tiltSense: '<strong>TILT</strong>SENSE',
     subTitle: 'Generador de firmware',
     welcome: 'Bienvenido al generador de firmware dinámico de TiltSense',
     tilt: {

@@ -3,7 +3,7 @@ import { createTheme, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import React from 'react';
 
-const theme = createTheme({});
+const theme = createTheme({ fontFamily: 'Alexandria, sans-serif' });
 
 export const Providers = ({ children }: { children: React.ReactNode }) => (
   <AppProvider>

@@ -1,4 +1,6 @@
-<img src="public/radar.svg" alt="TiltSense YAML Generator" width="120" />
+<div align="center">
+  <img src="public/logo.svg" alt="TiltSense" width="120" />
+</div>
 
 ## TiltSense Firmware Builder
 
@@ -94,6 +96,8 @@ Built as part of the [TiltSense Project](https://github.com/yourrepo/tiltsense) 
 - [Tilt Hydrometer](https://tilthydrometer.com/)
 - [Brewfather](https://brewfather.app/)
 - [Home Assistant](https://www.home-assistant.io/)
+
+Special thanks to [Llupols](https://github.com/llupols) for designing the TiltSense logo. Your creativity and talent have given our project a unique identity. Much appreciated!
 
 🧪 Made by and for fermentation geeks.
 
