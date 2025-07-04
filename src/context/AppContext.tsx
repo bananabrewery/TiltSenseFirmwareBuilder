@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
-import type { FirmwareOptions } from '@/types/firmware';
-import type { Tilt } from '@/models/tilt';
+import type { FirmwareOptions } from '@/features/firmware/types/firmware.ts';
+import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import type { UseListStateHandlers } from '@mantine/hooks';
 
 export type AppContextType = {

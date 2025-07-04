@@ -1,5 +1,5 @@
-import type { FirmwareOptions } from '@/types/firmware';
-import type { Tilt } from '@/models/tilt';
+import type { FirmwareOptions } from '@/features/firmware/types/firmware.ts';
+import type { Tilt } from '@/features/configuration/types/tilt.ts';
 
 const LOCAL_STORAGE_KEY = 'tiltSenseConfig';
 

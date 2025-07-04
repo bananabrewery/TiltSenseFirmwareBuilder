@@ -1,6 +1,11 @@
-import type { FirmwareOptions } from '@/types/firmware';
-import type { Tilt, TiltColorKey } from '@/models/tilt';
-import { TiltColorId, TiltColorKeys, TiltColorsDisplay, TiltColorsHex } from '@/models/tilt';
+import type { FirmwareOptions } from '@/features/firmware/types/firmware.ts';
+import type { Tilt, TiltColorKey } from '@/features/configuration/types/tilt.ts';
+import {
+  TiltColorId,
+  TiltColorKeys,
+  TiltColorsDisplay,
+  TiltColorsHex,
+} from '@/features/configuration/types/tilt.ts';
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
