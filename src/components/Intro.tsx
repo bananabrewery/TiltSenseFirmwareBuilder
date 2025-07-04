@@ -9,11 +9,8 @@ export const Intro: React.FC = () => {
     <Box style={{ padding: 32 }}>
       <Center>
         <div style={{ textAlign: 'center' }}>
-          <Logo />
-          <Text style={{ fontSize: '30px' }}>
-            <Trans i18nKey="tiltSense" components={{ strong: <strong /> }} />
-          </Text>
-          <Title order={3} mt="md">
+          <Logo width={200} height={200} />
+          <Title order={3} mt="lg">
             {t('subTitle')}
           </Title>
         </div>

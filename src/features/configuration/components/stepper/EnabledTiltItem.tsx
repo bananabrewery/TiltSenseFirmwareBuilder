@@ -1,10 +1,10 @@
 import { Box, Text, TextInput } from '@mantine/core';
-import { IconTestPipe2Filled } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import classes from '@/features/configuration/components/stepper/DndTilts.module.css';
 import { isValidPressureSensorEntity } from '@/utils/validation.ts';
+import { IconTilt } from '@/components/Tilt.tsx';
 
 interface EnabledTiltItemProps {
   tilt: Tilt;
@@ -39,7 +39,7 @@ export const EnabledTiltItem: React.FC<EnabledTiltItemProps> = ({ tilt, onChange
       <div className={classes.item}>
         <Box className={classes.dragBox}>
           <Box className={classes.dragIcon}>
-            <IconTestPipe2Filled size={24} color={tilt.color?.hexColor ?? '#ccc'} />
+            <IconTilt width={24} height={24} color={tilt.color?.hexColor} />
           </Box>
           <Box className={classes.dragCheckbox}>
             <Text>

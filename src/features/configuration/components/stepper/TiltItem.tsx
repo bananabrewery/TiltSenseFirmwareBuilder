@@ -1,11 +1,12 @@
 import { Draggable } from '@hello-pangea/dnd';
 import { Box, Checkbox } from '@mantine/core';
-import { IconGripVertical, IconTestPipe2Filled } from '@tabler/icons-react';
+import { IconGripVertical } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import React from 'react';
 import cx from 'clsx';
 import classes from '@/features/configuration/components/stepper/DndTilts.module.css';
+import { IconTilt } from '@/components/Tilt.tsx';
 
 type Props = {
   tilt: Tilt;
@@ -41,7 +42,7 @@ export const TiltItem = React.memo(({ tilt, index, onChange }: Props) => {
               <IconGripVertical size={20} />
             </Box>
             <Box className={classes.dragIcon}>
-              <IconTestPipe2Filled size={24} color={tilt.color?.hexColor ?? '#ccc'} />
+              <IconTilt width={24} height={24} color={tilt.color?.hexColor} />
             </Box>
             <Box className={classes.dragCheckbox}>
               <Checkbox

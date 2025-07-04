@@ -1,4 +1,4 @@
-import Icon from '@/assets/logo.svg?react';
+import Icon from '@/assets/logo-text.svg?react';
 import React from 'react';
 
 interface LogoProps {
@@ -6,7 +6,7 @@ interface LogoProps {
   height?: number;
 }
 
-export const Logo: React.FC<LogoProps> = ({ width = 120, height = 120 }) => {
+export const Logo: React.FC<LogoProps> = ({ width = 150, height = 150 }) => {
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   return (

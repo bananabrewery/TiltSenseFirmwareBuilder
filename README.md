@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/logo.svg" alt="TiltSense" width="150" />
+  <img src="public/logo-text.svg" alt="TiltSense" width="150" />
 </div>
 
 ## TiltSense Firmware Builder
