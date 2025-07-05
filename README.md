@@ -24,7 +24,7 @@ The application is ready to be tested and used. If you encounter any issues or h
 [https://bananabrewery.github.io/TiltSenseFirmwareBuilder](https://bananabrewery.github.io/TiltSenseFirmwareBuilder)
 
 🐛 **Found a bug or have a feature request?**  
-Please open an issue in the [GitHub repository](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/issues).
+Please open an issue in the parent project in [GitHub repository](https://github.com/bananabrewery/TiltSense/issues).
 
 🔧 **Next steps:**
 
