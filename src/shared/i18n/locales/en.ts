@@ -213,6 +213,9 @@ const en = {
           title: 'Missing Wi-Fi configuration',
           message: 'You enabled Brewfather integration but did not provide Wi-Fi credentials.',
         },
+        slowCompile: {
+          message: "Hang tight - this can take a few seconds, but it's all good!",
+        },
       },
       error: {
         brewfather: {

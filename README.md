@@ -34,7 +34,7 @@ Please open an issue in the parent project in [GitHub repository](https://github
   - Refactor project architecture (introduce React Context, extract Form component, etc.) ✅ Done!
   - Drag and Drop to order the Tilt list. ✅ Done!
 - Document the parent project ⚙️ In process...
-- Design a proper logo  ✅ Done!
+- Design a proper logo ✅ Done!
 - Improve the accuracy of battery level readings ⏰ Pending...
 
 ---

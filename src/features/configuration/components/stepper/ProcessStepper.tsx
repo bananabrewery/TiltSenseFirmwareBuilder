@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import {
   Accordion,
   Button,
@@ -36,9 +36,8 @@ import { usePersistentStep } from '@/features/configuration/hooks/usePersistentS
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { generateFirmwareConfig } from '@/features/firmware/generateFirmware.ts';
 import { showNotification } from '@mantine/notifications';
-import { compileYAMLAsync } from '@/features/firmware/api/uploadYaml.ts';
-import { appConstants } from '@/constants/firmware.ts';
 import { isValidPressureSensorEntity } from '@/utils/validation.ts';
+import { CompileButton } from '@/features/configuration/components/stepper/CompileButton.tsx';
 
 const YamlViewer = React.lazy(() => import('@/features/firmware/components/YamlViewer'));
 
@@ -51,7 +50,6 @@ export const ProcessStepper: React.FC = () => {
   const nextStep = () => setActive((current) => (current < 5 ? current + 1 : current));
   const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
-  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
@@ -159,73 +157,6 @@ export const ProcessStepper: React.FC = () => {
     link.download = defaultFirmwareOptions.fileName;
     link.click();
     URL.revokeObjectURL(url);
-  };
-
-  const [remainingTime, setRemainingTime] = useState<number | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const lastCompile = localStorage.getItem('tiltSenseLastFirmwareCompile');
-      if (lastCompile) {
-        const timeLeft = 60 * 60 * 1000 - (Date.now() - parseInt(lastCompile, 10));
-        if (timeLeft <= 0) {
-          setRemainingTime(null);
-          clearInterval(interval);
-        } else {
-          setRemainingTime(timeLeft);
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const canCompile = (): boolean => {
-    const lastCompile = localStorage.getItem('tiltSenseLastFirmwareCompile');
-    if (!lastCompile) return true;
-
-    const elapsed = Date.now() - parseInt(lastCompile, 10);
-    return elapsed > appConstants.timeBetweenCompilations;
-  };
-
-  const handleSubmitAsync = async () => {
-    if (!isValidEmail(email)) {
-      setEmailError(t('validation.invalidEmail'));
-      return;
-    }
-    setLoading(true);
-    try {
-      await compileYAMLAsync(yamlContent, email);
-      resNotification(true);
-      const now = Date.now();
-      localStorage.setItem('tiltSenseLastFirmwareCompile', now.toString());
-      setActive(6);
-      setFinished(true);
-    } catch (err) {
-      resNotification(false, (err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resNotification = (success: boolean, msg?: string) => {
-    if (success) {
-      showNotification({
-        title: t('notifications.success.firmwareCompilation.title'),
-        message: t('notifications.success.firmwareCompilation.message'),
-        color: 'green',
-      });
-    } else {
-      showNotification({
-        title: t('notifications.error.firmwareCompilation.title'),
-        message: msg || t('notifications.error.firmwareCompilation.message'),
-        color: 'red',
-      });
-    }
-  };
-
-  const isValidEmail = (email: string): boolean => {
-    return /^\S+@\S+\.\S+$/.test(email);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -442,30 +373,12 @@ export const ProcessStepper: React.FC = () => {
               onChange={handleEmailChange}
               error={emailError}
             />
-            <Group
-              justify="center"
-              mt="xl"
-              style={{ flexDirection: 'column', alignItems: 'center' }}
-            >
-              <Tooltip
-                label={!hasYamlContent ? t('validation.yamlError') : t('validation.email')}
-                disabled={hasYamlContent && !!email}
-              >
-                <Button
-                  onClick={handleSubmitAsync}
-                  disabled={!hasYamlContent || loading || !email || !canCompile()}
-                  leftSection={<IconCpu size={14} />}
-                >
-                  {loading && <Loader size="xs" mr="xs" />}
-                  {t('button.compileFirmware.title')}
-                </Button>
-              </Tooltip>
-              {remainingTime && (
-                <Text c="dimmed" size="sm">
-                  You can compile again in {Math.ceil(remainingTime / 60000)} minutes.
-                </Text>
-              )}
-            </Group>
+            <CompileButton
+              email={email}
+              setEmailError={setEmailError}
+              setActive={setActive}
+              setFinished={setFinished}
+            />
           </Stepper.Step>
           <Stepper.Completed>
             <Group

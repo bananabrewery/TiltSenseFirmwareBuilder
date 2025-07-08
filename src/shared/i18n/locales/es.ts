@@ -215,6 +215,9 @@ const es = {
           message:
             'Has activado la integración con Brewfather pero no has proporcionado las credenciales Wi-Fi.',
         },
+        slowCompile: {
+          message: 'Esto puede tardar unos segundos, ¡pero todo va bien!',
+        },
       },
       error: {
         brewfather: {

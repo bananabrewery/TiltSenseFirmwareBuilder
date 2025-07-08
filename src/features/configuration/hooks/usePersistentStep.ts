@@ -6,7 +6,6 @@ export function usePersistentStep(): [number, Dispatch<SetStateAction<number>>, 
   const [active, setActive] = useState<number>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     const parsed = stored !== null ? parseInt(stored, 10) : 0;
-    console.log(parsed);
     if (isNaN(parsed)) return 0;
     if (parsed === 5 || parsed === 6) return 4;
 
