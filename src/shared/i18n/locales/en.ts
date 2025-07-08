@@ -242,6 +242,7 @@ const en = {
     },
     footer: {
       version: 'Version ',
+      documentation: 'Documentation',
       powered: 'Powered by Banana Brewery 🍌',
     },
   },

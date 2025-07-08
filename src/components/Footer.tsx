@@ -1,6 +1,7 @@
-import { Box, Group, Text } from '@mantine/core';
+import { Anchor, Box, Group, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';
+import { IconBook } from '@tabler/icons-react';
 
 function AppFooter() {
   const { t } = useTranslation();
@@ -36,7 +37,20 @@ function AppFooter() {
         <Text size="xs" c="dimmed" onClick={handleVersionClick}>
           {t('footer.version')} {__APP_VERSION__}
         </Text>
-        <Text size="xs">{t('footer.powered')}</Text>
+        <Group gap="xl">
+          <Anchor
+            href="https://bananabrewery.github.io/TiltSense/"
+            size="xs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Group gap="sm">
+              <IconBook size={14} />
+              <Text size="xs">Documentation</Text>
+            </Group>
+          </Anchor>
+          <Text size="xs">{t('footer.powered')}</Text>
+        </Group>
       </Group>
     </Box>
   );

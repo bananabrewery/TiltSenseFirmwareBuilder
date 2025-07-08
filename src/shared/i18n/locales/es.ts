@@ -245,6 +245,7 @@ const es = {
     },
     footer: {
       version: 'Versión ',
+      documentation: 'Documentación',
       powered: 'Powered by Banana Brewery 🍌',
     },
   },

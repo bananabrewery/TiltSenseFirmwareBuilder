@@ -11,6 +11,9 @@ This tool makes it easy to tailor the firmware to your specific setup, including
 to use. Whether you're running a single Tilt or multiple, with or without pressure sensors, this generator has you
 covered.
 
+We recommend reviewing the [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/) to better understand the available features, sensor configurations,
+and integration options before generating your firmware.
+
 ---
 
 ## 📦 Project Status
@@ -18,7 +21,8 @@ covered.
 TiltSense Firmware Builder now has its **first fully functional release**. 🎉
 
 🧪 **Beta testing phase:**  
-The application is ready to be tested and used. If you encounter any issues or have suggestions, your feedback is more than welcome!
+The application is ready to be tested and used. If you encounter any issues or have suggestions, your feedback is more
+than welcome!
 
 🌐 **Try it here:**  
 [https://bananabrewery.github.io/TiltSenseFirmwareBuilder](https://bananabrewery.github.io/TiltSenseFirmwareBuilder)
@@ -59,15 +63,15 @@ using [ESPHome](https://web.esphome.io/).
 3. Choose your integrations (Brewfather, Home Assistant, etc.).
 4. Click **Generate** to create your custom YAML file.
 5. You have two options:
-   1. Compile the firmware yourself using ESPHome.
-   2. Let us compile it for you!
+  1. Compile the firmware yourself using ESPHome.
+  2. Let us compile it for you!
 6. Flash it to your device using the ESPHome web tool — and you're done!
 
 ---
 
 ## 🔧 Requirements
 
-- A compatible ESP32 device (see [TiltSense project](https://github.com/bananabrewery/tiltsense) for hardware
+- A compatible ESP32 device (see [TiltSense documentation](https://bananabrewery.github.io/TiltSense/) for hardware
   recommendations)
 - Optional: Brewfather account or Home Assistant setup for integration
 
@@ -75,7 +79,8 @@ using [ESPHome](https://web.esphome.io/).
 
 ## 🌍 Why this exists
 
-The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The Firmware Builder eliminates that step — making the setup faster, easier, and less error-prone.
+The original TiltSense firmware required manual YAML editing to match each user’s hardware and preferences. The Firmware
+Builder eliminates that step — making the setup faster, easier, and less error-prone.
 
 Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in
 minutes.
@@ -97,7 +102,8 @@ Built as part of the [TiltSense Project](https://github.com/yourrepo/tiltsense) 
 - [Brewfather](https://brewfather.app/)
 - [Home Assistant](https://www.home-assistant.io/)
 
-Special thanks to [Llupols](https://github.com/llupols) for designing the TiltSense logo. Your creativity and talent have given our project a unique identity. Much appreciated!
+Special thanks to [Llupols](https://github.com/llupols) for designing the TiltSense logo. Your creativity and talent
+have given our project a unique identity. Much appreciated!
 
 🧪 Made by and for fermentation geeks.
 
