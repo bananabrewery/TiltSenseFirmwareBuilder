@@ -11,7 +11,8 @@ This tool makes it easy to tailor the firmware to your specific setup, including
 to use. Whether you're running a single Tilt or multiple, with or without pressure sensors, this generator has you
 covered.
 
-We recommend reviewing the [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/) to better understand the available features, sensor configurations,
+We recommend reviewing the [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/) to better understand
+the available features, sensor configurations,
 and integration options before generating your firmware.
 
 ---
@@ -63,8 +64,8 @@ using [ESPHome](https://web.esphome.io/).
 3. Choose your integrations (Brewfather, Home Assistant, etc.).
 4. Click **Generate** to create your custom YAML file.
 5. You have two options:
-  1. Compile the firmware yourself using ESPHome.
-  2. Let us compile it for you!
+   1. Compile the firmware yourself using ESPHome.
+   2. Let us compile it for you!
 6. Flash it to your device using the ESPHome web tool — and you're done!
 
 ---
