@@ -101,7 +101,7 @@ const en = {
           content: {
             intro: 'Please add the following <strong>Wi-Fi configuration</strong>.',
             subintro:
-              'If you plan to use your TiltSense without connectivity, you can skip these fields.',
+              'Make sure the Wi-Fi connection is 2.4GHz, as the TiltSense device only supports 2.4GHz Wi-Fi networks. \nIf you plan to use TiltSense without connectivity, you can skip these fields.',
           },
         },
         2: {

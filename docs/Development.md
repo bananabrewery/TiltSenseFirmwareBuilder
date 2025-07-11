@@ -125,6 +125,104 @@ releases.
 
 ---
 
+## 🧾 Commit Guidelines (Conventional Commits + semantic-release)
+
+We use [`semantic-release`](https://semantic-release.gitbook.io/semantic-release/) to automatically manage versions and changelogs based on commit messages.  
+All commits must follow the **Conventional Commits** convention.
+
+### 📌 Format
+
+```
+<type>(optional scope): <short summary>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+---
+
+### ✅ Examples
+
+```bash
+feat(ui): add temperature graph to Tilt Black page
+fix(sensor): correct pressure reading for Purple Tilt
+chore(deps): update lvgl library to latest version
+```
+
+---
+
+### 🎯 Commit Types
+
+| Type        | Description                                                |
+|-------------|------------------------------------------------------------|
+| `feat`      | A new feature                                              |
+| `fix`       | A bug fix                                                  |
+| `docs`      | Documentation only changes                                 |
+| `style`     | Changes that do not affect meaning (whitespace, formatting)|
+| `refactor`  | Code change that neither fixes a bug nor adds a feature    |
+| `perf`      | Performance improvements                                   |
+| `test`      | Adding or modifying tests                                  |
+| `build`     | Changes to build system or external dependencies           |
+| `ci`        | CI/CD configuration changes                                |
+| `chore`     | Maintenance tasks that don't affect production behavior    |
+| `revert`    | Revert a previous commit                                   |
+
+---
+
+### 🧭 Scopes
+
+Use a scope to indicate **what part of the project is affected**. Here are the scopes used in this project:
+
+| Scope          | Description                                               |
+|----------------|-----------------------------------------------------------|
+| `ui`           | Display pages, LVGL widgets, layout                       |
+| `ble`          | BLE communication, parsing iBeacon data                   |
+| `sensor`       | Sensor logic: Tilt, pressure, battery, temperature, etc.  |
+| `wifi`         | Wi-Fi or network-related setup                            |
+| `touch`        | Touchscreen logic, gestures, screen dimming               |
+| `api`          | HTTP requests to Brewfather or other integrations         |
+| `config`       | YAML structure, globals, intervals                        |
+| `deps`         | External libraries, includes, updates                     |
+| `build`        | PlatformIO, ESPHome build configuration                   |
+| `ci`           | GitHub Actions or other CI tools                          |
+| `docs`         | Documentation, README, Development.md                     |
+
+> Example:  
+> `feat(sensor): add voltage calibration for ESP32 battery`  
+> `fix(ui): prevent page swipe when screen is off`
+
+---
+
+### ⚠️ Breaking Changes
+
+To introduce a breaking change (that requires a major version bump), use the `BREAKING CHANGE:` footer.
+
+```bash
+feat(sensor): change gravity units to Plato
+
+BREAKING CHANGE: gravity is now reported in °P instead of SG
+```
+
+---
+
+### 💡 Tips
+
+- Use the **imperative mood**: “fix”, not “fixed” or “fixes”.
+- Keep subject lines ≤ 72 characters.
+- Leave a blank line between subject and body.
+- Use the body to describe **what** and especially **why** you did the change.
+
+---
+
+### 🛠 Useful Resources
+
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [semantic-release](https://semantic-release.gitbook.io/semantic-release/)
+
+
+---
+
 ## 🔍 Additional Commands
 
 - **Lint code**: `npm run lint`

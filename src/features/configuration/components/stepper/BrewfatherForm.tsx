@@ -49,12 +49,15 @@ export const BrewfatherForm: React.FC = () => {
             placeholder={t('configuration.brewfather.fields.key.placeholder')}
             value={firmwareOptions.brewfather.apiKey}
             onChange={(event) => {
-              const value = event.currentTarget.value;
+              const value = event.currentTarget.value.trim();
+              const match = value.match(/id=([a-zA-Z0-9]+)/);
+              const apiKey = match ? match[1] : value;
+
               setFirmwareOptions((prev) => ({
                 ...prev,
                 brewfather: {
                   ...prev.brewfather,
-                  apiKey: value,
+                  apiKey,
                 },
               }));
             }}

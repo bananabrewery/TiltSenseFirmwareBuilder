@@ -12,11 +12,11 @@ import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 export function generateFirmwareConfig(context: FirmwareContext): string {
   const blocks: string[] = [
     generateBaseConfigBlock(context),
+    generateHardwareBlock(context),
     generateGlobalsBlock(context),
     generateBLEBlock(context),
     generateSwitchesBlock(context),
     generateSensorsBlock(context),
-    generateHardwareBlock(context),
     generateIntervalsBlock(context),
     generateScriptsBlock(context),
     generateLVGLBlock(context),

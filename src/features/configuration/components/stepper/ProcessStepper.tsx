@@ -208,7 +208,9 @@ export const ProcessStepper: React.FC = () => {
               />
             </Text>
             <Text mt="xs" c="dimmed">
-              {t('processStepper.steps.1.content.subintro')}
+              <div style={{ whiteSpace: 'pre-line' }}>
+                {t('processStepper.steps.1.content.subintro')}
+              </div>
             </Text>
             <WifiForm />
           </Stepper.Step>
