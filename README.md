@@ -38,7 +38,7 @@ Please open an issue in the parent project in [GitHub repository](https://github
   - Display "Unavailable" instead of "0.0" for missing readings. ✅ Done!
   - Refactor project architecture (introduce React Context, extract Form component, etc.) ✅ Done!
   - Drag and Drop to order the Tilt list. ✅ Done!
-- Document the parent project ⚙️ In process...
+- Document the parent project ✅ Done! Here it is: [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/)
 - Design a proper logo ✅ Done!
 - Improve the accuracy of battery level readings ⏰ Pending...
 
@@ -64,8 +64,8 @@ using [ESPHome](https://web.esphome.io/).
 3. Choose your integrations (Brewfather, Home Assistant, etc.).
 4. Click **Generate** to create your custom YAML file.
 5. You have two options:
-   1. Compile the firmware yourself using ESPHome.
-   2. Let us compile it for you!
+  1. Compile the firmware yourself using ESPHome.
+  2. Let us compile it for you!
 6. Flash it to your device using the ESPHome web tool — and you're done!
 
 ---

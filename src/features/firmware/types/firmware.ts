@@ -1,3 +1,6 @@
+import type { Tilt } from '@/features/configuration/types/tilt.ts';
+import { configConstants } from '@/constants/firmware.ts';
+
 export interface FirmwareConfig {
   isBeta: boolean;
   name: string;
@@ -27,4 +30,10 @@ export interface FirmwareOptions {
   enablePressureSensors: boolean;
   fileName: string;
   email?: string;
+}
+
+export interface FirmwareContext {
+  tilts: Tilt[];
+  firmwareOptions: FirmwareOptions;
+  configConstants: typeof configConstants;
 }

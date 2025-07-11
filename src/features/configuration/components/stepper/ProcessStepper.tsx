@@ -38,6 +38,7 @@ import { generateFirmwareConfig } from '@/features/firmware/generateFirmware.ts'
 import { showNotification } from '@mantine/notifications';
 import { isValidPressureSensorEntity } from '@/utils/validation.ts';
 import { CompileButton } from '@/features/configuration/components/stepper/CompileButton.tsx';
+import { configConstants } from '@/constants/firmware.ts';
 
 const YamlViewer = React.lazy(() => import('@/features/firmware/components/YamlViewer'));
 
@@ -123,7 +124,11 @@ export const ProcessStepper: React.FC = () => {
 
   const handleGenerateYAML = () => {
     const enabledTilts: Tilt[] = tilts.filter((tilt) => tilt.enabled);
-    const tiltSenseGeneratedFirmware = generateFirmwareConfig(enabledTilts, firmwareOptions);
+    const tiltSenseGeneratedFirmware = generateFirmwareConfig({
+      tilts: enabledTilts,
+      firmwareOptions,
+      configConstants,
+    });
     setYamlContent(tiltSenseGeneratedFirmware);
     showNotification({
       title: t('notifications.success.firmwareGeneration.title'),

@@ -1,61 +1,42 @@
-import type { FirmwareConfig, FirmwareOptions } from '@/features/firmware/types/firmware.ts';
+import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
-export function generateBaseConfigBlock(
-  config: FirmwareConfig,
-  firmwareOptions: FirmwareOptions
-): string {
-  let baseConfigBlock = `esphome:
-  name: "${config.name}"
-  friendly_name: "${config.friendlyName}"
+export function generateBaseConfigBlock(context: FirmwareContext): string {
+  const { configConstants, firmwareOptions } = context;
+  const lines: string[] = [
+    `esphome:`,
+    `  name: "${configConstants.name}"`,
+    `  friendly_name: "${configConstants.friendlyName}"`,
+    ``,
+    `esp32:`,
+    `  board: esp32-s3-devkitc-1`,
+    `  variant: esp32s3`,
+    `  framework:`,
+    `    type: esp-idf`,
+    `  flash_size: 16MB`,
+    ``,
+    `logger:`,
+    `  level: ${configConstants.isBeta ? 'DEBUG' : 'INFO'}`,
+    ``,
+  ];
 
-esp32:
-  board: esp32-s3-devkitc-1
-  variant: esp32s3
-  framework:
-    type: esp-idf
-  flash_size: 16MB
-
-logger:`;
-
-  baseConfigBlock += config.isBeta
-    ? `
-  level: DEBUG`
-    : `
-  level: INFO`;
-
-  baseConfigBlock += firmwareOptions.ha
-    ? `
-
-api:
-`
-    : `
-`;
-  baseConfigBlock += firmwareOptions.brewfather.enabled
-    ? `
-http_request:
-  verify_ssl: False
-`
-    : ``;
-
-  baseConfigBlock += `
-ota:
-  - platform: esphome
-
-wifi:`;
-  if (firmwareOptions.wifiConfig.SSID.trim() && firmwareOptions.wifiConfig.password.trim()) {
-    baseConfigBlock += `
-  ssid: ${firmwareOptions.wifiConfig.SSID}
-  password: ${firmwareOptions.wifiConfig.password}`;
+  if (firmwareOptions.ha) {
+    lines.push(`api:`, ``);
   }
-  baseConfigBlock += `
-  ap:
 
-captive_portal:
+  if (firmwareOptions.brewfather.enabled) {
+    lines.push(`http_request:`, `  verify_ssl: False`, ``);
+  }
 
-web_server:
-  port: 80
+  lines.push(`ota:`, `  - platform: esphome`, ``, `wifi:`);
 
-`;
+  const ssid = firmwareOptions.wifiConfig.SSID.trim();
+  const password = firmwareOptions.wifiConfig.password.trim();
 
-  return baseConfigBlock;
+  if (ssid && password) {
+    lines.push(`  ssid: ${ssid}`, `  password: ${password}`);
+  }
+
+  lines.push(`  ap:`, ``, `captive_portal:`, ``, `web_server:`, `  port: 80`, ``);
+
+  return lines.join('\n');
 }
