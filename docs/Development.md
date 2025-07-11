@@ -32,9 +32,11 @@ volta install
 This will install the Node.js and npm versions pinned in `package.json` under the `volta` field:
 
 ```json
-"volta": {
-"node": "22.17.0",
-"npm": "11.4.2"
+{
+  "volta": {
+    "node": "22.17.0",
+    "npm": "11.4.2"
+  }
 }
 ```
 
