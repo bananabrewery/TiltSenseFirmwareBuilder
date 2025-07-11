@@ -48,6 +48,7 @@ Please open an issue in the parent project in the [GitHub repository](https://gi
 ## [2.1.0] - 2025-07-11
 
 ### Changed
+
 - Complete refactor on the YAML firmware generation logic.
 
 ---
