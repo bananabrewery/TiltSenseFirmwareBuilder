@@ -7,11 +7,10 @@
 
 # [2.4.0](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.3.0...v2.4.0) (2025-07-11)
 
-
 ### Features
 
-* **core:** Pushing a new commit to check if it's working... ([86dfb45](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/86dfb456b6f8b34e3d50e7e4d7cac91c9a5e53e9))
-* **core:** Pushing a new commit to check if it's working... ([a415a79](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/a415a795e3f8850583a5f2d42e9721cf518848ef))
+- **core:** Pushing a new commit to check if it's working... ([86dfb45](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/86dfb456b6f8b34e3d50e7e4d7cac91c9a5e53e9))
+- **core:** Pushing a new commit to check if it's working... ([a415a79](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/a415a795e3f8850583a5f2d42e9721cf518848ef))
 
 # [2.3.0](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.2.0...v2.3.0) (2025-07-11)
 
