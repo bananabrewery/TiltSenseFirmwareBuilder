@@ -113,6 +113,16 @@ This will:
 
 ---
 
+## 🔄 Releases
+
+This project uses [semantic-release](https://semantic-release.gitbook.io/semantic-release/) to automate versioning,
+changelog generation, and GitHub releases.
+
+Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) in your commit messages to trigger automatic
+releases.
+
+---
+
 ## 🔍 Additional Commands
 
 - **Lint code**: `npm run lint`
