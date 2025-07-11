@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.4.0...v2.5.0) (2025-07-11)
+
+
+### Features
+
+* **core:** Yet another try... ([4d7bc46](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/4d7bc467b667168ad7f4e6b19e4846a1bb502eeb))
+
 # [2.4.0](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.3.0...v2.4.0) (2025-07-11)
 
 
