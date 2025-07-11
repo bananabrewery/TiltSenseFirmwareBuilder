@@ -12,8 +12,7 @@ to use. Whether you're running a single Tilt or multiple, with or without pressu
 covered.
 
 We recommend reviewing the [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/) to better understand
-the available features, sensor configurations,
-and integration options before generating your firmware.
+the available features, sensor configurations, and integration options before generating your firmware.
 
 ---
 
@@ -29,7 +28,7 @@ than welcome!
 [https://bananabrewery.github.io/TiltSenseFirmwareBuilder](https://bananabrewery.github.io/TiltSenseFirmwareBuilder)
 
 🐛 **Found a bug or have a feature request?**  
-Please open an issue in the parent project in [GitHub repository](https://github.com/bananabrewery/TiltSense/issues).
+Please open an issue in the parent project in the [GitHub repository](https://github.com/bananabrewery/TiltSense/issues).
 
 🔧 **Next steps:**
 
@@ -41,6 +40,15 @@ Please open an issue in the parent project in [GitHub repository](https://github
 - Document the parent project ✅ Done! Here it is: [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/)
 - Design a proper logo ✅ Done!
 - Improve the accuracy of battery level readings ⏰ Pending...
+
+---
+
+# Changelog
+
+## [2.1.0] - 2025-07-11
+
+### Changed
+- Complete refactor on the YAML firmware generation logic.
 
 ---
 
@@ -64,9 +72,9 @@ using [ESPHome](https://web.esphome.io/).
 3. Choose your integrations (Brewfather, Home Assistant, etc.).
 4. Click **Generate** to create your custom YAML file.
 5. You have two options:
-  1. Compile the firmware yourself using ESPHome.
-  2. Let us compile it for you!
-6. Flash it to your device using the ESPHome web tool — and you're done!
+6. Compile the firmware yourself using ESPHome.
+7. Let us compile it for you!
+8. Flash it to your device using the ESPHome web tool — and you're done!
 
 ---
 
@@ -85,6 +93,16 @@ Builder eliminates that step — making the setup faster, easier, and less error
 
 Whether you're a beginner or just want to save time, this tool helps you go from "idea" to "fermentation dashboard" in
 minutes.
+
+---
+
+## 🛠 Developer Setup
+
+If you're contributing to this project, please refer to [`docs/Development.md`](./docs/Development.md) for detailed instructions on:
+
+- Setting up the environment
+- Running the local development server
+- Creating feature branches
 
 ---
 
