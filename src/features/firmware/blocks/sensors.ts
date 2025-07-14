@@ -13,7 +13,7 @@ export function generateSensorsBlock(context: FirmwareContext): string {
 
   lines.push(
     `  - platform: adc`,
-    `    pin: GPIO01`,
+    `    pin: ${context.firmwareOptions.isMax ? 'GPIO04' : 'GPIO01'}`,
     `    name: "${context.firmwareOptions.friendlyName} Battery Voltage"`,
     `    id: battery_voltage`,
     `    unit_of_measurement: "V"`,
