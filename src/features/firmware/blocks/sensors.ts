@@ -1,7 +1,6 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
-import { getTiltSenseMaxInternalBattery } from '@/features/firmware/blocks/devices/tiltSenseMax/hardware.ts';
-import { getTiltSenseInternalBattery } from '@/features/firmware/blocks/devices/tiltSense/hardware.ts';
+import { getInternalBattery } from '@/features/firmware/blocks/devices/common.ts';
 
 export function generateSensorsBlock(context: FirmwareContext): string {
   const lines: string[] = [`sensor:`];
@@ -13,11 +12,7 @@ export function generateSensorsBlock(context: FirmwareContext): string {
     );
   }
 
-  if (context.firmwareOptions.isMax) {
-    lines.push(...getTiltSenseMaxInternalBattery(context));
-  } else {
-    lines.push(...getTiltSenseInternalBattery(context));
-  }
+  lines.push(...getInternalBattery(context));
 
   lines.push(
     `  - platform: template`,

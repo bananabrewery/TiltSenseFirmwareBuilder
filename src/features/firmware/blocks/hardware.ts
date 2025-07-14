@@ -1,10 +1,9 @@
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
-import { tiltSenseHardware } from '@/features/firmware/blocks/devices/tiltSense/hardware.ts';
-import { tiltSenseMaxHardware } from '@/features/firmware/blocks/devices/tiltSenseMax/hardware.ts';
+import { getHardware } from '@/features/firmware/blocks/devices/common.ts';
 
 export function generateHardwareBlock(context: FirmwareContext): string {
-  const { friendlyName, isMax } = context.firmwareOptions;
-  const baseLines = isMax ? tiltSenseMaxHardware : tiltSenseHardware;
+  const { friendlyName } = context.firmwareOptions;
+  const baseLines = getHardware(context);
   const lines = [...baseLines];
 
   lines.push(
