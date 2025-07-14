@@ -31,7 +31,7 @@ import {
   IconDownload,
   IconFileCode,
 } from '@tabler/icons-react';
-import { defaultFirmwareOptions } from '@/constants/defaults.ts';
+import { defaultFirmwareOptions, getFirmwareFileName } from '@/constants/defaults.ts';
 import { usePersistentStep } from '@/features/configuration/hooks/usePersistentStep.ts';
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { generateFirmwareConfig } from '@/features/firmware/generateFirmware.ts';
@@ -159,7 +159,7 @@ export const ProcessStepper: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = defaultFirmwareOptions.fileName;
+    link.download = getFirmwareFileName(defaultFirmwareOptions.isMax);
     link.click();
     URL.revokeObjectURL(url);
   };

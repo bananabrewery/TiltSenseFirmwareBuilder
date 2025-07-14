@@ -28,7 +28,8 @@ than welcome!
 [https://bananabrewery.github.io/TiltSenseFirmwareBuilder](https://bananabrewery.github.io/TiltSenseFirmwareBuilder)
 
 🐛 **Found a bug or have a feature request?**  
-Please open an issue in the parent project in the [GitHub repository](https://github.com/bananabrewery/TiltSense/issues).
+Please open an issue in the parent project in
+the [GitHub repository](https://github.com/bananabrewery/TiltSense/issues).
 
 🔧 **Next steps:**
 
@@ -40,16 +41,6 @@ Please open an issue in the parent project in the [GitHub repository](https://gi
 - Document the parent project ✅ Done! Here it is: [TiltSense Documentation](https://bananabrewery.github.io/TiltSense/)
 - Design a proper logo ✅ Done!
 - Improve the accuracy of battery level readings ⏰ Pending...
-
----
-
-# Changelog
-
-## [2.1.0] - 2025-07-11
-
-### Changed
-
-- Complete refactor on the YAML firmware generation logic.
 
 ---
 
@@ -99,7 +90,8 @@ minutes.
 
 ## 🛠 Developer Setup
 
-If you're contributing to this project, please refer to [`docs/Development.md`](./docs/Development.md) for detailed instructions on:
+If you're contributing to this project, please refer to [`docs/Development.md`](./docs/Development.md) for detailed
+instructions on:
 
 - Setting up the environment
 - Running the local development server
