@@ -28,7 +28,7 @@ export interface FirmwareOptions {
   ha: boolean;
   wifiConfig: WifiConfig;
   enablePressureSensors: boolean;
-  fileName: string;
+  isMax: boolean;
   email?: string;
 }
 

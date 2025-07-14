@@ -9,6 +9,9 @@ import {
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+export const getFirmwareFileName = (isMax: boolean): string =>
+  isMax ? 'tiltsense-max.yaml' : 'tiltsense.yaml';
+
 export const defaultFirmwareOptions: FirmwareOptions = {
   brewfather: {
     enabled: false,
@@ -20,7 +23,7 @@ export const defaultFirmwareOptions: FirmwareOptions = {
     password: '',
   },
   enablePressureSensors: false,
-  fileName: 'tiltsense.yaml',
+  isMax: false,
 };
 
 export const defaultTilts = (): Tilt[] =>
