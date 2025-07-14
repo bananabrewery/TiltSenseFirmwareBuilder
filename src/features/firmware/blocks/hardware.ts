@@ -4,7 +4,8 @@ import { tiltSenseMaxHardware } from '@/features/firmware/blocks/devices/tiltSen
 
 export function generateHardwareBlock(context: FirmwareContext): string {
   const { friendlyName, isMax } = context.firmwareOptions;
-  const lines: string[] = isMax ? tiltSenseMaxHardware : tiltSenseHardware;
+  const baseLines = isMax ? tiltSenseMaxHardware : tiltSenseHardware;
+  const lines = [...baseLines];
 
   lines.push(
     `light:`,
