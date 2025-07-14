@@ -130,6 +130,11 @@ const en = {
             outro:
               'If everything looks good, just press the <i>Generate Firmware File</i> button. Feel free to jump to the next step — unless you’re curious to take a look at the generated ESPHome YAML file, or you’re used to working with ESPHome and want to compile the firmware yourself.',
           },
+          device: {
+            label: 'Are you going to install the firmware on a TiltSense Max device?',
+            tiltSense: 'TiltSense',
+            tiltSenseMax: 'TiltSense Max',
+          },
           summary: {
             title: 'Configuration summary',
             required: {

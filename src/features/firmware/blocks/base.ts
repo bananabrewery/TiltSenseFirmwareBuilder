@@ -1,11 +1,11 @@
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
 export function generateBaseConfigBlock(context: FirmwareContext): string {
-  const { configConstants, firmwareOptions } = context;
+  const { firmwareOptions } = context;
   const lines: string[] = [
     `esphome:`,
-    `  name: "${configConstants.name}"`,
-    `  friendly_name: "${configConstants.friendlyName}"`,
+    `  name: "${firmwareOptions.name}"`,
+    `  friendly_name: "${firmwareOptions.friendlyName}"`,
     ``,
     `esp32:`,
     `  board: esp32-s3-devkitc-1`,
@@ -15,7 +15,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
     `  flash_size: 16MB`,
     ``,
     `logger:`,
-    `  level: ${configConstants.isBeta ? 'DEBUG' : 'INFO'}`,
+    `  level: ${firmwareOptions.isBeta ? 'DEBUG' : 'INFO'}`,
     ``,
   ];
 

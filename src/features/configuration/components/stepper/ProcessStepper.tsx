@@ -8,6 +8,7 @@ import {
   Flex,
   Group,
   Loader,
+  Radio,
   Stepper,
   Text,
   TextInput,
@@ -31,7 +32,6 @@ import {
   IconDownload,
   IconFileCode,
 } from '@tabler/icons-react';
-import { defaultFirmwareOptions, getFirmwareFileName } from '@/constants/defaults.ts';
 import { usePersistentStep } from '@/features/configuration/hooks/usePersistentStep.ts';
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { generateFirmwareConfig } from '@/features/firmware/generateFirmware.ts';
@@ -44,7 +44,8 @@ const YamlViewer = React.lazy(() => import('@/features/firmware/components/YamlV
 
 export const ProcessStepper: React.FC = () => {
   const { t } = useTranslation();
-  const { tilts, firmwareOptions, yamlContent, setYamlContent } = useAppContext();
+  const { tilts, firmwareOptions, setFirmwareOptions, yamlContent, setYamlContent } =
+    useAppContext();
 
   const [active, setActive, resetStep] = usePersistentStep();
   const [loadingSteps, setLoadingSteps] = useState<number[]>([]);
@@ -159,7 +160,7 @@ export const ProcessStepper: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = getFirmwareFileName(defaultFirmwareOptions.isMax);
+    link.download = firmwareOptions.fileName;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -168,6 +169,19 @@ export const ProcessStepper: React.FC = () => {
     const value = event.target.value;
     setEmail(value);
     setEmailError(null);
+  };
+
+  const selectDevice = (value: string) => {
+    const isMax = value === 'tiltSenseMax';
+    const suffix = isMax ? 'max' : '';
+
+    setFirmwareOptions((prev) => ({
+      ...prev,
+      isMax,
+      fileName: `tiltsense${suffix}.yaml`,
+      name: `tiltsense${suffix}`,
+      friendlyName: `TiltSense${isMax ? ' Max' : ''}`,
+    }));
   };
 
   return (
@@ -249,6 +263,21 @@ export const ProcessStepper: React.FC = () => {
             description={t('processStepper.steps.4.description')}
           >
             <Text mt="xl">{t('processStepper.steps.4.content.intro')}</Text>
+            <Radio.Group
+              value={firmwareOptions.isMax ? 'tiltSenseMax' : 'tiltSense'}
+              onChange={(value: string) => selectDevice(value)}
+              mt="xl"
+              name="device"
+              label={t('processStepper.steps.4.device.label')}
+            >
+              <Group mt="xs">
+                <Radio value="tiltSense" label={t('processStepper.steps.4.device.tiltSense')} />
+                <Radio
+                  value="tiltSenseMax"
+                  label={t('processStepper.steps.4.device.tiltSenseMax')}
+                />
+              </Group>
+            </Radio.Group>
             <Text style={{ fontWeight: 'bold' }} mt="xl">
               {t('processStepper.steps.4.summary.title')}
             </Text>

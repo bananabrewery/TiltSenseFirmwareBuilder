@@ -1,7 +1,7 @@
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
 export function generateHardwareBlock(context: FirmwareContext): string {
-  const { friendlyName } = context.configConstants;
+  const { friendlyName } = context.firmwareOptions;
 
   const lines: string[] = [
     `psram:`,

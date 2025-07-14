@@ -50,7 +50,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
     `                            "}",`,
     `                            "Tilt",`,
     `                            "Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}",`,
-    `                            "${context.configConstants.friendlyName}",`,
+    `                            "${context.firmwareOptions.friendlyName}",`,
     `                            gravity,`,
     `                            "G",`,
     `                            temp,`,
