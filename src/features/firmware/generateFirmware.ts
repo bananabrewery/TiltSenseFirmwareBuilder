@@ -10,7 +10,6 @@ import { generateLVGLBlock } from '@/features/firmware/blocks/lvgl.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
 export function generateFirmwareConfig(context: FirmwareContext): string {
-  console.log(context);
   const blocks: string[] = [
     generateBaseConfigBlock(context),
     generateHardwareBlock(context),

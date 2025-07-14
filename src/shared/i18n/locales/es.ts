@@ -131,6 +131,12 @@ const es = {
             outro:
               'Si todo está correcto, simplemente pulsa el botón <i>Generar fichero de firmware</i>. Puedes continuar al siguiente paso, o revisar el archivo YAML generado si sueles trabajar con ESPHome y prefieres compilarlo tú mismo.',
           },
+          device: {
+            label:
+              '¿Estás pensando en instalar el firmware en un dispositivo TiltSense o TiltSense Max?',
+            tiltSense: 'TiltSense',
+            tiltSenseMax: 'TiltSense Max',
+          },
           summary: {
             title: 'Resumen de configuración',
             required: {
