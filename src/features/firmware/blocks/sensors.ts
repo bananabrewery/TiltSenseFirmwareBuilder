@@ -1,5 +1,7 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
+import { getTiltSenseMaxInternalBattery } from '@/features/firmware/blocks/devices/tiltSenseMax/hardware.ts';
+import { getTiltSenseInternalBattery } from '@/features/firmware/blocks/devices/tiltSense/hardware.ts';
 
 export function generateSensorsBlock(context: FirmwareContext): string {
   const lines: string[] = [`sensor:`];
@@ -11,23 +13,11 @@ export function generateSensorsBlock(context: FirmwareContext): string {
     );
   }
 
-  lines.push(
-    `  - platform: adc`,
-    `    pin: ${context.firmwareOptions.isMax ? 'GPIO04' : 'GPIO01'}`,
-    `    name: "${context.firmwareOptions.friendlyName} Battery Voltage"`,
-    `    id: battery_voltage`,
-    `    unit_of_measurement: "V"`,
-    `    accuracy_decimals: 1`,
-    `    device_class: voltage`,
-    `    entity_category: diagnostic`,
-    `    update_interval: 30s`,
-    `    attenuation: auto`,
-    `    filters:`,
-    `      - calibrate_linear:`,
-    ...context.configConstants.batteryCalibration.map(
-      ([from, to]) => `          - ${from} -> ${to}`
-    )
-  );
+  if (context.firmwareOptions.isMax) {
+    lines.push(...getTiltSenseMaxInternalBattery(context));
+  } else {
+    lines.push(...getTiltSenseInternalBattery(context));
+  }
 
   lines.push(
     `  - platform: template`,
