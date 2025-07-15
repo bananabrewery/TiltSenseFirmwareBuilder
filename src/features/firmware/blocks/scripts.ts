@@ -1,7 +1,10 @@
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
+import { getDeviceConstants } from '@/features/firmware/blocks/devices/common.ts';
 
 export function generateScriptsBlock(context: FirmwareContext): string {
   const { configConstants, tilts } = context;
+  const { bottomScreenThreshold, swipeLeftThreshold, swipeRightThreshold } =
+    getDeviceConstants(context);
 
   const lines: string[] = [
     `script:`,
@@ -21,7 +24,7 @@ export function generateScriptsBlock(context: FirmwareContext): string {
     `          else:`,
     `            - if:`,
     `                condition:`,
-    `                  lambda: 'return id(last_touch_y) > ${configConstants.bottomScreenThreshold};'`,
+    `                  lambda: 'return id(last_touch_y) > ${bottomScreenThreshold};'`,
     `                then:`,
     `                  - lambda: |-`,
   ];
@@ -43,7 +46,7 @@ export function generateScriptsBlock(context: FirmwareContext): string {
   lines.push(
     `            - if:`,
     `                condition:`,
-    `                  lambda: 'return id(last_touch_x) < ${configConstants.swipeLeftThreshold} && id(current_page) > 0;'`,
+    `                  lambda: 'return id(last_touch_x) < ${swipeLeftThreshold} && id(current_page) > 0;'`,
     `                then:`,
     `                  - lambda: |-`,
     `                      id(current_page) -= 1;`
@@ -65,7 +68,7 @@ export function generateScriptsBlock(context: FirmwareContext): string {
   lines.push(
     `            - if:`,
     `                condition:`,
-    `                  lambda: 'return id(last_touch_x) > ${configConstants.swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'`,
+    `                  lambda: 'return id(last_touch_x) > ${swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'`,
     `                then:`,
     `                  - lambda: |-`,
     `                      id(current_page) += 1;`

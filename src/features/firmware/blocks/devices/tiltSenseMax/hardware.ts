@@ -1,4 +1,10 @@
-import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
+import type { DeviceConstants, FirmwareContext } from '@/features/firmware/types/firmware.ts';
+
+export const tiltSenseMaxConstants: DeviceConstants = {
+  bottomScreenThreshold: 120,
+  swipeLeftThreshold: 120,
+  swipeRightThreshold: 360,
+};
 
 export const tiltSenseMaxHardware: string[] = [
   `psram:`,
