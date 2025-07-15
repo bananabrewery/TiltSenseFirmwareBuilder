@@ -1,6 +1,12 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { configConstants } from '@/constants/firmware.ts';
 
+export interface DeviceConstants {
+  bottomScreenThreshold: number;
+  swipeLeftThreshold: number;
+  swipeRightThreshold: number;
+}
+
 export interface BrewfatherOptions {
   enabled: boolean;
   apiKey: string;
