@@ -1,7 +1,7 @@
 import type { DeviceConstants, FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
 export const tiltSenseMaxConstants: DeviceConstants = {
-  bottomScreenThreshold: 120,
+  bottomScreenThreshold: 360,
   swipeLeftThreshold: 120,
   swipeRightThreshold: 360,
 };
