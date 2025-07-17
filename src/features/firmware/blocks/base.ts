@@ -27,7 +27,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
     lines.push(`http_request:`, `  verify_ssl: False`, ``);
   }
 
-  lines.push(`ota:`, `  - platform: esphome`, ``, `wifi:`);
+  lines.push(`ota:`, `  - platform: esphome`, `  - platform: web_server`, ``, `wifi:`);
 
   const ssid = firmwareOptions.wifiConfig.SSID.trim();
   const password = firmwareOptions.wifiConfig.password.trim();
@@ -36,7 +36,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
     lines.push(`  ssid: ${ssid}`, `  password: ${password}`);
   }
 
-  lines.push(`  ap:`, ``, `captive_portal:`, ``, `web_server:`, `  port: 80`, ``);
+  lines.push(`  ap:`, ``, `captive_portal:`, ``, `web_server:`, `  port: 80`, `  version: 3`, ``);
 
   return lines.join('\n');
 }

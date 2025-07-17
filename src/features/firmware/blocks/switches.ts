@@ -12,6 +12,7 @@ export function generateSwitchesBlock(context: FirmwareContext): string {
     lines.push(
       `  - platform: template`,
       `    name: "Enable Tilt ${name}"`,
+      `    icon: "mdi:toggle-switch"`,
       `    id: switch_enable_tilt_${key}`,
       `    optimistic: true`,
       `    restore_mode: RESTORE_DEFAULT_ON`,

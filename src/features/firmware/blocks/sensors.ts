@@ -4,17 +4,18 @@ import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 export function generateSensorsBlock(context: FirmwareContext): string {
   const lines: string[] = [`sensor:`];
 
-  if (context.configConstants.isBeta) {
-    lines.push(
-      `  - platform: internal_temperature`,
-      `    name: "${context.configConstants.friendlyName} Internal Temperature"`
-    );
-  }
+  lines.push(
+    `  - platform: internal_temperature`,
+    `    name: "${context.configConstants.friendlyName} Internal Temperature"`,
+    `    icon: "mdi:thermometer"`,
+    `    entity_category: diagnostic`
+  );
 
   lines.push(
     `  - platform: adc`,
     `    pin: GPIO01`,
     `    name: "${context.configConstants.friendlyName} Battery Voltage"`,
+    `    icon: "mdi:battery-medium"`,
     `    id: battery_voltage`,
     `    unit_of_measurement: "V"`,
     `    accuracy_decimals: 1`,
@@ -32,6 +33,7 @@ export function generateSensorsBlock(context: FirmwareContext): string {
   lines.push(
     `  - platform: template`,
     `    name: "${context.configConstants.friendlyName} Battery Level"`,
+    `    icon: "mdi:battery-medium"`,
     `    unit_of_measurement: "%"`,
     `    device_class: battery`,
     `    entity_category: diagnostic`,
@@ -70,6 +72,7 @@ export function generateSensorsBlock(context: FirmwareContext): string {
     lines.push(
       `  - platform: template`,
       `    name: "Tilt ${name} Temperature"`,
+      `    icon: "mdi:thermometer"`,
       `    id: tilt_temperature_${key}`,
       `    device_class: "temperature"`,
       `    accuracy_decimals: 1`,
