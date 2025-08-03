@@ -1,6 +1,10 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
+function hasPressureSensor(tilt: Tilt): boolean {
+  return !!tilt.haPressureSensor?.length;
+}
+
 function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[] {
   const lines: string[] = [
     `            - http_request.post:`,
@@ -53,7 +57,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
     `                            "C"`
   );
 
-  if (tilt.haPressureSensor !== undefined && tilt.haPressureSensor.length > 0) {
+  if (hasPressureSensor(tilt)) {
     lines[lines.length - 1] += ',';
     lines.push(
       `                            pressure,`,
@@ -87,6 +91,33 @@ export function generateIntervalsBlock(context: FirmwareContext): string {
     `            - light.turn_off:`,
     `                id: led`,
   ];
+
+  lines.push(
+    `  - interval: 60s`,
+    `    then:`,
+    `      if:`,
+    `        condition:`,
+    `          wifi.connected:`,
+    `        then:`
+  );
+
+  context.tilts.forEach((tilt: Tilt) => {
+    lines.push(
+      `          - lvgl.label.update:`,
+      `              id: wifi_state_${tilt.color.colorKey}`,
+      `              text: "\uF1EB"`
+    );
+  });
+
+  lines.push(`        else:`);
+
+  context.tilts.forEach((tilt: Tilt) => {
+    lines.push(
+      `          - lvgl.label.update:`,
+      `              id: wifi_state_${tilt.color.colorKey}`,
+      `              text: " "`
+    );
+  });
 
   if (context.firmwareOptions.brewfather.enabled) {
     context.tilts.forEach((tilt: Tilt) => {

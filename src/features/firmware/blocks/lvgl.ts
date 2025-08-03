@@ -56,7 +56,14 @@ export function generateLVGLBlock(context: FirmwareContext): string {
       `                align: CENTER`,
       `                text: "${tiltLabel}"`,
       `                text_font: montserrat_16`,
-      `                y: 90`
+      `                y: 90`,
+      `            - label:`,
+      `                id: wifi_state_${colorKey}`,
+      `                align: CENTER`,
+      `                text: " "`,
+      `                text_font: montserrat_12`,
+      `                text_color: 0x3498db`,
+      `                y: 110`
     );
   });
 
