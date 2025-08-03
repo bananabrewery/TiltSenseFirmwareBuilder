@@ -1,38 +1,22 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
+import { getInternalBattery } from '@/features/firmware/blocks/devices/common.ts';
 
 export function generateSensorsBlock(context: FirmwareContext): string {
   const lines: string[] = [`sensor:`];
 
   lines.push(
     `  - platform: internal_temperature`,
-    `    name: "${context.configConstants.friendlyName} Internal Temperature"`,
+    `    name: "${context.firmwareOptions.friendlyName} Internal Temperature"`,
     `    icon: "mdi:thermometer"`,
     `    entity_category: diagnostic`
   );
 
-  lines.push(
-    `  - platform: adc`,
-    `    pin: GPIO01`,
-    `    name: "${context.configConstants.friendlyName} Battery Voltage"`,
-    `    icon: "mdi:battery-medium"`,
-    `    id: battery_voltage`,
-    `    unit_of_measurement: "V"`,
-    `    accuracy_decimals: 1`,
-    `    device_class: voltage`,
-    `    entity_category: diagnostic`,
-    `    update_interval: 30s`,
-    `    attenuation: auto`,
-    `    filters:`,
-    `      - calibrate_linear:`,
-    ...context.configConstants.batteryCalibration.map(
-      ([from, to]) => `          - ${from} -> ${to}`
-    )
-  );
+  lines.push(...getInternalBattery(context));
 
   lines.push(
     `  - platform: template`,
-    `    name: "${context.configConstants.friendlyName} Battery Level"`,
+    `    name: "${context.firmwareOptions.friendlyName} Battery Level"`,
     `    icon: "mdi:battery-medium"`,
     `    unit_of_measurement: "%"`,
     `    device_class: battery`,
