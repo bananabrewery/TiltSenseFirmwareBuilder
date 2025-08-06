@@ -3,7 +3,9 @@ import { defaultFirmwareOptions } from '@/constants/defaults.ts';
 import i18n from 'i18next';
 
 export async function compileYAMLAsync(yaml: string, email: string): Promise<Response> {
-  const file = new File([yaml], defaultFirmwareOptions.fileName, { type: 'text/yaml' });
+  const file = new File([yaml], defaultFirmwareOptions.fileName, {
+    type: 'text/yaml',
+  });
   const formData = new FormData();
   formData.append('file', file);
   formData.append('email', email);

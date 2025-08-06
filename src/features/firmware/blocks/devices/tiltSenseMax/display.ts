@@ -1,0 +1,56 @@
+import type { Tilt } from '@/features/configuration/types/tilt.ts';
+
+export function getTiltSenseMaxTiltPage(tilt: Tilt): string[] {
+  const colorKey = tilt.color.colorKey;
+  const colorHex = tilt.color.displayColor.replace('#', '0x');
+  const tiltLabel = `Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}`;
+
+  return [
+    `        - id: display_${colorKey}`,
+    `          widgets:`,
+    `            - arc:`,
+    `                id: border_circle_${colorKey}`,
+    `                align: CENTER`,
+    `                arc_color: !lambda |-`,
+    `                              if (id(enable_tilt_${colorKey})) {`,
+    `                                return lv_color_hex(${colorHex});`,
+    `                              } else {`,
+    `                                return lv_color_hex(0x808080);`,
+    `                              }`,
+    `                arc_rounded: true`,
+    `                arc_width: 25`,
+    `                width: 380`,
+    `                height: 380`,
+    `            - label:`,
+    `                id: ble_gravity_label_${colorKey}`,
+    `                align: CENTER`,
+    `                text: " "`,
+    `                text_font: montserrat_48`,
+    `                y: -70`,
+    `            - label:`,
+    `                id: ble_temp_label_${colorKey}`,
+    `                align: CENTER`,
+    `                text: " "`,
+    `                text_font: montserrat_32`,
+    `                y: -10`,
+    `            - label:`,
+    `                id: pressure_label_${colorKey}`,
+    `                align: CENTER`,
+    `                text: " "`,
+    `                text_font: montserrat_28`,
+    `                text_color: 0x707070`,
+    `                y: 120`,
+    `            - label:`,
+    `                align: CENTER`,
+    `                text: "${tiltLabel}"`,
+    `                text_font: montserrat_22`,
+    `                y: 170`,
+    `            - label:`,
+    `                id: wifi_state_${colorKey}`,
+    `                align: CENTER`,
+    `                text: " "`,
+    `                text_font: montserrat_20`,
+    `                text_color: 0x3498db`,
+    `                y: 210`,
+  ];
+}

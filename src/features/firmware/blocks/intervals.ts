@@ -17,7 +17,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
     `                          float temp = id(tilt_temperature_${tilt.color.colorKey}).state;`,
   ];
 
-  if (tilt.haPressureSensor !== undefined && tilt.haPressureSensor.length > 0) {
+  if (hasPressureSensor(tilt)) {
     lines.push(
       `                          float pressure = id(pressure_sensor_black).state;`,
       `                          if (std::isnan(pressure)) pressure = 0.0;`
@@ -36,7 +36,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
     `                              "\\"temp\\": %.1f,"`
   );
 
-  if (tilt.haPressureSensor !== undefined && tilt.haPressureSensor.length > 0) {
+  if (hasPressureSensor(tilt)) {
     lines.push(
       `                              "\\"temp_unit\\": \\"%s\\","`,
       `                              "\\"pressure\\": %.1f,"`,
@@ -50,7 +50,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
     `                            "}",`,
     `                            "Tilt",`,
     `                            "Tilt ${tilt.isPro ? 'Pro ' : ''}${tilt.color.name}",`,
-    `                            "${context.configConstants.friendlyName}",`,
+    `                            "${context.firmwareOptions.friendlyName}",`,
     `                            gravity,`,
     `                            "G",`,
     `                            temp,`,

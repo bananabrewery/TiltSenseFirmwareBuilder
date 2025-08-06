@@ -1,16 +1,10 @@
 import type { Tilt } from '@/features/configuration/types/tilt.ts';
 import { configConstants } from '@/constants/firmware.ts';
 
-export interface FirmwareConfig {
-  isBeta: boolean;
-  name: string;
-  friendlyName: string;
-  screenTimeout: number;
+export interface DeviceConstants {
   bottomScreenThreshold: number;
   swipeLeftThreshold: number;
   swipeRightThreshold: number;
-  animationTime: string;
-  pressureUnits: string;
 }
 
 export interface BrewfatherOptions {
@@ -24,12 +18,16 @@ export interface WifiConfig {
 }
 
 export interface FirmwareOptions {
+  name: string;
+  friendlyName: string;
   brewfather: BrewfatherOptions;
   ha: boolean;
   wifiConfig: WifiConfig;
   enablePressureSensors: boolean;
-  fileName: string;
+  isMax: boolean;
   email?: string;
+  fileName: string;
+  isBeta: boolean;
 }
 
 export interface FirmwareContext {
