@@ -1,5 +1,7 @@
 {
-  "branches": ["main"],
+  "branches": [
+    "main"
+  ],
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -28,30 +30,41 @@
           },
           {
             "type": "docs",
-            "scope": "readme",
-            "release": false
-          },
-          {
-            "type": "chore",
-            "release": false
-          },
-          {
-            "type": "test",
-            "release": false
+            "release": "patch"
           },
           {
             "type": "style",
-            "release": false
+            "release": "patch"
           },
           {
-            "type": "ci",
-            "release": false
+            "type": "test",
+            "release": "patch"
           },
           {
             "type": "build",
-            "release": false
+            "release": "patch"
+          },
+          {
+            "type": "ci",
+            "release": "patch"
+          },
+          {
+            "type": "chore",
+            "release": "patch"
           }
-        ]
+        ],
+        "parserOpts": {
+          "headerPattern": "^(\\w+)(?:\\(([^)]*)\\))?: (.+)$",
+          "headerCorrespondence": [
+            "type",
+            "scope",
+            "subject"
+          ],
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES"
+          ]
+        }
       }
     ],
     [
@@ -91,29 +104,29 @@
               "hidden": false
             },
             {
-              "type": "test",
-              "section": "🧪 Tests",
-              "hidden": true
-            },
-            {
               "type": "style",
               "section": "💄 Style",
-              "hidden": true
+              "hidden": false
             },
             {
-              "type": "ci",
-              "section": "🔧 CI/CD",
-              "hidden": true
-            },
-            {
-              "type": "chore",
-              "section": "🔨 Chore",
-              "hidden": true
+              "type": "test",
+              "section": "🧪 Tests",
+              "hidden": false
             },
             {
               "type": "build",
               "section": "📦 Build",
-              "hidden": true
+              "hidden": false
+            },
+            {
+              "type": "ci",
+              "section": "🔧 CI/CD",
+              "hidden": false
+            },
+            {
+              "type": "chore",
+              "section": "🔨 Chore",
+              "hidden": false
             }
           ]
         }
@@ -125,7 +138,11 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "package.json", "src/**"],
+        "assets": [
+          "CHANGELOG.md",
+          "package.json",
+          "src/**"
+        ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
