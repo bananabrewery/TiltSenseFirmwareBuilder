@@ -1,3 +1,9 @@
+## [2.6.2](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.1...v2.6.2) (2025-08-10)
+
+### 🐛 Bug Fixes
+
+* **ci:** Adjusting semantic release library. ([40bb204](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/40bb204bd320532c2600511292cfe01915e1631c))
+
 ## [2.6.1](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.0...v2.6.1) (2025-07-17)
 
 ### 🐛 Bug Fixes
