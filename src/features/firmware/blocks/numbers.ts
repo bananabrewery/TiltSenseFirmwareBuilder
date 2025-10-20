@@ -6,9 +6,10 @@ export function generateNumberBlock(context: FirmwareContext): string {
   const lines: string[] = [`number:`];
 
   context.tilts.forEach((tilt: Tilt) => {
+    const name = tilt.color.name;
     lines.push(
       `  - platform: template`,
-      `    name: '${context.firmwareOptions.friendlyName} Gravity Offset'`,
+      `    name: 'Tilt ${name} Gravity Offset'`,
       `    id: number_gravity_offset_${tilt.color.colorKey}`,
       `    min_value: -${configConstants.maxOffset}`,
       `    max_value: ${configConstants.maxOffset}`,
