@@ -1,3 +1,9 @@
+## [2.6.3](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.2...v2.6.3) (2025-10-20)
+
+### 🐛 Bug Fixes
+
+* **core:** Use dynamic color key in gravity offset assignment ([7edd628](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/7edd628bbc07610be0a9de8b651e10124870b831))
+
 ## [2.6.2](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.1...v2.6.2) (2025-08-10)
 
 ### 🐛 Bug Fixes
