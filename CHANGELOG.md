@@ -1,3 +1,9 @@
+## [2.6.4](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.3...v2.6.4) (2025-10-20)
+
+### 🐛 Bug Fixes
+
+* **core:** Fix gravity offset variable for BLE block generation ([eb90c4c](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/eb90c4c77e5c831fed104e3301fe9efa154aea3d))
+
 ## [2.6.3](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.2...v2.6.3) (2025-10-20)
 
 ### 🐛 Bug Fixes
