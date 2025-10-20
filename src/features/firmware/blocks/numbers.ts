@@ -19,7 +19,7 @@ export function generateNumberBlock(context: FirmwareContext): string {
       `  entity_category: diagnostic`,
       `  set_action:`,
       `    - lambda: |-`,
-      `      id(gravity_offset_black) = (int)x;`
+      `        id(gravity_offset_black) = (int)x;`
     );
   });
 
