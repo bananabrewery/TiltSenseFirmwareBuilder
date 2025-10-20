@@ -33,7 +33,11 @@ export function generateGlobalsBlock(context: FirmwareContext): string {
       `  - id: enable_tilt_${tilt.color.colorKey}`,
       `    type: bool`,
       `    restore_value: true`,
-      `    initial_value: 'true'`
+      `    initial_value: 'true'`,
+      `  - id: gravity_offset_${tilt.color.colorKey}`,
+      `    type: int`,
+      `    restore_value: true`,
+      `    initial_value: '0'`
     );
   });
 

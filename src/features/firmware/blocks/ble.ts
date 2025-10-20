@@ -21,7 +21,8 @@ export function generateBLEBlock(context: FirmwareContext): string {
     lines.push(
       `            if (uuid == "${color.id}" && id(enable_tilt_${color.colorKey})) {`,
       `              float temp_c = ((ibeacon.get_major()${divisor}) - 32.0f) * 5.0f / 9.0f;`,
-      `              float gravity = ibeacon.get_minor()${divisor};`,
+      `              float gravity_raw = ibeacon.get_minor()${divisor};`,
+      `              float gravity = gravity_raw + id(gravity_offset_black);`,
       `              int rssi = x.get_rssi();`,
       `              ESP_LOGD("tilt", "[${color.name}] Temperature = %.2f °C, Gravity = %.0f, RSSI = %d", temp_c, gravity, rssi);`,
       `              id(tilt_temperature_${color.colorKey}).publish_state(temp_c);`,

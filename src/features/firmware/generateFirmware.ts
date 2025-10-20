@@ -8,12 +8,14 @@ import { generateIntervalsBlock } from '@/features/firmware/blocks/intervals.ts'
 import { generateScriptsBlock } from '@/features/firmware/blocks/scripts.ts';
 import { generateLVGLBlock } from '@/features/firmware/blocks/lvgl.ts';
 import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
+import { generateNumberBlock } from '@/features/firmware/blocks/numbers.ts';
 
 export function generateFirmwareConfig(context: FirmwareContext): string {
   const blocks: string[] = [
     generateBaseConfigBlock(context),
     generateHardwareBlock(context),
     generateGlobalsBlock(context),
+    generateNumberBlock(context),
     generateBLEBlock(context),
     generateSwitchesBlock(context),
     generateSensorsBlock(context),

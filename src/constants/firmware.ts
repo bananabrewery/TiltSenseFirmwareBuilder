@@ -1,7 +1,8 @@
 export const configConstants = {
-  screenTimeout: 120000,
-  animationTime: '200ms',
+  screenTimeout: 180000,
+  animationTime: '300ms',
   pressureUnits: 'PSI',
+  maxOffset: 10,
 };
 
 export const appConstants = {
