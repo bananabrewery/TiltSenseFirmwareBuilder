@@ -3,9 +3,9 @@ import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 export function generateBaseConfigBlock(context: FirmwareContext): string {
   const { firmwareOptions } = context;
 
-  const name = context.firmwareOptions.isMax ? `${firmwareOptions.name} Max` : firmwareOptions.name;
+  const name = context.firmwareOptions.isMax ? `${firmwareOptions.name}max` : firmwareOptions.name;
   const friendlyName = context.firmwareOptions.isMax
-    ? `${firmwareOptions.friendlyName}max`
+    ? `${firmwareOptions.friendlyName} Max`
     : firmwareOptions.friendlyName;
 
   const lines: string[] = [
