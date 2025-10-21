@@ -1,3 +1,9 @@
+## [2.6.6](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.5...v2.6.6) (2025-10-21)
+
+### 🐛 Bug Fixes
+
+* **ui:** Fix friendlyName formatting for Max firmware option ([31a423a](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/31a423a3b5a07e734dd025fa107609bed6d30237))
+
 ## [2.6.5](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.4...v2.6.5) (2025-10-21)
 
 ### 🔨 Chore
