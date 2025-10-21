@@ -11,6 +11,7 @@ export function generateNumberBlock(context: FirmwareContext): string {
       `  - platform: template`,
       `    name: 'Tilt ${name} Gravity Offset'`,
       `    id: number_gravity_offset_${tilt.color.colorKey}`,
+      `    icon: "mdi:delta"`,
       `    min_value: -${configConstants.maxOffset}`,
       `    max_value: ${configConstants.maxOffset}`,
       `    step: 1`,

@@ -2,10 +2,16 @@ import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 
 export function generateBaseConfigBlock(context: FirmwareContext): string {
   const { firmwareOptions } = context;
+
+  const name = context.firmwareOptions.isMax ? `${firmwareOptions.name} Max` : firmwareOptions.name;
+  const friendlyName = context.firmwareOptions.isMax
+    ? `${firmwareOptions.friendlyName} Max`
+    : firmwareOptions.friendlyName;
+
   const lines: string[] = [
     `esphome:`,
-    `  name: "${firmwareOptions.name}"`,
-    `  friendly_name: "${firmwareOptions.friendlyName}"`,
+    `  name: "${name}"`,
+    `  friendly_name: "${friendlyName}"`,
     ``,
     `esp32:`,
     `  board: esp32-s3-devkitc-1`,
