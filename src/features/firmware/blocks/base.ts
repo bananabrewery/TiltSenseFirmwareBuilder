@@ -5,7 +5,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
 
   const name = context.firmwareOptions.isMax ? `${firmwareOptions.name} Max` : firmwareOptions.name;
   const friendlyName = context.firmwareOptions.isMax
-    ? `${firmwareOptions.friendlyName} Max`
+    ? `${firmwareOptions.friendlyName}max`
     : firmwareOptions.friendlyName;
 
   const lines: string[] = [
