@@ -1,3 +1,9 @@
+## [2.6.5](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.4...v2.6.5) (2025-10-21)
+
+### 🔨 Chore
+
+* **ui:** Update firmware block generation for Max variant ([63e6101](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/63e61019473a2d9582c7a0b4b544f9b8e006b943))
+
 ## [2.6.4](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.3...v2.6.4) (2025-10-20)
 
 ### 🐛 Bug Fixes
