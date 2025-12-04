@@ -2,19 +2,19 @@
 
 ### 🐛 Bug Fixes
 
-* **ui:** Fix naming for Max firmware options ([7847003](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/78470039ae2ee5c533572459d98d69b0e00fbf55))
+- **ui:** Fix naming for Max firmware options ([7847003](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/78470039ae2ee5c533572459d98d69b0e00fbf55))
 
 ## [2.6.6](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.5...v2.6.6) (2025-10-21)
 
 ### 🐛 Bug Fixes
 
-* **ui:** Fix friendlyName formatting for Max firmware option ([31a423a](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/31a423a3b5a07e734dd025fa107609bed6d30237))
+- **ui:** Fix friendlyName formatting for Max firmware option ([31a423a](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/31a423a3b5a07e734dd025fa107609bed6d30237))
 
 ## [2.6.5](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.4...v2.6.5) (2025-10-21)
 
 ### 🔨 Chore
 
-* **ui:** Update firmware block generation for Max variant ([63e6101](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/63e61019473a2d9582c7a0b4b544f9b8e006b943))
+- **ui:** Update firmware block generation for Max variant ([63e6101](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/63e61019473a2d9582c7a0b4b544f9b8e006b943))
 
 ## [2.6.4](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.3...v2.6.4) (2025-10-20)
 
