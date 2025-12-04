@@ -1,3 +1,9 @@
+## [2.7.0](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.7...v2.7.0) (2025-12-04)
+
+### ✨ Features
+
+* **core:** Update dependencies in package.json and lockfile ([f94de25](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/commit/f94de25587cc6472f88d57b965d562260d19960d))
+
 ## [2.6.7](https://github.com/bananabrewery/TiltSenseFirmwareBuilder/compare/v2.6.6...v2.6.7) (2025-10-21)
 
 ### 🐛 Bug Fixes
