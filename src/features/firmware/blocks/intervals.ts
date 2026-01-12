@@ -19,7 +19,7 @@ function createBrewfatherRequest(context: FirmwareContext, tilt: Tilt): string[]
 
   if (hasPressureSensor(tilt)) {
     lines.push(
-      `                          float pressure = id(pressure_sensor_black).state;`,
+      `                          float pressure = id(pressure_sensor_${tilt.color.colorKey}).state;`,
       `                          if (std::isnan(pressure)) pressure = 0.0;`
     );
   }
