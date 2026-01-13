@@ -1,6 +1,6 @@
 export const configConstants = {
   screenTimeout: 180000,
-  animationTime: '300ms',
+  animationTime: '300',
   pressureUnits: 'PSI',
   maxOffset: 10,
 };

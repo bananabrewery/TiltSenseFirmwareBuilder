@@ -3,8 +3,7 @@ import type { FirmwareContext } from '@/features/firmware/types/firmware.ts';
 export function generateBaseConfigBlock(context: FirmwareContext): string {
   const { firmwareOptions } = context;
 
-  const name = firmwareOptions.name;
-  const friendlyName = firmwareOptions.friendlyName;
+  const { name, friendlyName } = firmwareOptions;
 
   const lines: string[] = [
     `esphome:`,
@@ -19,7 +18,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
     `  flash_size: 16MB`,
     ``,
     `logger:`,
-    `  level: ${firmwareOptions.isBeta ? 'DEBUG' : 'INFO'}`,
+    `  level: ${firmwareOptions.isBeta ? 'DEBUG' : 'WARN'}`,
     ``,
   ];
 
@@ -37,7 +36,7 @@ export function generateBaseConfigBlock(context: FirmwareContext): string {
   const password = firmwareOptions.wifiConfig.password.trim();
 
   if (ssid && password) {
-    lines.push(`  ssid: ${ssid}`, `  password: ${password}`);
+    lines.push(`  ssid: "${ssid}"`, `  password: "${password}"`);
   }
 
   lines.push(`  ap:`, ``, `captive_portal:`, ``, `web_server:`, `  port: 80`, `  version: 3`, ``);

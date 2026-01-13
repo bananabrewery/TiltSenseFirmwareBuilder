@@ -22,7 +22,7 @@ export const defaultFirmwareOptions: FirmwareOptions = {
     password: '',
   },
   enablePressureSensors: false,
-  isMax: true,
+  isMax: false,
   fileName: 'tiltsense.yaml',
   isBeta: false,
 };

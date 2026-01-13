@@ -12,80 +12,44 @@ export function generateScriptsBlock(context: FirmwareContext): string {
     `    mode: restart`,
     `    then:`,
     `      - lambda: |-`,
-    `          id(last_touch_time) = millis();`,
-    `      - if:`,
-    `          condition:`,
-    `            lambda: 'return id(screen_dimmed);'`,
-    `          then:`,
-    `            - light.turn_on:`,
-    `                id: led`,
-    `                brightness: 100%`,
-    `            - lambda: 'id(screen_dimmed) = false;'`,
-    `          else:`,
-    `            - if:`,
-    `                condition:`,
-    `                  lambda: 'return id(last_touch_y) > ${bottomScreenThreshold};'`,
-    `                then:`,
-    `                  - lambda: |-`,
+    `          struct TiltUI {`,
+    `            bool* enabled;`,
+    `            esphome::switch_::Switch* toggle;`,
+    `            esphome::lvgl::LvPageType* page;`,
+    `          };`,
+    `          TiltUI tilts[] = {`,
   ];
 
-  tilts.forEach((tilt, index) => {
+  tilts.forEach((tilt) => {
     const key = tilt.color.colorKey;
-    const block = [
-      `${index === 0 ? `                            if` : `                            else if`} (id(current_page) == ${index}) {`,
-      `                              if (id(enable_tilt_${key})) {`,
-      `                                id(switch_enable_tilt_${key}).turn_off();`,
-      `                              } else {`,
-      `                                id(switch_enable_tilt_${key}).turn_on();`,
-      `                              }`,
-      `                            }`,
-    ];
-    lines.push(...block);
-  });
-
-  lines.push(
-    `            - if:`,
-    `                condition:`,
-    `                  lambda: 'return id(last_touch_x) < ${swipeLeftThreshold} && id(current_page) > 0;'`,
-    `                then:`,
-    `                  - lambda: |-`,
-    `                      id(current_page) -= 1;`
-  );
-
-  tilts.forEach((tilt, i) => {
     lines.push(
-      `                  - if:`,
-      `                      condition:`,
-      `                        lambda: 'return id(current_page) == ${i};'`,
-      `                      then:`,
-      `                        - lvgl.page.show:`,
-      `                            id: display_${tilt.color.colorKey}`,
-      `                            animation: MOVE_RIGHT`,
-      `                            time: ${configConstants.animationTime}`
+      `            { &id(enable_tilt_${key}), id(switch_enable_tilt_${key}), id(display_${key}) },`
     );
   });
 
   lines.push(
-    `            - if:`,
-    `                condition:`,
-    `                  lambda: 'return id(last_touch_x) > ${swipeRightThreshold} && id(current_page) < ${tilts.length - 1};'`,
-    `                then:`,
-    `                  - lambda: |-`,
-    `                      id(current_page) += 1;`
+    `          };`,
+    `          const int TILT_COUNT = sizeof(tilts) / sizeof(tilts[0]);`,
+    `          int page = id(current_page);`,
+    `          if (id(last_touch_y) > ${bottomScreenThreshold}) {`,
+    `            auto &t = tilts[page];`,
+    `            if (*t.enabled) t.toggle->turn_off();`,
+    `            else t.toggle->turn_on();`,
+    `            return;`,
+    `          }`,
+    `          if (id(last_touch_x) < ${swipeLeftThreshold} && page > 0) {`,
+    `            page--;`,
+    `            id(current_page) = page;`,
+    `            lv_scr_load_anim(tilts[page].page->obj, LV_SCR_LOAD_ANIM_MOVE_RIGHT, ${configConstants.animationTime}, 0, false);`,
+    `            return;`,
+    `          }`,
+    `          if (id(last_touch_x) > ${swipeRightThreshold} && page < TILT_COUNT - 1) {`,
+    `            page++;`,
+    `            id(current_page) = page;`,
+    `            lv_scr_load_anim(tilts[page].page->obj, LV_SCR_LOAD_ANIM_MOVE_LEFT, ${configConstants.animationTime}, 0, false);`,
+    `            return;`,
+    `          }`
   );
-
-  tilts.forEach((tilt, i) => {
-    lines.push(
-      `                  - if:`,
-      `                      condition:`,
-      `                        lambda: 'return id(current_page) == ${i};'`,
-      `                      then:`,
-      `                        - lvgl.page.show:`,
-      `                            id: display_${tilt.color.colorKey}`,
-      `                            animation: MOVE_LEFT`,
-      `                            time: ${configConstants.animationTime}`
-    );
-  });
 
   lines.push('');
 
