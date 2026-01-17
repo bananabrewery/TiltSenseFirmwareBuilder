@@ -5,8 +5,9 @@ export function generateBLEBlock(context: FirmwareContext): string {
   const lines: string[] = [
     `esp32_ble_tracker:`,
     `  scan_parameters:`,
-    `    interval: 5000ms`,
-    `    window: 1000ms`,
+    `    interval: 30s`,
+    `    window: 3s`,
+    `    active: false`,
     `  on_ble_advertise:`,
     `    then:`,
     `      - lambda: |-`,
